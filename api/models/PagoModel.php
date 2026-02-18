@@ -1,5 +1,5 @@
 <?php
-class DirectorModel
+class PagoModel
 {
     public $enlace;
     public function __construct()
@@ -10,9 +10,11 @@ class DirectorModel
     public function all()
     {
         //Consulta sql
-        $vSql = "SELECT * FROM director;";
+        $vSql = "SELECT * FROM pago;";
+
         //Ejecutar la consulta
         $vResultado = $this->enlace->ExecuteSQL($vSql);
+
         // Retornar el objeto
         return $vResultado;
     }
@@ -20,7 +22,7 @@ class DirectorModel
     public function get($id)
     {
         //Consulta sql
-        $vSql = "SELECT * FROM director where id=$id";
+        $vSql = "SELECT * FROM pago where id=$id";
 
         //Ejecutar la consulta
         $vResultado = $this->enlace->ExecuteSQL($vSql);

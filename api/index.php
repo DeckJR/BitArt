@@ -19,26 +19,24 @@ require_once "controllers/core/Response.php";
 require_once "middleware/AuthMiddleware.php";
 
 /***--- Agregar todos los modelos*/
+require_once "models/CategoriaModel.php";
+require_once "models/CondicionModel.php";
+require_once "models/EstadoObjetoModel.php";
+require_once "models/EstadoPagoModel.php";
+require_once "models/EstadoSubastaModel.php";
+require_once "models/EstadoUsuarioModel.php";
+require_once "models/ImagenModel.php";
+require_once "models/ObjetoCategoriaModel.php";
+require_once "models/ObjetoModel.php";
+require_once "models/PagoModel.php";
+require_once "models/PujaModel.php";
+require_once "models/ResultadoSubastaModel.php";
 require_once "models/RolModel.php";
-require_once "models/UserModel.php";
-require_once "models/DirectorModel.php";
-require_once "models/ActorModel.php";
-require_once "models/GenreModel.php";
-require_once "models/MovieModel.php";
-require_once "models/ShopRentalModel.php";
-require_once "models/RentalModel.php";
-require_once "models/RentalMovieModel.php";
-require_once "models/ImageModel.php";
+require_once "models/SubastaModel.php";
+require_once "models/UsuarioModel.php";
 
 /***--- Agregar todos los controladores*/
 require_once "controllers/UserController.php";
-require_once "controllers/DirectorController.php";
-require_once "controllers/ActorController.php";
-require_once "controllers/GenreController.php";
-require_once "controllers/MovieController.php";
-require_once "controllers/ShopRentalController.php";
-require_once "controllers/RentalController.php";
-require_once "controllers/ImageController.php";  
 
 //Enrutador
 require_once "routes/RoutesController.php";

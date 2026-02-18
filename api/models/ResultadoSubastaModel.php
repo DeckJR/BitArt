@@ -1,16 +1,16 @@
 <?php
-class RolModel
+class ResultadoSubastaModel
 {
     public $enlace;
     public function __construct()
     {
-
         $this->enlace = new MySqlConnect();
     }
+    /*Listar */
     public function all()
     {
         //Consulta sql
-        $vSql = "SELECT * FROM rol;";
+        $vSql = "SELECT * FROM resultadosubasta;";
 
         //Ejecutar la consulta
         $vResultado = $this->enlace->ExecuteSQL($vSql);
@@ -18,11 +18,11 @@ class RolModel
         // Retornar el objeto
         return $vResultado;
     }
-
+    /*Obtener */
     public function get($id)
     {
         //Consulta sql
-        $vSql = "SELECT * FROM rol where id=$id";
+        $vSql = "SELECT * FROM resultadosubasta where id=$id";
 
         //Ejecutar la consulta
         $vResultado = $this->enlace->ExecuteSQL($vSql);

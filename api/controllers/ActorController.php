@@ -35,7 +35,7 @@ class actor
         try {
             $response = new Response();
             $actor = new ActorModel();
-            $result = $actor->getActorMovie($id);
+            $result = $actor->getActor($id);
             //Dar respuesta
             $response->toJSON($result);
         } catch (Exception $e) {
