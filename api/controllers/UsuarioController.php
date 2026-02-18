@@ -1,13 +1,13 @@
 <?php
-class director
+class usuario
 {
     public function index()
     {
         try {
             $response = new Response();
             //Obtener el listado del Modelo
-            $genero = new DirectorModel();
-            $result = $genero->all();
+            $usuario = new UsuarioModel();
+            $result = $usuario->all();
             //Dar respuesta
             $response->toJSON($result);
         } catch (Exception $e) {
@@ -20,8 +20,8 @@ class director
     {
         try {
             $response = new Response();
-            $genero = new DirectorModel();
-            $result = $genero->get($param);
+            $usuario = new UsuarioModel();
+            $result = $usuario->get($param);
             //Dar respuesta
             $response->toJSON($result);
         } catch (Exception $e) {

@@ -1,5 +1,5 @@
 <?php
-class ActorModel
+class UsuarioModel
 {
     public $enlace;
     public function __construct()

@@ -36,7 +36,8 @@ require_once "models/SubastaModel.php";
 require_once "models/UsuarioModel.php";
 
 /***--- Agregar todos los controladores*/
-require_once "controllers/UserController.php";
+require_once "controllers/UsuarioController.php";
+
 
 //Enrutador
 require_once "routes/RoutesController.php";
