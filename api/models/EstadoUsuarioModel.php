@@ -22,7 +22,7 @@ class EstadoUsuarioModel
     public function get($id)
     {
         //Consulta sql
-        $vSql = "SELECT * FROM estadousuario where id=$id";
+        $vSql = "SELECT * FROM estadousuario where idEstadoUsuario=$id";
 
         //Ejecutar la consulta
         $vResultado = $this->enlace->ExecuteSQL($vSql);

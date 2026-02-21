@@ -8,36 +8,53 @@ class UsuarioModel
     }
     /*Listar */
     public function all()
-    {
-        //Consulta sql
-        $vSql = "SELECT * FROM usuario;";
+{
+    $rolM   = new RolModel();
+    $estadoUM = new EstadoUsuarioModel();
 
-        //Ejecutar la consulta
-        $vResultado = $this->enlace->ExecuteSQL($vSql);
+    // Consulta SQL base (sin joins)
+    $vSQL = "SELECT * FROM usuario order by idUsuario desc;";
 
-        // Retornar el objeto
-        return $vResultado;
+    $vResultado = $this->enlace->ExecuteSQL($vSQL);
+
+    if (!empty($vResultado) && is_array($vResultado)) {
+        for ($i = 0; $i < count($vResultado); $i++) {
+            $usr = $vResultado[$i];
+            
+            // Rol (por id)
+            $usr->rol = $rolM->getRolUsuario((int)$usr->idRol);
+
+            // Estado (por id)
+            $usr->estado = $estadoUM->get((int)$usr->idEstadoUsuario);
+            // Si no quieres exponer los ids en el payload final, puedes unsetearlos:
+            // unset($usr->idRol, $usr->idEstado);
+        }
     }
+
+    return $vResultado;
+}
+
     /*Obtener */
     public function get($id)
     {
+        $rolM = new RolModel();
+        $estadoUM = new EstadoUsuarioModel();
+;
         //Consulta sql
-        $vSql = "SELECT * FROM usuario where id=$id";
+        $vSql = "SELECT * FROM usuario where idUsuario=$id";
 
         //Ejecutar la consulta
         $vResultado = $this->enlace->ExecuteSQL($vSql);
-        // Retornar el objeto
-        return $vResultado[0];
-    }
-    /*Obtener por cédula*/
-    public function getUsuarioByCedula($cedula)
-    {
-        //Consulta sql
-        $vSql = "SELECT * FROM usuario where cedula=$cedula";
-
-        //Ejecutar la consulta
-        $vResultado = $this->enlace->ExecuteSQL($vSql);
-        // Retornar el objeto
-        return $vResultado[0];
+		if ($vResultado) {
+			$vResultado = $vResultado[0];
+			$rol = $rolM->getRolUsuario($id);
+            $estado = $estadoUM -> get($id);
+			$vResultado->rol = $rol;
+            $vResultado->estado = $estado;
+			// Retornar el objeto
+			return $vResultado;
+		} else {
+			return null;
+		}
     }
 }

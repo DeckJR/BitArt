@@ -9,24 +9,51 @@ class PujaModel
     /*Listar */
     public function all()
     {
-        //Consulta sql
         $vSql = "SELECT * FROM puja;";
 
-        //Ejecutar la consulta
         $vResultado = $this->enlace->ExecuteSQL($vSql);
-
-        // Retornar el objeto
         return $vResultado;
     }
     /*Obtener */
     public function get($id)
     {
-        //Consulta sql
-        $vSql = "SELECT * FROM puja where id=$id";
+        $vSql = "SELECT * FROM puja where idPuja=$id";
 
-        //Ejecutar la consulta
+        $vResultado = $this->enlace->ExecuteSQL($vSql);
+        return $vResultado[0];
+    }
+
+//Campo Calculado si es vendedor
+public function contarPujasbyUsuario(int $idUsuario): int
+{
+
+    $sql  = "SELECT COUNT(*) AS totalPujas
+    FROM puja
+    WHERE idUsuario = $idUsuario";
+    $rows = $this->enlace->ExecuteSQL($sql, [$idUsuario]);
+
+    return $rows ? (int)$rows[0]->totalPujas : 0;
+}
+
+
+
+
+    /*Obtener pujas por usuario*/
+    public function getPujasbyUsuario($idUsuario)
+    {
+        $vSql = "SELECT * FROM puja where idUsuario=$idUsuario";
+                                                                        /*debo agregar el nombre del usuario?*/
+        $vResultado = $this->enlace->ExecuteSQL($vSql);
+        return $vResultado[0];
+    }
+
+    //pujas por subasta
+    public function getPujasbySubasta($idSubasta){
+        //Consulta sql
+        $vSql = "SELECT * FROM puja where idSubasta=$idSubasta";    
         $vResultado = $this->enlace->ExecuteSQL($vSql);
         // Retornar el objeto
         return $vResultado[0];
     }
+
 }
