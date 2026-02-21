@@ -29,7 +29,7 @@ require_once "models/ImagenModel.php";
 require_once "models/ObjetoCategoriaModel.php";
 require_once "models/ObjetoModel.php";
 require_once "models/PagoModel.php";
-require_once "models/PujaModel.php";
+require_once "models/PujaModel.php"; 
 require_once "models/ResultadoSubastaModel.php";
 require_once "models/RolModel.php";
 require_once "models/SubastaModel.php";
@@ -37,7 +37,8 @@ require_once "models/UsuarioModel.php";
 
 /***--- Agregar todos los controladores*/
 require_once "controllers/UsuarioController.php";
-
+require_once "controllers/RolController.php";
+require_once "controllers/EstadoUsuarioController.php";
 
 //Enrutador
 require_once "routes/RoutesController.php";

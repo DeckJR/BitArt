@@ -1,13 +1,13 @@
 <?php
-class usuario
+class rol
 {
     public function index()
     {
         try {
             $response = new Response();
             //Obtener el listado del Modelo
-            $usuario = new UsuarioModel();
-            $result = $usuario->all();
+            $rol = new RolModel();
+            $result = $rol->all();
             //Dar respuesta
             $response->toJSON($result);
         } catch (Exception $e) {
@@ -20,8 +20,8 @@ class usuario
     {
         try {
             $response = new Response();
-            $usuario = new UsuarioModel();
-            $result = $usuario->get($param);
+            $rol = new RolModel();
+            $result = $rol->get($param);
             //Dar respuesta
             $response->toJSON($result);
         } catch (Exception $e) {
@@ -30,5 +30,4 @@ class usuario
             
         }
     }
-    
 }
