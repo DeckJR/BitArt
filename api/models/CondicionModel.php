@@ -10,7 +10,7 @@ class CondicionModel
     public function all()
     {
         //Consulta sql
-        $vSql = "SELECT * FROM condicion;";
+        $vSql = "SELECT * FROM condicion order by idCondicion desc;";
 
         //Ejecutar la consulta
         $vResultado = $this->enlace->ExecuteSQL($vSql);
@@ -22,7 +22,7 @@ class CondicionModel
     public function get($id)
     {
         //Consulta sql
-        $vSql = "SELECT * FROM condicion where id=$id";
+        $vSql = "SELECT * FROM condicion where idCondicion=$id";
 
         //Ejecutar la consulta
         $vResultado = $this->enlace->ExecuteSQL($vSql);

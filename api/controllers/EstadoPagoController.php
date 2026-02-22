@@ -1,13 +1,13 @@
 <?php
-class rol
+class estadopago
 {
     public function index()
     {
         try {
             $response = new Response();
             //Obtener el listado del Modelo
-            $rol = new RolModel();
-            $result = $rol->all();
+            $estadopago = new EstadoPagoModel();
+            $result = $estadopago->all();
             //Dar respuesta
             $response->toJSON($result);
         } catch (Exception $e) {
@@ -20,22 +20,8 @@ class rol
     {
         try {
             $response = new Response();
-            $rol = new RolModel();
-            $result = $rol->get($param);
-            //Dar respuesta
-            $response->toJSON($result);
-        } catch (Exception $e) {
-            $response->toJSON($result);
-            handleException($e);
-            
-        }
-    }
-    public function getRolUsuario($param)
-    {
-        try {
-            $response = new Response();
-            $rol = new RolModel();
-            $result = $rol->getRolUsuario($param);
+            $estadopago = new EstadoPagoModel();
+            $result = $estadopago->get($param);
             //Dar respuesta
             $response->toJSON($result);
         } catch (Exception $e) {

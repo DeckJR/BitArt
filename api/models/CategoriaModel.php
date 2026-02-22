@@ -10,7 +10,7 @@ class CategoriaModel
     public function all()
     {
         //Consulta sql
-        $vSql = "SELECT * FROM categoria;";
+        $vSql = "SELECT * FROM categoria order by idCategoria desc;";
 
         //Ejecutar la consulta
         $vResultado = $this->enlace->ExecuteSQL($vSql);
@@ -22,7 +22,7 @@ class CategoriaModel
     public function get($id)
     {
         //Consulta sql
-        $vSql = "SELECT * FROM categoria where id=$id";
+        $vSql = "SELECT * FROM categoria where idCategoria = $id";
 
         //Ejecutar la consulta
         $vResultado = $this->enlace->ExecuteSQL($vSql);

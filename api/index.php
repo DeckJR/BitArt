@@ -39,6 +39,12 @@ require_once "models/UsuarioModel.php";
 require_once "controllers/UsuarioController.php";
 require_once "controllers/RolController.php";
 require_once "controllers/EstadoUsuarioController.php";
+require_once "controllers/EstadoObjetoController.php";
+require_once "controllers/CategoriaController.php";
+require_once "controllers/CondicionController.php";
+require_once "controllers/EstadoPagoController.php";
+
+
 
 //Enrutador
 require_once "routes/RoutesController.php";

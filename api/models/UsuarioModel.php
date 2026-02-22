@@ -22,12 +22,23 @@ class UsuarioModel
             $usr = $vResultado[$i];
             
             // Rol (por id)
-            $usr->rol = $rolM->getRolUsuario((int)$usr->idRol);
+            $nombreCompleto  = $usr->Nombre;
+            $nombreCompleto .= ' '. $usr->Apellido1;
+            $nombreCompleto .= ' '. $usr->Apellido2 ;
+
+            // Une y limpia espacios múltiples
+            $usr->nombreCompleto = trim($nombreCompleto);
+            $usr->rol = $rolM->getRolUsuario((int)$usr->idRol)->Descripcion;
 
             // Estado (por id)
-            $usr->estado = $estadoUM->get((int)$usr->idEstadoUsuario);
+            $usr->estado = $estadoUM->get((int)$usr->idEstadoUsuario)->Descripcion;
             // Si no quieres exponer los ids en el payload final, puedes unsetearlos:
             // unset($usr->idRol, $usr->idEstado);
+
+            
+
+
+
         }
     }
 
@@ -47,8 +58,15 @@ class UsuarioModel
         $vResultado = $this->enlace->ExecuteSQL($vSql);
 		if ($vResultado) {
 			$vResultado = $vResultado[0];
-			$rol = $rolM->getRolUsuario($id);
-            $estado = $estadoUM -> get($id);
+
+            $nombre    =$vResultado->Nombre       ?? '';
+            $ap1       =$vResultado->Apellido1    ?? '';
+            $ap2       =$vResultado->Apellido2    ?? '';
+
+            // Une y limpia espacios múltiples
+            $vResultado->nombreCompleto = trim(preg_replace('/\s+/', ' ', "$nombre $ap1 $ap2"));
+			$rol = $rolM->getRolUsuario($id)->Descripcion;
+            $estado = $estadoUM -> get($id)-> Descripcion;
 			$vResultado->rol = $rol;
             $vResultado->estado = $estado;
 			// Retornar el objeto
