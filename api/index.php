@@ -48,7 +48,7 @@ require_once "controllers/ImagenController.php";
 require_once "controllers/SubastaController.php";
 require_once "controllers/ResultadoSubastaController.php";
 require_once "controllers/PujaController.php";
-
+require_once "controllers/PagoController.php";
 
 
 
