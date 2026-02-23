@@ -58,6 +58,17 @@ class PujaModel
         return $rows ? (int)$rows[0]->totalPujas : 0;
     }
 
+    //Campo Calculado para pujas por subastas 
+    public function contarPujasbySubasta(int $idSubasta): int
+    {
+
+        $sql  = "SELECT COUNT(*) AS totalPujas
+        FROM puja
+        WHERE idSubasta = $idSubasta";
+        $rows = $this->enlace->ExecuteSQL($sql, [$idSubasta]);
+        return $rows ? (int)$rows[0]->totalPujas : 0;
+    }
+
     /*Obtener pujas por usuario*/
     public function getPujasbyUsuario($idUsuario)
     {

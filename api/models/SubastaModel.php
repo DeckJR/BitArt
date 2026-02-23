@@ -36,6 +36,7 @@ class SubastaModel
         
         $obj = new ObjetoModel();
         $estSub = new EstadoSubastaModel();
+        $puj = new PujaModel();
         //Consulta sql
         $vSql = "SELECT * FROM subasta where idSubasta=$id";
         //Ejecutar la consulta
@@ -44,8 +45,10 @@ class SubastaModel
         $vResultado = $vResultado[0];
         
         $vResultado->objeto = $obj->get((int)$vResultado->idObjeto);
-                    
+        
         $vResultado->estadosubasta = $estSub->get((int)$vResultado->idEstadoSubasta)->Descripcion;
+
+        $vResultado->CantidadPujas = $puj->contarPujasbySubasta((int)$vResultado->idSubasta);
 
         // Retornar el objeto
         return $vResultado;

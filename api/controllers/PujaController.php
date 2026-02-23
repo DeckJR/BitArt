@@ -58,4 +58,32 @@ class puja
             
         }
     }
+    public function ContarPujasByUsuario($param)
+    {
+        try {
+            $response = new Response();
+            $puja = new PujaModel();
+            $result = $puja->contarPujasbyUsuario($param);
+            //Dar respuesta
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            $response->toJSON($result);
+            handleException($e);
+            
+        }
+    }
+    public function ContarPujasBySubasta($param)
+    {
+        try {
+            $response = new Response();
+            $puja = new PujaModel();
+            $result = $puja->contarPujasbySubasta($param);
+            //Dar respuesta
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            $response->toJSON($result);
+            handleException($e);
+            
+        }
+    }
 }
