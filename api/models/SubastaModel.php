@@ -11,6 +11,7 @@ class SubastaModel
     {
         $obj = new ObjetoModel();
         $estSub = new EstadoSubastaModel();
+        $puj = new PujaModel();
         //Consulta sql
         $vSql = "SELECT * FROM subasta order by idSubasta desc;";
 
@@ -24,6 +25,9 @@ class SubastaModel
                 $sub->objeto = $obj->get((int)$sub->idObjeto);
                     
                 $sub->estadosubasta = $estSub->get((int)$sub->idEstadoSubasta)->Descripcion;
+
+                $vResultado->CantidadPujas = $puj->contarPujasbySubasta((int)$vResultado->idSubasta);
+
             }
         }
 
@@ -52,5 +56,39 @@ class SubastaModel
 
         // Retornar el objeto
         return $vResultado;
+    }
+    public function getSubastaByObjeto($idObjeto)
+    {
+        
+        $obj = new ObjetoModel();
+        $estSub = new EstadoSubastaModel();
+        $puj = new PujaModel();
+        //Consulta sql
+        $vSql = "SELECT * FROM subasta where idObjeto=$idObjeto";
+        //Ejecutar la consulta
+        $vResultado = $this->enlace->ExecuteSQL($vSql);
+
+        $vResultado = $vResultado[0];        
+        
+        $vResultado->estadosubasta = $estSub->get((int)$vResultado->idEstadoSubasta)->Descripcion;
+
+        $vResultado->CantidadPujas = $puj->contarPujasbySubasta((int)$vResultado->idSubasta);
+
+        // Retornar el objeto
+        return $vResultado;
+    }
+    //Campo Calculado para pujas por subastas 
+    public function contarSubastabyUsuario(int $idUsuario): int
+    {
+        /*Se busca la lista de objetos asociados al usuario y luego los objetos asociados a la subasta */
+        $sql  = "SELECT COUNT(*) AS totalSubastas
+                FROM subasta
+                WHERE idObjeto IN (
+                    SELECT idObjeto
+                    FROM objeto
+                    WHERE idUsuario = $idUsuario
+                );";
+        $rows = $this->enlace->ExecuteSQL($sql, [$idUsuario]);
+        return $rows ? (int)$rows[0]->totalSubastas : 0;
     }
 }

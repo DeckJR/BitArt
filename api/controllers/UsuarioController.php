@@ -31,4 +31,19 @@ class usuario
         }
     }
     
+    public function historial($param)
+    {
+        try {
+            $response = new Response();
+            $usuario = new UsuarioModel();
+            $result = $usuario->get($param);
+            //Dar respuesta
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            $response->toJSON($result);
+            handleException($e);
+            
+        }
+    }
+    
 }

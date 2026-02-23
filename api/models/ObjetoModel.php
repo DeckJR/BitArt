@@ -25,7 +25,7 @@ class ObjetoModel
                 for ($i = 0; $i < count($vResultado); $i++) {
             $obj = $vResultado[$i];
             
-            $obj->Dueño = $usr->get((int)$obj->idUsuario)->nombreCompleto;
+            $obj->propietario = $usr->get((int)$obj->idUsuario)->nombreCompleto;
 
             $obj->categorias = $cat->getCategoriaObjeto((int)$obj->idObjeto);
 
@@ -50,13 +50,14 @@ class ObjetoModel
         $cat = new CategoriaModel();
         $estObj = new EstadoObjetoModel();
         $usr = new UsuarioModel();
+        $sub = new SubastaModel();
         //Consulta sql
         $vSql = "SELECT * FROM objeto where idObjeto=$id";
         $vResultado = $this->enlace->ExecuteSQL($vSql);
 
         $vResultado = $vResultado[0];
 
-            $vResultado->usuario = $usr->get((int)$vResultado->idUsuario)->Nombre;
+            $vResultado->propietario = $usr->get((int)$vResultado->idUsuario)->nombreCompleto;
 
             $vResultado->categorias = $cat->getCategoriaObjeto((int)$vResultado->idObjeto);
 
@@ -64,7 +65,7 @@ class ObjetoModel
 
             $vResultado->imagen = $imag->getImagenObjeto((int)$vResultado->idObjeto)->imagen;
 
-            $vResultado->estado = $estObj->get((int)$vResultado->idEstado)->Descripcion;
+            $vResultado->estado = $estObj->get((int)$vResultado->idEstado)->Descripcion;            
 
         return $vResultado;
     }

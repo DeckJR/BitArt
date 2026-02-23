@@ -80,7 +80,7 @@ class PujaModel
     //pujas por subasta
     public function getPujasbySubasta($idSubasta){
         //Consulta sql
-        $vSql = "SELECT * FROM puja where idSubasta=$idSubasta";    
+        $vSql = "SELECT * FROM puja where idSubasta=$idSubasta order by desc";    
         $vResultado = $this->enlace->ExecuteSQL($vSql);
         // Retornar el objeto
         return $vResultado;

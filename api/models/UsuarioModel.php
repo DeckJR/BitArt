@@ -45,7 +45,7 @@ class UsuarioModel
     {
         $rolM = new RolModel();
         $estadoUM = new EstadoUsuarioModel();
-;
+        
         //Consulta sql
         $vSql = "SELECT * FROM usuario where idUsuario=$id";
 
@@ -64,6 +64,17 @@ class UsuarioModel
             $estado = $estadoUM -> get($vResultado->idEstadoUsuario)-> Descripcion;
 			$vResultado->rol = $rol;
             $vResultado->estado = $estado;
+            if($vResultado->idRol == 2)
+                {
+                    $sub = new SubastaModel();
+                    $vResultado->CantidadSubastas = $sub->contarSubastabyUsuario((int)$vResultado->idUsuario);
+                } 
+                else if ($vResultado->idRol == 3)
+                {
+                    $puj = new PujaModel();
+                    $vResultado->CantidadPujas = $puj->contarPujasbyUsuario((int)$vResultado->idUsuario);                    
+                }
+
 			// Retornar el objeto
 			return $vResultado;
 		} 
