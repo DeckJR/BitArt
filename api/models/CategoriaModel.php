@@ -29,4 +29,18 @@ class CategoriaModel
         // Retornar el objeto
         return $vResultado[0];
     }
+
+
+    public function getCategoriaObjeto($idObjeto)
+    {
+        //Consulta sql
+            $vSql = "SELECT c.idCategoria,c.Descripcion 
+            FROM categoria c,objetocategoria oc 
+            where oc.idCategoria=c.idCategoria and oc.idObjeto=$idObjeto";
+
+        //Ejecutar la consulta
+        $vResultado = $this->enlace->ExecuteSQL($vSql);
+        // Retornar el objeto
+        return $vResultado;
+    }
 }

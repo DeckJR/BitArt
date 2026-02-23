@@ -10,7 +10,7 @@ class EstadoSubastaModel
     public function all()
     {
         //Consulta sql
-        $vSql = "SELECT * FROM estadosubasta;";
+        $vSql = "SELECT * FROM estadosubasta order by idEstadoSubasta desc;";
 
         //Ejecutar la consulta
         $vResultado = $this->enlace->ExecuteSQL($vSql);
@@ -22,7 +22,7 @@ class EstadoSubastaModel
     public function get($id)
     {
         //Consulta sql
-        $vSql = "SELECT * FROM estadosubasta where id=$id";
+        $vSql = "SELECT * FROM estadosubasta where idEstadoSubasta = $id";
 
         //Ejecutar la consulta
         $vResultado = $this->enlace->ExecuteSQL($vSql);

@@ -1,13 +1,13 @@
 <?php
-class categoria
+class estadosubasta
 {
     public function index()
     {
         try {
             $response = new Response();
             //Obtener el listado del Modelo
-            $categoria = new CategoriaModel();
-            $result = $categoria->all();
+            $estadosubasta = new EstadoSubastaModel();
+            $result = $estadosubasta->all();
             //Dar respuesta
             $response->toJSON($result);
         } catch (Exception $e) {
@@ -20,23 +20,8 @@ class categoria
     {
         try {
             $response = new Response();
-            $categoria = new CategoriaModel();
-            $result = $categoria->get($param);
-            //Dar respuesta
-            $response->toJSON($result);
-        } catch (Exception $e) {
-            $response->toJSON($result);
-            handleException($e);
-            
-        }
-    }
-
-     public function getCategoriaObjeto($param)
-    {
-        try {
-            $response = new Response();
-            $categoria = new CategoriaModel();
-            $result = $categoria->getCategoriaObjeto($param);
+            $estadosubasta = new EstadoSubastaModel();
+            $result = $estadosubasta->get($param);
             //Dar respuesta
             $response->toJSON($result);
         } catch (Exception $e) {

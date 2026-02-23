@@ -26,7 +26,6 @@ require_once "models/EstadoPagoModel.php";
 require_once "models/EstadoSubastaModel.php";
 require_once "models/EstadoUsuarioModel.php";
 require_once "models/ImagenModel.php";
-require_once "models/ObjetoCategoriaModel.php";
 require_once "models/ObjetoModel.php";
 require_once "models/PagoModel.php";
 require_once "models/PujaModel.php"; 
@@ -43,6 +42,10 @@ require_once "controllers/EstadoObjetoController.php";
 require_once "controllers/CategoriaController.php";
 require_once "controllers/CondicionController.php";
 require_once "controllers/EstadoPagoController.php";
+require_once "controllers/EstadoSubastaController.php";
+require_once "controllers/ObjetoController.php";
+require_once "controllers/ImagenController.php";
+
 
 
 

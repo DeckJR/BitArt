@@ -9,11 +9,32 @@ class ObjetoModel
     /*Listar */
     public function all()
     {
-        //Consulta sql
-        $vSql = "SELECT * FROM objeto;";
+    
+        $cond = new CondicionModel();
+        $imag = new ImagenModel();
+        $cat = new CategoriaModel();
+        $estObj = new EstadoObjetoModel();
 
+        //Consulta sql
+        $vSql = "SELECT * FROM objeto order by idObjeto desc;";
         //Ejecutar la consulta
         $vResultado = $this->enlace->ExecuteSQL($vSql);
+
+            if (!empty($vResultado) && is_array($vResultado)) {
+                for ($i = 0; $i < count($vResultado); $i++) {
+            $obj = $vResultado[$i];
+                        
+            $obj->categorias = $idcat = $cat->getCategoriaObjeto((int)$obj->idObjeto);
+
+            $obj->condicion = $cond->get((int)$obj->idCondicion)->Descripcion;
+
+            $obj->imagen = $imag->getImagenObjeto((int)$obj->idObjeto)->imagen;
+
+            $obj->estado = $estObj->get((int)$obj->idEstado)->Descripcion;
+
+            }
+            }
+
 
         // Retornar el objeto
         return $vResultado;
@@ -21,12 +42,24 @@ class ObjetoModel
     /*Obtener */
     public function get($id)
     {
+        $cond = new CondicionModel();
+        $imag = new ImagenModel();
+        $cat = new CategoriaModel();
+        $estObj = new EstadoObjetoModel();
         //Consulta sql
-        $vSql = "SELECT * FROM objeto where id=$id";
-
-        //Ejecutar la consulta
+        $vSql = "SELECT * FROM objeto where idObjeto=$id";
         $vResultado = $this->enlace->ExecuteSQL($vSql);
-        // Retornar el objeto
-        return $vResultado[0];
+
+        $vResultado = $vResultado[0];
+
+        $vResultado->categorias = $cat->getCategoriaObjeto((int)$vResultado->idObjeto);
+
+            $vResultado->condicion = $cond->get((int)$vResultado->idCondicion)->Descripcion;
+
+            $vResultado->imagen = $imag->getImagenObjeto((int)$vResultado->idObjeto)->imagen;
+
+            $vResultado->estado = $estObj->get((int)$vResultado->idEstado)->Descripcion;
+
+        return $vResultado;
     }
 }

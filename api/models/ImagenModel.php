@@ -1,39 +1,37 @@
 <?php
 class ImagenModel
 {
+    private $upload_path = 'uploads/';
+    private $valid_extensions = array('jpeg', 'jpg', 'png', 'gif');
+
     public $enlace;
     public function __construct()
     {
         $this->enlace = new MySqlConnect();
     }
-    /*Listar */
+
+
+
+    //Subir imagen de una pelicula registrada
+    public function uploadFile($object)
+    {
+        return false;
+    }
+
+
     public function all()
     {
         //Consulta sql
-        $vSql = "SELECT * FROM imagen;";
-
+        $vSql = "SELECT * FROM imagen order by idImagen desc";
         //Ejecutar la consulta
         $vResultado = $this->enlace->ExecuteSQL($vSql);
 
         // Retornar el objeto
         return $vResultado;
     }
-    /*Obtener */
-    public function get($id)
-    {
-        //Consulta sql
-        $vSql = "SELECT * FROM imagen where id=$id";
 
-        //Ejecutar la consulta
-        $vResultado = $this->enlace->ExecuteSQL($vSql);
-        // Retornar el objeto
-        return $vResultado[0];
-    }
-      //Subir imagen de una pelicula registrada
-    public function uploadFile($object)
-    {
-        return false;
-    }
+
+
     //Obtener una imagen de una pelicula
     public function getImagenObjeto($idObjeto)
     {
@@ -48,4 +46,7 @@ class ImagenModel
         }
         return $vResultado;
     }
+
+
+
 }
