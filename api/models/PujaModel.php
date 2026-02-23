@@ -63,7 +63,7 @@ class PujaModel
     {
         $vSql = "SELECT * FROM puja where idUsuario=$idUsuario";
         $vResultado = $this->enlace->ExecuteSQL($vSql);
-        return $vResultado[0];
+        return $vResultado;
     }
 
     //pujas por subasta
@@ -72,6 +72,6 @@ class PujaModel
         $vSql = "SELECT * FROM puja where idSubasta=$idSubasta";    
         $vResultado = $this->enlace->ExecuteSQL($vSql);
         // Retornar el objeto
-        return $vResultado[0];
+        return $vResultado;
     }
 }

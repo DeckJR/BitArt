@@ -49,7 +49,7 @@ class puja
         try {
             $response = new Response();
             $puja = new PujaModel();
-            $result = $puja->contarPujasbyUsuario($param);
+            $result = $puja->getPujasbyUsuario($param);
             //Dar respuesta
             $response->toJSON($result);
         } catch (Exception $e) {

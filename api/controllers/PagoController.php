@@ -31,7 +31,7 @@ class pago
         }
     }
 
-     public function getPagobySubasta($param)
+    public function getPagobySubasta($param)
     {
         try {
             $response = new Response();
