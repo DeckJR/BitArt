@@ -9,40 +9,59 @@ class PujaModel
     /*Listar */
     public function all()
     {
-        $vSql = "SELECT * FROM puja;";
+        $sub = new SubastaModel();
+        $usr = new UsuarioModel();
 
+        //consulta sql
+        $vSql = "SELECT * FROM puja order by idPuja desc;";
+
+        //Ejecutar la consulta
         $vResultado = $this->enlace->ExecuteSQL($vSql);
+
+        if (!empty($vResultado) && is_array($vResultado)) {
+            for ($i = 0; $i < count($vResultado); $i++) {
+                $puj = $vResultado[$i];
+                        
+                $puj->subasta = $sub->get((int)$puj->idSubasta);
+                    
+                $puj->usuario = $usr->get((int)$puj->idUsuario)->nombreCompleto;
+            }
+        }
+
         return $vResultado;
     }
     /*Obtener */
     public function get($id)
     {
+        
+        $sub = new SubastaModel();
+        $usr = new UsuarioModel();
         $vSql = "SELECT * FROM puja where idPuja=$id";
 
         $vResultado = $this->enlace->ExecuteSQL($vSql);
-        return $vResultado[0];
+        $vResultado = $vResultado[0];
+        $vResultado->subasta = $sub->get((int)$vResultado->idSubasta);
+        $vResultado->usuario = $usr->get((int)$vResultado->idUsuario)->nombreCompleto;
+
+        return $vResultado;
     }
 
-//Campo Calculado si es vendedor
-public function contarPujasbyUsuario(int $idUsuario): int
-{
+    //Campo Calculado si es vendedor
+    public function contarPujasbyUsuario(int $idUsuario): int
+    {
 
-    $sql  = "SELECT COUNT(*) AS totalPujas
-    FROM puja
-    WHERE idUsuario = $idUsuario";
-    $rows = $this->enlace->ExecuteSQL($sql, [$idUsuario]);
+        $sql  = "SELECT COUNT(*) AS totalPujas
+        FROM puja
+        WHERE idUsuario = $idUsuario";
+        $rows = $this->enlace->ExecuteSQL($sql, [$idUsuario]);
 
-    return $rows ? (int)$rows[0]->totalPujas : 0;
-}
-
-
-
+        return $rows ? (int)$rows[0]->totalPujas : 0;
+    }
 
     /*Obtener pujas por usuario*/
     public function getPujasbyUsuario($idUsuario)
     {
         $vSql = "SELECT * FROM puja where idUsuario=$idUsuario";
-                                                                        /*debo agregar el nombre del usuario?*/
         $vResultado = $this->enlace->ExecuteSQL($vSql);
         return $vResultado[0];
     }
@@ -55,5 +74,4 @@ public function contarPujasbyUsuario(int $idUsuario): int
         // Retornar el objeto
         return $vResultado[0];
     }
-
 }
