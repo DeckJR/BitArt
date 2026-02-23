@@ -14,6 +14,7 @@ class ObjetoModel
         $imag = new ImagenModel();
         $cat = new CategoriaModel();
         $estObj = new EstadoObjetoModel();
+        $usr = new UsuarioModel();
 
         //Consulta sql
         $vSql = "SELECT * FROM objeto order by idObjeto desc;";
@@ -23,8 +24,10 @@ class ObjetoModel
             if (!empty($vResultado) && is_array($vResultado)) {
                 for ($i = 0; $i < count($vResultado); $i++) {
             $obj = $vResultado[$i];
-                        
-            $obj->categorias = $idcat = $cat->getCategoriaObjeto((int)$obj->idObjeto);
+            
+            $obj->Dueño = $usr->get((int)$obj->idUsuario)->nombreCompleto;
+
+            $obj->categorias = $cat->getCategoriaObjeto((int)$obj->idObjeto);
 
             $obj->condicion = $cond->get((int)$obj->idCondicion)->Descripcion;
 
@@ -46,13 +49,16 @@ class ObjetoModel
         $imag = new ImagenModel();
         $cat = new CategoriaModel();
         $estObj = new EstadoObjetoModel();
+        $usr = new UsuarioModel();
         //Consulta sql
         $vSql = "SELECT * FROM objeto where idObjeto=$id";
         $vResultado = $this->enlace->ExecuteSQL($vSql);
 
         $vResultado = $vResultado[0];
 
-        $vResultado->categorias = $cat->getCategoriaObjeto((int)$vResultado->idObjeto);
+            $vResultado->usuario = $usr->get((int)$vResultado->idUsuario)->Nombre;
+
+            $vResultado->categorias = $cat->getCategoriaObjeto((int)$vResultado->idObjeto);
 
             $vResultado->condicion = $cond->get((int)$vResultado->idCondicion)->Descripcion;
 

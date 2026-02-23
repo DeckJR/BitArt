@@ -34,11 +34,6 @@ class UsuarioModel
             $usr->estado = $estadoUM->get((int)$usr->idEstadoUsuario)->Descripcion;
             // Si no quieres exponer los ids en el payload final, puedes unsetearlos:
             // unset($usr->idRol, $usr->idEstado);
-
-            
-
-
-
         }
     }
 
@@ -65,14 +60,12 @@ class UsuarioModel
 
             // Une y limpia espacios múltiples
             $vResultado->nombreCompleto = trim(preg_replace('/\s+/', ' ', "$nombre $ap1 $ap2"));
-			$rol = $rolM->getRolUsuario($id)->Descripcion;
-            $estado = $estadoUM -> get($id)-> Descripcion;
+			$rol = $rolM->getRolUsuario($vResultado->idRol)->Descripcion;
+            $estado = $estadoUM -> get($vResultado->idEstadoUsuario)-> Descripcion;
 			$vResultado->rol = $rol;
             $vResultado->estado = $estado;
 			// Retornar el objeto
 			return $vResultado;
-		} else {
-			return null;
-		}
+		} 
     }
 }
