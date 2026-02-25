@@ -6,12 +6,12 @@ import { Clock, Globe, ShoppingCart, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-ListCardMovies.propTypes = {
+ListCardObjeto.propTypes = {
   data: PropTypes.array,
   isShopping: PropTypes.bool.isRequired,
 };
 
-export function ListCardMovies({ data, isShopping }) {
+export function ListCardObjeto({ data, isShopping }) {
   const BASE_URL = import.meta.env.VITE_BASE_URL + "uploads";
 
   return (
@@ -53,7 +53,7 @@ export function ListCardMovies({ data, isShopping }) {
           <CardContent className="flex-1 space-y-2 pt-4">
             <p className="flex items-center gap-2 text-sm text-muted-foreground">
               <Clock className="h-4 w-4 text-primary" />
-              {item.time} minutos
+              {item.time} Este es el item.time
             </p>
             <p className="flex items-center gap-2 text-sm text-muted-foreground">
               <Globe className="h-4 w-4 text-secondary" />
@@ -70,7 +70,7 @@ export function ListCardMovies({ data, isShopping }) {
                   <Button
                     size="icon" className="size-8"
                   >
-                    <Link to={`/movie/detail/${item.id}`}>
+                    <Link to={`/objeto/detail/${item.id}`}>
                       <Info />
                     </Link>
                   </Button>

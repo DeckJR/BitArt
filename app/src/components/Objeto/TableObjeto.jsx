@@ -15,31 +15,34 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Edit, Plus, Trash2, ArrowLeft } from "lucide-react";
-import MovieService from "@/services/MovieService";
-import { useEffect } from "react";
+import ObjetoService from "@/services/ObjetoService";
+import { useEffect, useState } from "react";
+import { LoadingGrid } from "../ui/custom/LoadingGrid";
+import { ErrorAlert } from "../ui/custom/ErrorAlert";
+import { EmptyState } from "../ui/custom/EmptyState";
 
 // Headers de la tabla
-const movieColumns = [
+const objetoColumns = [
 
-    { key: "title", label: "Título" },
-    { key: "year", label: "Año" },
-    { key: "time", label: "Duración" },
-    { key: "actions", label: "Acciones" },
+    { key: "name", label: "Nombre" },
+    { key: "description", label: "Descripcion" },
+    { key: "condition", label: "Condición" },
+    { key: "state", label: "Estado" },
 ];
 
-export default function TableMovies() {
-    const [movies, setMovies] = useState([]);
+export default function TableObjeto() {
+    const [objeto, setObjeto] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const fetchData = async () => {
         try {
-            const response = await MovieService.getMovies();
+            const response = await ObjetoService.getAllObjeto();
             console.log(response)
             const result = response.data;
             console.log(result)
             if (result.success) {
-                setMovies(result.data || []);
+                setObjeto(result.data || []);
             } else {
                 setError(result.message || "Error desconocido");
             }
@@ -52,22 +55,29 @@ export default function TableMovies() {
         fetchData()
     }, []);
 
+
+    if (loading) return <LoadingGrid type="grid" />; 
+    if (error) return <ErrorAlert title="Error al cargar pinturas" message={error} />; 
+    if (objeto.length === 0) 
+    return <EmptyState message="No se encontraron pinturas." />; 
+
     return (
         <div className="container mx-auto py-8">
             <div className="flex items-center justify-between mb-6">
                 <h1 className="text-3xl font-bold tracking-tight">
-                    Listado de Películas
+                    Listado de Pinturas
                 </h1>
+                {/* Modificar cuando hagamos el create del objeto*/}
                 <TooltipProvider>
                     <Tooltip>
                         <TooltipTrigger asChild>
                             <Button asChild variant="outline" size="icon" className="text-primary">
-                                <Link to="/movie/create">
+                                <Link to="/objeto/create">
                                     <Plus className="h-4 w-4" />
                                 </Link>
                             </Button>
                         </TooltipTrigger>
-                        <TooltipContent>Crear película</TooltipContent>
+                        <TooltipContent>Crear Pintura</TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
             </div>
@@ -76,19 +86,22 @@ export default function TableMovies() {
                 <Table>
                     <TableHeader className="bg-primary/50">
                         <TableRow>
-                            
-                                <TableHead  className="text-left font-semibold">
-                                    
+                            {/* ()=>{} */}
+                            {/* ()=>() */}
+                            {objetoColumns.map((col)=>( 
+                                <TableHead key={col.key}  className="text-left font-semibold">
+                                    {col.label}
                                 </TableHead>
-                            
+                            ))}
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        
-                            <TableRow >
-                                <TableCell className="font-medium"> </TableCell>
-                                <TableCell> </TableCell>
-                                <TableCell> min</TableCell>
+                        {objeto.map((objeto)=>( 
+                            <TableRow key = {objeto.id}>
+                                <TableCell className="font-medium"> {objeto.name} </TableCell>
+                                <TableCell> {objeto.description} </TableCell>
+                                <TableCell> {objeto.conditon} </TableCell>
+                                <TableCell> {objeto.state} </TableCell>
                                 <TableCell className="flex justify-start items-center gap-1">
                                     <TooltipProvider>
                                         <Tooltip>
@@ -112,7 +125,7 @@ export default function TableMovies() {
                                     </TooltipProvider>
                                 </TableCell>
                             </TableRow>
-                        
+                        ))}
                     </TableBody>
                 </Table>
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import MovieService from '../../services/MovieService';
+import ObjetoService from '../../services/ObjetoService';
 import { ErrorAlert } from "../ui/custom/ErrorAlert";
 // Shadcn UI Components
 import { Card, CardContent } from "@/components/ui/card";
@@ -18,17 +18,17 @@ import {
 import { LoadingGrid } from '../ui/custom/LoadingGrid';
 import { EmptyState } from '../ui/custom/EmptyState';
 
-export function DetailMovie() {
+export function DetailObjeto() {
     const navigate = useNavigate();
     const { id } = useParams();
     const BASE_URL = import.meta.env.VITE_BASE_URL + 'uploads';
-    const [movie, setData] = useState(null);
+    const [objeto, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await MovieService.getMovieById(id);
+                const response = await ObjetoService.getObjetoById(id);
                 // Si la petición es exitosa, se guardan los datos
                 console.log(response.data)
                 setData(response.data);
@@ -48,9 +48,9 @@ export function DetailMovie() {
 
 
     if (loading) return <LoadingGrid count={1} type="grid" />;
-    if (error) return <ErrorAlert title="Error al cargar películas" message={error} />;
-    if (!movie || movie.data.length === 0)
-        return <EmptyState message="No se encontraron películas en esta tienda." />;
+    if (error) return <ErrorAlert title="Error al cargar pinturas" message={error} />;
+    if (!objeto || objeto.data.length === 0)
+        return <EmptyState message="No se encontraron pinturas en esta tienda." />;
     return (
         <div className="max-w-4xl mx-auto py-12 px-4">
             <div className="flex flex-col md:flex-row gap-8 items-start">
@@ -75,7 +75,7 @@ export function DetailMovie() {
 
                 {/* Sección de los Detalles */}
                 <div className="flex-1 space-y-6">
-                    {/* Título de la película */}
+                    {/* Título del Objeto */}
                     <div>
                         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
                         
@@ -84,41 +84,41 @@ export function DetailMovie() {
 
                     <Card>
                         <CardContent className="p-6 space-y-6">
-                            {/* Información de director, duración e idioma en una sola fila */}
+                            {/* Información de autor, condicion e estadp en una sola fila */}
                             <div className="flex flex-wrap items-center gap-x-10 gap-y-4">
                                 {/* Director */}
                                 <div className="flex items-center gap-4">
                                     <User className="h-5 w-5 text-primary" />
-                                    <span className="font-semibold">Director:</span>
+                                    <span className="font-semibold">Autor:</span>
                                     <p className="text-muted-foreground">
                                     
                                     </p>
                                 </div>
-                                {/* Duración */}
+                                {/* Condición */}
                                 <div className="flex items-center gap-4">
                                     <Clock className="h-5 w-5 text-primary" />
-                                    <span className="font-semibold">Duración:</span>
+                                    <span className="font-semibold">Condición:</span>
                                     <p className="text-muted-foreground">
-                                        min.
+                                        
                                     </p>
                                 </div>
-                                {/* Idioma */}
+                                {/* Estado */}
                                 <div className="flex items-center gap-4">
                                     <Globe className="h-5 w-5 text-primary" />
-                                    <span className="font-semibold">Idioma:</span>
+                                    <span className="font-semibold">Estado:</span>
                                     <p className="text-muted-foreground">
                                     
                                     </p>
                                 </div>
                             </div>
 
-                            {/* Contenedor de dos columnas para géneros y actores */}
+                            {/* Contenedor de dos columnas para categorías y vendedor */}
                             <div className="grid gap-4 md:grid-cols-2">
                             
                                     <div>
                                         <div className="flex items-center gap-4 mb-2">
                                             <Film className="h-5 w-5 text-primary" />
-                                            <span className="font-semibold">Géneros:</span>
+                                            <span className="font-semibold">Categorías:</span>
                                         </div>
                                         <div className="flex flex-col space-y-1">
                                             
@@ -131,11 +131,11 @@ export function DetailMovie() {
                                     </div>
                                 
 
-                                {movie.data.actors && movie.data.actors.length > 0 && (
+                                {objeto.data.actors && objeto.data.actors.length > 0 && (
                                     <div>
                                         <div className="flex items-center gap-4 mb-2">
                                             <Star className="h-5 w-5 text-primary" />
-                                            <span className="font-semibold">Actores Principales:</span>
+                                            <span className="font-semibold">Vendedor:</span>
                                         </div>
                                         <div className="flex flex-col space-y-1">
                                         

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import {
   Layers,
   Film,
-  ChartArea,
+//  ChartArea,
   Filter,
   Wrench,
   LogIn,
@@ -15,7 +15,7 @@ import {
   ChevronDown,
   Clapperboard,
   User,
-  ShoppingBasket
+// ShoppingBasket
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -36,32 +36,24 @@ export default function Header() {
   const userEmail = "Invitado";
 
 const navItems = [
-  { title: "Pinturas", href: "/movie", icon: <Film className="h-4 w-4" /> },
+  { title: "Pinturas", href: "/objeto", icon: <Film className="h-4 w-4" /> },
   {
-    title: "Filtrar Películas",
-    href: "/movie/filter",
+    title: "Filtrar Pinturas",
+    href: "/objeto/filter",
     icon: <Filter className="h-4 w-4" />,
   },
 ];
 
+//Añadir el nombre de los mantenimientos que se ocupan
 const mantItems = [
  {
-      title: "Objetos",
-      href: "movie/table",
+      title: "Pinturas",
+      href: "objeto/table",
       icon: <Wrench className="h-4 w-4" />,
-    },
-    {
-      title: "Alquileres",
-      href: "rental",
-      icon: <ShoppingBasket className="h-4 w-4" />,
-    },
-    {
-      title: "Gráfico de Alquileres",
-      href: "/rental/graph",
-      icon: <ChartArea className="h-4 w-4" />,
     },
 ];
 
+//Falta modificar y crear los inicios de sesión de Usuario
 const userItems = [
   { title: "Login", href: "/user/login", icon: <LogIn className="h-4 w-4" /> },
   {
@@ -85,7 +77,7 @@ const userItems = [
           className="flex items-center gap-2 text-xl font-semibold tracking-wide hover:opacity-90 transition"
         >
           <Clapperboard className="h-6 w-6" />
-          <span className="hidden sm:inline">MoviesApp</span>
+          <span className="hidden sm:inline">BitArt App</span>
         </Link>
 
         {/* -------- Menú escritorio -------- */}
@@ -94,7 +86,7 @@ const userItems = [
             {/* Películas */}
             <MenubarMenu>
               <MenubarTrigger className="text-white font-medium flex items-center gap-1 hover:text-secondary transition">
-                <Film className="h-4 w-4" /> Películas
+                <Film className="h-4 w-4" /> Pinturas
                 <ChevronDown className="h-3 w-3" />
               </MenubarTrigger>
               <MenubarContent className="bg-primary/0 backdrop-blur-md border-white/10">
@@ -177,13 +169,13 @@ const userItems = [
               <nav className="mt-8 px-4 space-y-6">
                 <div>
                   <Link to="/" className="flex items-center gap-2 text-lg font-semibold">
-                    <Clapperboard /> MoviesApp
+                    <Clapperboard /> BitArt App
                   </Link>
                 </div>
 
                 <div>
                   <h4 className="mb-2 text-lg font-semibold flex items-center gap-2">
-                    <Film /> Películas
+                    <Film /> Pinturas
                   </h4>
                   {navItems.map((item) => (
                     <Link
