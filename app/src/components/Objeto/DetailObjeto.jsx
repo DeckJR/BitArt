@@ -59,8 +59,8 @@ export function DetailObjeto() {
                     <div className="aspect-[2/3] w-full bg-muted flex items-center justify-center">
                         
                             <img
-                                src={``}
-                                alt={`Poster de `}
+                                src={`${BASE_URL}/${objeto.data.imagen}`}
+                                alt={`Poster de ${objeto.data.Nombre}`}
                                 className="w-full h-full object-contain"
                             />
                         
@@ -78,7 +78,8 @@ export function DetailObjeto() {
                     {/* Título del Objeto */}
                     <div>
                         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-                        
+                        {objeto.data.Nombre}
+
                         </h1>
                     </div>
 
@@ -91,7 +92,7 @@ export function DetailObjeto() {
                                     <User className="h-5 w-5 text-primary" />
                                     <span className="font-semibold">Autor:</span>
                                     <p className="text-muted-foreground">
-                                    
+                                    {objeto.data.Autor}
                                     </p>
                                 </div>
                                 {/* Condición */}
@@ -99,7 +100,7 @@ export function DetailObjeto() {
                                     <Clock className="h-5 w-5 text-primary" />
                                     <span className="font-semibold">Condición:</span>
                                     <p className="text-muted-foreground">
-                                        
+                                        {objeto.data.condicion}
                                     </p>
                                 </div>
                                 {/* Estado */}
@@ -107,7 +108,7 @@ export function DetailObjeto() {
                                     <Globe className="h-5 w-5 text-primary" />
                                     <span className="font-semibold">Estado:</span>
                                     <p className="text-muted-foreground">
-                                    
+                                        {objeto.data.estado}
                                     </p>
                                 </div>
                             </div>
@@ -122,10 +123,14 @@ export function DetailObjeto() {
                                         </div>
                                         <div className="flex flex-col space-y-1">
                                             
-                                                <div  className="flex items-center gap-2 py-1 px-2 text-sm">
+                                                {objeto.data.categorias.map((categoria)=>(
+                                                <div key={categoria.idCategoria}  className="flex items-center gap-2 py-1 px-2 text-sm">
                                                     <ChevronRight className="h-4 w-4 text-secondary" />
-                                                    <span className="text-muted-foreground"></span>
+                                                    <span className="text-muted-foreground">
+                                                        {categoria.Descripcion}
+                                                    </span>
                                                 </div>
+                                            ))}
                                             
                                         </div>
                                     </div>

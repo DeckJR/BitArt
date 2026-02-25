@@ -108,7 +108,9 @@ export default function TableObjeto() {
                                         <Tooltip>
                                             <TooltipTrigger asChild>
                                                 <Button variant="ghost" size="icon" >
-                                                    <Link to ={`/objeto/detail/${objeto.idObjeto}`}/>                                                    <Edit className="h-4 w-4 text-primary" />
+                                                    <Link to={`/objeto/detail/${objeto.idObjeto}`}>
+                                                        <Edit className="h-4 w-4 text-primary" />
+                                                    </Link>
                                                 </Button>
                                             </TooltipTrigger>
                                             <TooltipContent>Detalle</TooltipContent>
