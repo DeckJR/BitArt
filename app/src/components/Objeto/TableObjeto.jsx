@@ -38,11 +38,12 @@ export default function TableObjeto() {
         const fetchData = async () => {
         try {
             const response = await ObjetoService.getAllObjeto();
-            console.log(response)
+            //console.log(response)
             const result = response.data;
-            console.log(result)
+            //console.log(result.data)
             if (result.success) {
                 setObjeto(result.data || []);
+                console.log(objeto)
             } else {
                 setError(result.message || "Error desconocido");
             }
@@ -58,8 +59,8 @@ export default function TableObjeto() {
 
     if (loading) return <LoadingGrid type="grid" />; 
     if (error) return <ErrorAlert title="Error al cargar pinturas" message={error} />; 
-    if (objeto.length === 0) 
-    return <EmptyState message="No se encontraron pinturas." />; 
+     if (objeto?.length === 0) 
+    return <EmptyState message="No se encontraron pinturas." />;  
 
     return (
         <div className="container mx-auto py-8">
@@ -96,21 +97,21 @@ export default function TableObjeto() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {objeto.map((objeto)=>( 
-                            <TableRow key = {objeto.id}>
-                                <TableCell className="font-medium"> {objeto.name} </TableCell>
-                                <TableCell> {objeto.description} </TableCell>
-                                <TableCell> {objeto.conditon} </TableCell>
-                                <TableCell> {objeto.state} </TableCell>
+                        {objeto?.map((objeto)=>( 
+                            <TableRow key = {objeto.idObjeto}>
+                                <TableCell className="font-medium"> {objeto.Nombre} </TableCell>
+                                <TableCell> {objeto.Descripcion} </TableCell>
+                                <TableCell> {objeto.condicion} </TableCell>
+                                <TableCell> {objeto.estado} </TableCell>
                                 <TableCell className="flex justify-start items-center gap-1">
                                     <TooltipProvider>
                                         <Tooltip>
                                             <TooltipTrigger asChild>
                                                 <Button variant="ghost" size="icon" >
-                                                    <Edit className="h-4 w-4 text-primary" />
+                                                    <Link to ={`/objeto/detail/${objeto.idObjeto}`}/>                                                    <Edit className="h-4 w-4 text-primary" />
                                                 </Button>
                                             </TooltipTrigger>
-                                            <TooltipContent>Actualizar</TooltipContent>
+                                            <TooltipContent>Detalle</TooltipContent>
                                         </Tooltip>
                                     </TooltipProvider>
                                     <TooltipProvider>

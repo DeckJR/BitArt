@@ -21,7 +21,7 @@ const rutas = createBrowserRouter([
        //Rutas componentes
       {path:"objeto/table", element: <TableObjeto/>},
       {path:"objeto", element: <ListObjeto/>},
-      {path:"objeto/detail/:id", element: <DetailObjeto />}
+      {path:"objeto/detail/:idObjeto", element: <DetailObjeto />}
 
     ]
   }
