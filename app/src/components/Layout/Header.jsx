@@ -36,7 +36,7 @@ export default function Header() {
   const userEmail = "Invitado";
 
 const navItems = [
-  { title: "Películas", href: "/movie", icon: <Film className="h-4 w-4" /> },
+  { title: "Pinturas", href: "/movie", icon: <Film className="h-4 w-4" /> },
   {
     title: "Filtrar Películas",
     href: "/movie/filter",
@@ -46,7 +46,7 @@ const navItems = [
 
 const mantItems = [
  {
-      title: "Películas",
+      title: "Objetos",
       href: "movie/table",
       icon: <Wrench className="h-4 w-4" />,
     },
