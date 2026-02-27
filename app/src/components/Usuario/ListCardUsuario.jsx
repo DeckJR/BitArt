@@ -6,31 +6,34 @@ import { Clock, Globe, ShoppingCart, Info, FilmIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-ListCardObjeto.propTypes = {
+
+//esto es para el carrito de la esquina superior derecha
+ListCardUsuario.propTypes = {
   data: PropTypes.array,
   isShopping: PropTypes.bool.isRequired,
 };
 
-export function ListCardObjeto({ data, isShopping }) {
+export function ListCardUsuario({ data, isShopping }) {
   const BASE_URL = import.meta.env.VITE_BASE_URL + "uploads";
 
   return (
     <div className="grid gap-6 p-4 sm:grid-cols-2 lg:grid-cols-3">
       {data && data.map((item) => (
-        <Card key={item.idObjeto} className="flex flex-col overflow-hidden">
+        <Card key={item.id} className="flex flex-col overflow-hidden">
           {/* Header */}
           <CardHeader className="text-secondary text-center">
             <CardTitle className="text-lg font-semibold">
-              {item.objeto.Nombre}
+              {item.title}
             </CardTitle>
-            <p className="text-sm opacity-80">{item.objeto.Autor}</p>
+            <p className="text-sm opacity-80">{item.year}</p>
           </CardHeader>
 
           {/* Imagen */}
-            <div className="relative w-full aspect-video">{item.objeto.imagen ? (
+          <div className="relative w-full aspect-video">
+            {item.imagen?.image ? (
               <img
-                src={`${BASE_URL}/${item.objeto.imagen}`}
-                alt={item.objeto.Nombre}
+                src={`${BASE_URL}/${item.imagen.image}`}
+                alt={item.title}
                 className="h-full w-full object-cover"
               />
             ) : (
@@ -38,12 +41,12 @@ export function ListCardObjeto({ data, isShopping }) {
                 <FilmIcon className="h-1/2 w-1/2" />
               </div>
             )}
-            {isShopping && item.PrecioInicial && (
+            {isShopping && item.price && (
               <Badge
                 variant="secondary"
                 className="absolute top-2 right-2 text-base font-bold bg-primary text-primary-foreground"
               >
-                ₡{parseFloat(item.PrecioInicial).toFixed(2)}
+                ₡{parseFloat(item.price).toFixed(2)}
               </Badge>
             )}
           </div>
@@ -52,22 +55,13 @@ export function ListCardObjeto({ data, isShopping }) {
           <CardContent className="flex-1 space-y-2 pt-4">
             <p className="flex items-center gap-2 text-sm text-muted-foreground">
               <Clock className="h-4 w-4 text-primary" />
-              <b>Fecha Inicio: </b>
-              {item.FechaHoraInicio} 
+              {item.time} Este es el item.time
             </p>
             <p className="flex items-center gap-2 text-sm text-muted-foreground">
               <Globe className="h-4 w-4 text-secondary" />
-              <b>Fecha Final: </b>{item.FechaHoraFinal}
+              {item.lang}
             </p>
-            <p className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Clock className="h-4 w-4 text-primary" />
-              <b>Incremento Min: </b>
-              {item.Incremento} 
-            </p>
-            <p className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Globe className="h-4 w-4 text-secondary" />
-              <b>Cantidad de Pujas </b>{item.CantidadPujas}
-            </p>
+
           </CardContent>
 
           {/* Acciones */}
@@ -78,7 +72,7 @@ export function ListCardObjeto({ data, isShopping }) {
                   <Button
                     size="icon" className="size-8"
                   >
-                    <Link to={`/objeto/detail/${item.idObjeto}`}>
+                    <Link to={`/objeto/detail/${item.id}`}>
                       <Info />
                     </Link>
                   </Button>

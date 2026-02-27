@@ -26,7 +26,7 @@ class SubastaModel
                     
                 $sub->estadosubasta = $estSub->get((int)$sub->idEstadoSubasta)->Descripcion;
 
-                $vResultado->CantidadPujas = $puj->contarPujasbySubasta((int)$vResultado->idSubasta);
+                $sub->CantidadPujas = $puj->contarPujasbySubasta((int)$sub->idSubasta);
 
             }
         }
