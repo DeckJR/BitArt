@@ -44,7 +44,35 @@ class subasta
             
         }
     }
-    
+    public function getAllActivas()
+    {
+        try {
+            $response = new Response();
+            //Obtener el listado del Modelo
+            $subasta = new SubastaModel();
+            $result = $subasta->allActivas();
+            //Dar respuesta
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            $response->toJSON($result);
+            handleException($e);
+            
+        }
+    }
+    public function getAllFinalizadas()
+    {
+        try {
+            $response = new Response();
+            //Obtener el listado del Modelo
+            $subasta = new SubastaModel();
+            $result = $subasta->allFinalizadas();
+            //Dar respuesta
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            $response->toJSON($result);
+            handleException($e);
+        }
+    }
     public function contarSubastabyUsuario($param)
     {
         try {

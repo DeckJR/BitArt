@@ -13,7 +13,8 @@ class SubastaModel
         $estSub = new EstadoSubastaModel();
         $puj = new PujaModel();
         //Consulta sql
-        $vSql = "SELECT * FROM subasta order by idSubasta desc;";
+        $vSql = "SELECT * FROM subasta where idEstadoSubasta = 2  order by idSubasta desc
+";
 
         //Ejecutar la consulta
         $vResultado = $this->enlace->ExecuteSQL($vSql);
@@ -57,6 +58,66 @@ class SubastaModel
         // Retornar el objeto
         return $vResultado;
     }
+
+    public function allActivas()
+    {
+        $obj = new ObjetoModel();
+        $estSub = new EstadoSubastaModel();
+        $puj = new PujaModel();
+        //Consulta sql
+        $vSql = "SELECT * FROM subasta where idEstadoSubasta = 2 order by idSubasta desc;";
+
+        //Ejecutar la consulta
+        $vResultado = $this->enlace->ExecuteSQL($vSql);
+
+        if (!empty($vResultado) && is_array($vResultado)) {
+            for ($i = 0; $i < count($vResultado); $i++) {
+                $sub = $vResultado[$i];
+                        
+                $sub->objeto = $obj->get((int)$sub->idObjeto);
+                    
+                $sub->estadosubasta = $estSub->get((int)$sub->idEstadoSubasta)->Descripcion;
+
+                $sub->CantidadPujas = $puj->contarPujasbySubasta((int)$sub->idSubasta);
+
+            }
+        }
+
+        // Retornar el objeto
+        return $vResultado;
+    }
+    public function allFinalizadas()
+    {
+        $obj = new ObjetoModel();
+        $estSub = new EstadoSubastaModel();
+        $puj = new PujaModel();
+        //Consulta sql
+        $vSql = "SELECT * FROM subasta where idEstadoSubasta = 3 order by idSubasta desc;";
+
+        //Ejecutar la consulta
+        $vResultado = $this->enlace->ExecuteSQL($vSql);
+
+        if (!empty($vResultado) && is_array($vResultado)) {
+            for ($i = 0; $i < count($vResultado); $i++) {
+                $sub = $vResultado[$i];
+                        
+                $sub->objeto = $obj->get((int)$sub->idObjeto);
+                    
+                $sub->estadosubasta = $estSub->get((int)$sub->idEstadoSubasta)->Descripcion;
+
+                $sub->CantidadPujas = $puj->contarPujasbySubasta((int)$sub->idSubasta);
+
+            }
+        }
+
+        // Retornar el objeto
+        return $vResultado;
+    }
+
+
+
+
+
     public function getSubastaByObjeto($idObjeto)
     {
         

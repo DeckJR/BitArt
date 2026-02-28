@@ -14,5 +14,11 @@ class SubastaService {
     contarSubastabyUsuario(idUsuario) {
         return axios.get(BASE_URL + '/' + 'contarSubastabyUsuario' + '/' + idUsuario);
     }
+    getAllSubastaActiva() {
+        return axios.get(BASE_URL + '/' + 'getAllActivas');
+    }
+    getAllSubastaFinalizada() {
+        return axios.get(BASE_URL + '/' + 'getAllFinalizadas');
+    }
 }
 export default new SubastaService();
