@@ -38,12 +38,12 @@ export function ListCardSubastaFinalizada({ data, isInactive }) {
                 <FilmIcon className="h-1/2 w-1/2" />
               </div>
             )}
-            {isInactive && item.PrecioInicial && (
+            {isInactive && item.estadosubasta && (
               <Badge
                 variant="secondary"
                 className="absolute top-2 right-2 text-base font-bold bg-primary text-primary-foreground"
               >
-                ₡{parseFloat(item.PrecioInicial).toFixed(2)}
+                {item.estadosubasta}
               </Badge>
             )}
           </div>
@@ -58,11 +58,6 @@ export function ListCardSubastaFinalizada({ data, isInactive }) {
             <p className="flex items-center gap-2 text-sm text-muted-foreground">
               <Globe className="h-4 w-4 text-secondary" />
               <b>Fecha Final: </b>{item.FechaHoraFinal}
-            </p>
-            <p className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Clock className="h-4 w-4 text-primary" />
-              <b>Incremento Min: </b>
-              {item.Incremento} 
             </p>
             <p className="flex items-center gap-2 text-sm text-muted-foreground">
               <Globe className="h-4 w-4 text-secondary" />
