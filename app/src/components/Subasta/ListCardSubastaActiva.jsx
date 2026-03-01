@@ -27,7 +27,7 @@ export function ListCardSubastaActiva({ data, isActive }) {
           </CardHeader>
 
           {/* Imagen */}
-            <div className="relative w-full aspect-video">{item.objeto.imagen ? (
+            <div className="relative w-full h-80 overflow-hidden ">{item.objeto.imagen ? (
               <img
                 src={`${BASE_URL}/${item.objeto.imagen}`}
                 alt={item.objeto.Nombre}
@@ -50,15 +50,7 @@ export function ListCardSubastaActiva({ data, isActive }) {
 
           {/* Contenido */}
           <CardContent className="flex-1 space-y-2 pt-4">
-            <p className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Clock className="h-4 w-4 text-primary" />
-              <b>Fecha Inicio: </b>
-              {item.FechaHoraInicio} 
-            </p>
-            <p className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Globe className="h-4 w-4 text-secondary" />
-              <b>Fecha Final: </b>{item.FechaHoraFinal}
-            </p>
+            
             <p className="flex items-center gap-2 text-sm text-muted-foreground">
               <Clock className="h-4 w-4 text-primary" />
               <b>Incremento Min: </b>
@@ -78,7 +70,7 @@ export function ListCardSubastaActiva({ data, isActive }) {
                   <Button
                     size="icon" className="size-8"
                   >
-                    <Link to={`/objeto/detail/${item.idObjeto}`}>
+                    <Link to={`/subasta/detalle/${item.idSubasta}`}>
                       <Info />
                     </Link>
                   </Button>

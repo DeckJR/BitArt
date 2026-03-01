@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import ObjetoService from '../../services/ObjetoService';
+import SubastaService from '../../services/SubastaService';
 import { ErrorAlert } from "../ui/custom/ErrorAlert";
 // Shadcn UI Components
 import { Card, CardContent } from "@/components/ui/card";
@@ -11,23 +11,24 @@ import {
     Globe,
     User,
     Film,
+    Star,
     ChevronRight,
     ArrowLeft
 } from "lucide-react";
 import { LoadingGrid } from '../ui/custom/LoadingGrid';
 import { EmptyState } from '../ui/custom/EmptyState';
 
-export function DetailObjeto() {
+export function DetailSubasta() {
     const navigate = useNavigate();
     const { id } = useParams();
     const BASE_URL = import.meta.env.VITE_BASE_URL + 'uploads';
-    const [objeto, setData] = useState(null);
+    const [subasta, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await ObjetoService.getObjetoById(id);
+                const response = await SubastaService.getSubastaById(id);
                 // Si la petición es exitosa, se guardan los datos
                 console.log(response.data)
                 setData(response.data);
@@ -44,12 +45,12 @@ export function DetailObjeto() {
         };
         fetchData(id)
     }, [id]);
-
-
     if (loading) return <LoadingGrid count={1} type="grid" />;
-    if (error) return <ErrorAlert title="Error al cargar pinturas" message={error} />;
-    if (!objeto || objeto.data.length === 0)
-        return <EmptyState message="No se encontraron pinturas en esta tienda." />;
+    if (error) return <ErrorAlert title="Error al cargar subastas" message={error} />;   
+    if (!subasta || !subasta.data || !subasta.data.objeto) {
+    return <EmptyState message="No se encontraron subastas en esta tienda." />
+    }
+
     return (
         <div className="max-w-4xl mx-auto py-12 px-4">
             <div className="flex flex-col md:flex-row gap-8 items-start">
@@ -58,8 +59,8 @@ export function DetailObjeto() {
                     <div className="aspect-[2/3] w-full bg-muted flex items-center justify-center">
                         
                             <img
-                                src={`${BASE_URL}/${objeto.data.imagen}`}
-                                alt={`Poster de ${objeto.data.Nombre}`}
+                                src={`${BASE_URL}/${subasta.data.objeto.imagen}`}
+                                alt={`Poster de ${subasta.data.objeto.Nombre}`}
                                 className="w-full h-full object-contain"
                             />
                         
@@ -77,7 +78,7 @@ export function DetailObjeto() {
                     {/* Título del Objeto */}
                     <div>
                         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-                        {objeto.data.Nombre}
+                        {subasta.data.objeto.Nombre}
 
                         </h1>
                     </div>
@@ -85,43 +86,29 @@ export function DetailObjeto() {
                     <Card>
                         <CardContent className="p-6 space-y-6">
                             {/* Información de autor, condicion e estadp en una sola fila */}
-                            <div className="flex flex-wrap items-center gap-x-10 gap-y-4">               
-                                {/* Propietario */}
+                            <div className="flex flex-wrap items-center gap-x-10 gap-y-4">
                                 <div className="flex items-center gap-4">
-                                    <Clock className="h-5 w-5 text-primary" />
+                                    <Globe className="h-5 w-5 text-primary" />
                                     <span className="font-semibold">Propietario:</span>
                                     <p className="text-muted-foreground">
-                                        {objeto.data.propietario}
+                                        {subasta.data.objeto.propietario}
                                     </p>
                                 </div>
+                                <br/>
                                 {/* Autor */}
                                 <div className="flex items-center gap-4">
                                     <User className="h-5 w-5 text-primary" />
                                     <span className="font-semibold">Autor:</span>
                                     <p className="text-muted-foreground">
-                                    {objeto.data.Autor}
+                                    {subasta.data.objeto.Autor}
                                     </p>
                                 </div>
+                                {/* Condición */}
                                 <div className="flex items-center gap-4">
-                                    <User className="h-5 w-5 text-primary" />
-                                    <span className="font-semibold">Descripcion:</span>
-                                    <p className="text-muted-foreground">
-                                    {objeto.data.Descripcion}
-                                    </p>
-                                </div>
-                                 <div className="flex items-center gap-4">
-                                    <Clock className="h-5 w-5 text-primary" />
-                                    <span className="font-semibold">Fecha de Registro:</span>
-                                    <p className="text-muted-foreground">
-                                        {objeto.data.FechaRegistro}
-                                    </p>
-                                    <br/>
-                                </div>
-                                <div className="flex items-center gap-4">
-                                    <Clock className="h-5 w-5 text-primary" />
+                                    <Star className="h-5 w-5 text-primary" />
                                     <span className="font-semibold">Condición:</span>
                                     <p className="text-muted-foreground">
-                                        {objeto.data.condicion}
+                                        {subasta.data.objeto.condicion}
                                     </p>
                                 </div>
                                 {/* Estado */}
@@ -129,10 +116,10 @@ export function DetailObjeto() {
                                     <Globe className="h-5 w-5 text-primary" />
                                     <span className="font-semibold">Estado:</span>
                                     <p className="text-muted-foreground">
-                                        {objeto.data.estado}
+                                        {subasta.data.estadosubasta}
                                     </p>
                                 </div>
-                               
+                                
                             </div>
 
                             {/* Contenedor de dos columnas para categorías y vendedor */}
@@ -145,7 +132,7 @@ export function DetailObjeto() {
                                         </div>
                                         <div className="flex flex-col space-y-1">
                                             
-                                                {objeto.data.categorias.map((categoria)=>(
+                                                {subasta.data.objeto.categorias.map((categoria)=>(
                                                 <div key={categoria.idCategoria}  className="flex items-center gap-2 py-1 px-2 text-sm">
                                                     <ChevronRight className="h-4 w-4 text-secondary" />
                                                     <span className="text-muted-foreground">
@@ -156,9 +143,38 @@ export function DetailObjeto() {
                                             
                                         </div>
                                     </div>
-                                
+                                    <div>
+                                    <div className="flex items-center gap-4 mb-2">
+                                        <Clock className="h-5 w-5 text-primary" />
+                                        <span className="font-semibold">Fechas:</span>
+                                    </div>
 
-                                
+                                    <div className="flex flex-col space-y-1">
+                                        {subasta.data.FechaHoraInicio && subasta.data.FechaHoraInicio.length > 0 && (
+                                        <div className="flex items-center gap-2 py-1 px-2 text-sm">
+                                            <Clock className="h-4 w-4 text-secondary" />
+                                            <span className="text-muted-foreground">
+                                            <b>Fecha Inicio:</b></span>
+                                            <p className="text-muted-foreground">
+                                            {subasta.data.FechaHoraInicio}
+                                            </p>
+
+                                        </div>
+                                        )}
+
+                                        {subasta.data.FechaHoraFinal && subasta.data.FechaHoraFinal.length > 0 && (
+                                        <div className="flex items-center gap-2 py-1 px-2 text-sm">
+                                            <Clock className="h-4 w-4 text-secondary" />
+                                            <span className="text-muted-foreground">
+                                            <b>Fecha Final:</b></span>
+                                            <p className="text-muted-foreground">
+                                            {subasta.data.FechaHoraFinal}
+                                            </p>
+                                        </div>
+                                        )}
+                                    </div>
+                                    </div>
+
                             </div>
                         </CardContent>
                     </Card>

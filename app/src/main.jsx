@@ -10,6 +10,8 @@ import { ListObjeto } from './components/Objeto/ListObjeto'
 import { DetailObjeto } from './components/Objeto/DetailObjeto'
 import { ListSubastaActiva } from './components/Subasta/ListSubastaActiva'
 import { ListSubastafinalizada } from './components/Subasta/ListSubastafinalizada'
+import { DetailSubasta } from './components/Subasta/DetailSubasta'
+
 
 const rutas = createBrowserRouter([
   {
@@ -23,9 +25,10 @@ const rutas = createBrowserRouter([
        //Rutas componentes
       {path:"objeto/table", element: <TableObjeto/>},
       {path:"objeto", element: <ListObjeto/>},
-      {path:"objeto/detail/:id", element: <DetailObjeto />},
+      {path:"objeto/detalle/:id", element: <DetailObjeto />},
       {path:"subasta/activa", element: <ListSubastaActiva />},     
-      {path:"subasta/finalizada", element: <ListSubastafinalizada />}     
+      {path:"subasta/finalizada", element: <ListSubastafinalizada />},     
+      {path:"subasta/detalle/:id", element: <DetailSubasta />}
 
 
     ]

@@ -14,7 +14,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Edit, Plus, Trash2, ArrowLeft } from "lucide-react";
+import { Edit, Plus, Trash2, ArrowLeft, RotateCw} from "lucide-react";
 import ObjetoService from "@/services/ObjetoService";
 import { useEffect, useState } from "react";
 import { LoadingGrid } from "../ui/custom/LoadingGrid";
@@ -24,13 +24,17 @@ import { EmptyState } from "../ui/custom/EmptyState";
 // Headers de la tabla
 const objetoColumns = [
 
+    { key: "image", label: "Imagen" },
     { key: "name", label: "Nombre" },
     { key: "description", label: "Descripcion" },
-    { key: "condition", label: "Condición" },
     { key: "state", label: "Estado" },
+    { key: "actions", label: "Acciones" },   // <-- agrega esta
+
+
 ];
 
 export default function TableObjeto() {
+    const BASE_URL = import.meta.env.VITE_BASE_URL + 'uploads';
     const [objeto, setObjeto] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -59,7 +63,7 @@ export default function TableObjeto() {
 
     if (loading) return <LoadingGrid type="grid" />; 
     if (error) return <ErrorAlert title="Error al cargar pinturas" message={error} />; 
-     if (objeto?.length === 0) 
+    if (objeto?.length === 0) 
     return <EmptyState message="No se encontraron pinturas." />;  
 
     return (
@@ -96,24 +100,44 @@ export default function TableObjeto() {
                             ))}
                         </TableRow>
                     </TableHeader>
-                    <TableBody>
-                        {objeto?.map((objeto)=>( 
-                            <TableRow key = {objeto.idObjeto}>
+                            <TableBody>                          
+                            {objeto?.map((objeto) => (
+                            <TableRow key={objeto.idObjeto}>
+                                <TableCell className="font-">
+                                {objeto.imagen ? (
+                                    <img
+                                    src={`${BASE_URL}/${objeto.imagen}`}
+                                    alt={objeto.Nombre || 'Imagen'}
+                                    className="h-12 w-12 object-cover rounded-md"
+                                    loading="lazy"
+                                    />
+                                ) : (
+                                    <span className="text-muted-foreground text-sm">Sin imagen</span>
+                                )}
+                                </TableCell>
                                 <TableCell className="font-medium"> {objeto.Nombre} </TableCell>
                                 <TableCell> {objeto.Descripcion} </TableCell>
-                                <TableCell> {objeto.condicion} </TableCell>
                                 <TableCell> {objeto.estado} </TableCell>
                                 <TableCell className="flex justify-start items-center gap-1">
                                     <TooltipProvider>
                                         <Tooltip>
                                             <TooltipTrigger asChild>
                                                 <Button variant="ghost" size="icon" >
-                                                    <Link to={`/objeto/detail/${objeto.idObjeto}`}>
+                                                    <Link to={`/objeto/detalle/${objeto.idObjeto}`}>
                                                         <Edit className="h-4 w-4 text-primary" />
                                                     </Link>
                                                 </Button>
                                             </TooltipTrigger>
                                             <TooltipContent>Detalle</TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider><TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <Button variant="ghost" size="icon" >
+                                                    <RotateCw className="h-4 w-4 text-destructive" />
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent>Actualizar</TooltipContent>
                                         </Tooltip>
                                     </TooltipProvider>
                                     <TooltipProvider>

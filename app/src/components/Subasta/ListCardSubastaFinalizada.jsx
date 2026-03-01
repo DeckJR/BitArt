@@ -73,7 +73,7 @@ export function ListCardSubastaFinalizada({ data, isInactive }) {
                   <Button
                     size="icon" className="size-8"
                   >
-                    <Link to={`/objeto/detail/${item.idObjeto}`}>
+                    <Link to={`/subasta/detalle/${item.idSubasta}`}>
                       <Info />
                     </Link>
                   </Button>
