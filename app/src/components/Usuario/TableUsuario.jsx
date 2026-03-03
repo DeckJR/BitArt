@@ -14,36 +14,37 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Edit, Plus, Trash2, ArrowLeft } from "lucide-react";
-import ObjetoService from "@/services/ObjetoService";
+import {Plus, Trash2, ArrowLeft, RotateCw, InfoIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { LoadingGrid } from "../ui/custom/LoadingGrid";
 import { ErrorAlert } from "../ui/custom/ErrorAlert";
 import { EmptyState } from "../ui/custom/EmptyState";
+import UsuarioService from "@/services/UsuarioService";
+import { useNavigate } from 'react-router-dom';
 
 // Headers de la tabla
-const objetoColumns = [
-
+const usuarioColumns = [
     { key: "name", label: "Nombre" },
-    { key: "description", label: "Descripcion" },
-    { key: "condition", label: "Condición" },
+    { key: "rol", label: "Rol" },
     { key: "state", label: "Estado" },
+    { key: "actions", label: "Acciones" },
 ];
 
 export default function TableUsuario() {
-    const [objeto, setObjeto] = useState([]);
+    const navigate = useNavigate();
+    const [usuario, setUsuario] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const fetchData = async () => {
         try {
-            const response = await ObjetoService.getAllObjeto();
+            const response = await UsuarioService.getAllUsuario();
             //console.log(response)
             const result = response.data;
             //console.log(result.data)
             if (result.success) {
-                setObjeto(result.data || []);
-                console.log(objeto)
+                setUsuario(result.data || []);
+                console.log(usuario)
             } else {
                 setError(result.message || "Error desconocido");
             }
@@ -58,17 +59,17 @@ export default function TableUsuario() {
 
 
     if (loading) return <LoadingGrid type="grid" />; 
-    if (error) return <ErrorAlert title="Error al cargar pinturas" message={error} />; 
-    if (objeto?.length === 0) 
-    return <EmptyState message="No se encontraron pinturas." />;  
+    if (error) return <ErrorAlert title="Error al cargar usuarios" message={error} />; 
+    if (usuario?.length === 0) 
+    return <EmptyState message="No se encontraron usuarios." />;  
 
     return (
         <div className="container mx-auto py-8">
             <div className="flex items-center justify-between mb-6">
                 <h1 className="text-3xl font-bold tracking-tight">
-                    Listado de Pinturas
+                    Listado de Usuarios
                 </h1>
-                {/* Modificar cuando hagamos el create del objeto*/}
+                {/* Modificar cuando hagamos el create del usurio*/}
                 <TooltipProvider>
                     <Tooltip>
                         <TooltipTrigger asChild>
@@ -78,7 +79,7 @@ export default function TableUsuario() {
                                 </Link>
                             </Button>
                         </TooltipTrigger>
-                        <TooltipContent>Crear Pintura</TooltipContent>
+                        <TooltipContent>Crear Usuario</TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
             </div>
@@ -89,7 +90,7 @@ export default function TableUsuario() {
                         <TableRow>
                             {/* ()=>{} */}
                             {/* ()=>() */}
-                            {objetoColumns.map((col)=>( 
+                            {usuarioColumns.map((col)=>( 
                                 <TableHead key={col.key}  className="text-left font-semibold">
                                     {col.label}
                                 </TableHead>
@@ -97,23 +98,32 @@ export default function TableUsuario() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {objeto?.map((objeto)=>( 
-                            <TableRow key = {objeto.idObjeto}>
-                                <TableCell className="font-medium"> {objeto.Nombre} </TableCell>
-                                <TableCell> {objeto.Descripcion} </TableCell>
-                                <TableCell> {objeto.condicion} </TableCell>
-                                <TableCell> {objeto.estado} </TableCell>
+                        {usuario?.map((usuario)=>( 
+                            <TableRow key = {usuario.idUsuario}>
+                                <TableCell > {usuario.nombreCompleto} </TableCell>
+                                <TableCell> {usuario.rol} </TableCell>
+                                <TableCell> {usuario.estado} </TableCell>
                                 <TableCell className="flex justify-start items-center gap-1">
                                     <TooltipProvider>
                                         <Tooltip>
                                             <TooltipTrigger asChild>
                                                 <Button variant="ghost" size="icon" >
-                                                    <Link to={`/objeto/detail/${objeto.idObjeto}`}>
-                                                        <Edit className="h-4 w-4 text-primary" />
+                                                    <Link to={`/usuario/detail/${usuario.idUsuario}`}>
+                                                        <InfoIcon className="h-4 w-4 text-primary" />
                                                     </Link>
                                                 </Button>
                                             </TooltipTrigger>
                                             <TooltipContent>Detalle</TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                    <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <Button variant="ghost" size="icon" >
+                                                    <RotateCw className="h-4 w-4 text-destructive" />
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent>Actualizar</TooltipContent>
                                         </Tooltip>
                                     </TooltipProvider>
                                     <TooltipProvider>
@@ -134,13 +144,13 @@ export default function TableUsuario() {
 
             </div>
             <Button
-                type="button"
-                
-                className="flex items-center gap-2 bg-accent text-white hover:bg-accent/90 mt-6"
-            >
-                <ArrowLeft x className="w-4 h-4" />
-                Regresar
-            </Button>
+                        type="button"
+                        onClick={() => navigate(-1)}
+                        className="flex items-center gap-2 bg-accent text-white hover:bg-accent/90 mt-6" 
+                    >
+                        <ArrowLeft className="w-4 h-4" />
+                        Regresar
+                    </Button>
         </div>
     );
 }

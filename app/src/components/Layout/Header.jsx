@@ -50,7 +50,12 @@ const mantItems = [
       title: "Pinturas",
       href: "objeto/table",
       icon: <Wrench className="h-4 w-4" />,
-    },
+  },
+  {
+      title: "Usuarios",
+      href: "usuario/table",
+      icon: <Wrench className="h-4 w-4" />,
+  },
 ];
 
 //Falta modificar y crear los inicios de sesión de Usuario

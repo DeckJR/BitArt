@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
-import { Clock, Globe, ShoppingCart, Info, FilmIcon } from "lucide-react";
+import { Edit,Clock, Globe, ShoppingCart, Info, FilmIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -79,6 +79,19 @@ export function ListCardSubastaFinalizada({ data, isInactive }) {
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>Ver detalle</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button size="icon" className="size-8">
+                    <Link to={`/puja/detalle/${item.idSubasta}`}>
+                      <Edit />
+                    </Link>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Ver pujas</TooltipContent>
               </Tooltip>
             </TooltipProvider>
 

@@ -72,16 +72,29 @@ class PujaModel
     /*Obtener pujas por usuario*/
     public function getPujasbyUsuario($idUsuario)
     {
+        $usr = new UsuarioModel();
         $vSql = "SELECT * FROM puja where idUsuario=$idUsuario";
         $vResultado = $this->enlace->ExecuteSQL($vSql);
+        if (!empty($vResultado) && is_array($vResultado)) {
+            for ($i = 0; $i < count($vResultado); $i++) {
+                $puj = $vResultado[$i];                        
+                $puj->usuario = $usr->get((int)$puj->idUsuario)->nombreCompleto;
+            }
+        }
         return $vResultado;
     }
 
     //pujas por subasta
     public function getPujasbySubasta($idSubasta){
-        //Consulta sql
-        $vSql = "SELECT * FROM puja where idSubasta=$idSubasta order by desc";    
+        $usr = new UsuarioModel();
+        $vSql = "SELECT * FROM puja where idSubasta=$idSubasta order by idPuja desc;";    
         $vResultado = $this->enlace->ExecuteSQL($vSql);
+        if (!empty($vResultado) && is_array($vResultado)) {
+            for ($i = 0; $i < count($vResultado); $i++) {
+                $puj = $vResultado[$i];
+                $puj->usuario = $usr->get((int)$puj->idUsuario)->nombreCompleto;
+            }
+        }
         // Retornar el objeto
         return $vResultado;
     }

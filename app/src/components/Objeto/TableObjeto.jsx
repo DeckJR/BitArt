@@ -14,12 +14,13 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Edit, Plus, Trash2, ArrowLeft, RotateCw} from "lucide-react";
+import { Plus, Trash2, ArrowLeft, RotateCw, InfoIcon} from "lucide-react";
 import ObjetoService from "@/services/ObjetoService";
 import { useEffect, useState } from "react";
 import { LoadingGrid } from "../ui/custom/LoadingGrid";
 import { ErrorAlert } from "../ui/custom/ErrorAlert";
 import { EmptyState } from "../ui/custom/EmptyState";
+import { useNavigate } from 'react-router-dom';
 
 // Headers de la tabla
 const objetoColumns = [
@@ -29,11 +30,10 @@ const objetoColumns = [
     { key: "description", label: "Descripcion" },
     { key: "state", label: "Estado" },
     { key: "actions", label: "Acciones" },   // <-- agrega esta
-
-
 ];
 
 export default function TableObjeto() {
+    const navigate = useNavigate();
     const BASE_URL = import.meta.env.VITE_BASE_URL + 'uploads';
     const [objeto, setObjeto] = useState([]);
     const [error, setError] = useState(null);
@@ -124,13 +124,14 @@ export default function TableObjeto() {
                                             <TooltipTrigger asChild>
                                                 <Button variant="ghost" size="icon" >
                                                     <Link to={`/objeto/detalle/${objeto.idObjeto}`}>
-                                                        <Edit className="h-4 w-4 text-primary" />
+                                                        <InfoIcon className="h-4 w-4 text-primary" />
                                                     </Link>
                                                 </Button>
                                             </TooltipTrigger>
                                             <TooltipContent>Detalle</TooltipContent>
                                         </Tooltip>
-                                    </TooltipProvider><TooltipProvider>
+                                    </TooltipProvider>
+                                    <TooltipProvider>
                                         <Tooltip>
                                             <TooltipTrigger asChild>
                                                 <Button variant="ghost" size="icon" >
@@ -158,13 +159,13 @@ export default function TableObjeto() {
 
             </div>
             <Button
-                type="button"
-                
-                className="flex items-center gap-2 bg-accent text-white hover:bg-accent/90 mt-6"
-            >
-                <ArrowLeft x className="w-4 h-4" />
-                Regresar
-            </Button>
+                        type="button"
+                        onClick={() => navigate(-1)}
+                        className="flex items-center gap-2 bg-accent text-white hover:bg-accent/90 mt-6" 
+                    >
+                        <ArrowLeft className="w-4 h-4" />
+                        Regresar
+                    </Button>
         </div>
     );
 }

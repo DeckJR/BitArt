@@ -1,5 +1,3 @@
-//Actualmente no se usa esta clase
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -108,3 +106,5 @@ export function ListCardObjeto({ data, isShopping }) {
     </div>
   );
 }
+
+

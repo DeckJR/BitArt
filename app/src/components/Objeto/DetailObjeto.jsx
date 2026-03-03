@@ -47,9 +47,9 @@ export function DetailObjeto() {
 
 
     if (loading) return <LoadingGrid count={1} type="grid" />;
-    if (error) return <ErrorAlert title="Error al cargar pinturas" message={error} />;
+    if (error) return <ErrorAlert title="Error al cargar la pintura" message={error} />;
     if (!objeto || objeto.data.length === 0)
-        return <EmptyState message="No se encontraron pinturas en esta tienda." />;
+        return <EmptyState message="No se encontró la pintura." />;
     return (
         <div className="max-w-4xl mx-auto py-12 px-4">
             <div className="flex flex-col md:flex-row gap-8 items-start">
@@ -109,7 +109,7 @@ export function DetailObjeto() {
                                     {objeto.data.Descripcion}
                                     </p>
                                 </div>
-                                 <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-4">
                                     <Clock className="h-5 w-5 text-primary" />
                                     <span className="font-semibold">Fecha de Registro:</span>
                                     <p className="text-muted-foreground">
@@ -132,7 +132,7 @@ export function DetailObjeto() {
                                         {objeto.data.estado}
                                     </p>
                                 </div>
-                               
+                            
                             </div>
 
                             {/* Contenedor de dos columnas para categorías y vendedor */}
