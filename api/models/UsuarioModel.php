@@ -64,17 +64,19 @@ class UsuarioModel
             $estado = $estadoUM -> get($vResultado->idEstadoUsuario)-> Descripcion;
 			$vResultado->rol = $rol;
             $vResultado->estado = $estado;
+            $vHistorialMinimo = 0;
             if($vResultado->idRol == 2)
                 {
                     $sub = new SubastaModel();
-                    $vResultado->CantidadSubastas = $sub->contarSubastabyUsuario((int)$vResultado->idUsuario);
+                    $vHistorialMinimo = $sub->contarSubastabyUsuario((int)$vResultado->idUsuario);
+                    $vResultado-> CantidadSubastas = $vHistorialMinimo;
                 } 
                 else if ($vResultado->idRol == 3)
                 {
-                    $puj = new PujaModel();
-                    $vResultado->CantidadPujas = $puj->contarPujasbyUsuario((int)$vResultado->idUsuario);                    
+                    $puj = new PujaModel();                    
+                    $vHistorialMinimo = $puj->contarPujasbyUsuario((int)$vResultado->idUsuario);      
+                    $vResultado-> CantidadPujas = $vHistorialMinimo;          
                 }
-
 			// Retornar el objeto
 			return $vResultado;
 		} 

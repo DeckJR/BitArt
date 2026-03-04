@@ -75,7 +75,7 @@ export default function TablePuja() {
                             <TableBody>                          
                             {puja?.map((puja) => (
                             <TableRow key={puja.idPuja}>
-                                <TableCell > {puja.usuarioo} </TableCell>
+                                <TableCell > {puja.usuario} </TableCell>
                                 <TableCell > {puja.MontoOfertado} </TableCell>
                                 <TableCell > {puja.FechaHora} </TableCell>                                
                             </TableRow>
