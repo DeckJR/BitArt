@@ -28,7 +28,7 @@ class UsuarioModel
 
             // Une y limpia espacios múltiples
             $usr->nombreCompleto = trim($nombreCompleto);
-            $usr->rol = $rolM->getRolUsuario((int)$usr->idRol)->Descripcion;
+            $usr->rol = $rolM->getRolUsuario((int)$usr->idUsuario)->Descripcion;
 
             // Estado (por id)
             $usr->estado = $estadoUM->get((int)$usr->idEstadoUsuario)->Descripcion;
@@ -60,22 +60,19 @@ class UsuarioModel
 
             // Une y limpia espacios múltiples
             $vResultado->nombreCompleto = trim(preg_replace('/\s+/', ' ', "$nombre $ap1 $ap2"));
-			$rol = $rolM->getRolUsuario($vResultado->idRol)->Descripcion;
+			$rol = $rolM->getRolUsuario($vResultado->idUsuario)->Descripcion;
             $estado = $estadoUM -> get($vResultado->idEstadoUsuario)-> Descripcion;
 			$vResultado->rol = $rol;
             $vResultado->estado = $estado;
-            $vHistorialMinimo = 0;
             if($vResultado->idRol == 2)
                 {
                     $sub = new SubastaModel();
-                    $vHistorialMinimo = $sub->contarSubastabyUsuario((int)$vResultado->idUsuario);
-                    $vResultado-> CantidadSubastas = $vHistorialMinimo;
+                    $vResultado-> CantidadSubastas = $sub->contarSubastabyUsuario((int)$vResultado->idUsuario);
                 } 
                 else if ($vResultado->idRol == 3)
                 {
-                    $puj = new PujaModel();                    
-                    $vHistorialMinimo = $puj->contarPujasbyUsuario((int)$vResultado->idUsuario);      
-                    $vResultado-> CantidadPujas = $vHistorialMinimo;          
+                    $puj = new PujaModel();           
+                    $vResultado-> CantidadPujas = $puj->contarPujasbyUsuario((int)$vResultado->idUsuario);               
                 }
 			// Retornar el objeto
 			return $vResultado;

@@ -93,39 +93,26 @@ export function DetailUsuario() {
                                         {usuario.data.FechaRegistro}
                                     </p>
                                 </div>
+
+                                {usuario.data.idRol ==2 && (
                                     <div>
                                         <div className="flex items-center gap-4 mb-2">
                                             <Film className="h-5 w-5 text-primary" />
-                                            <span className="font-semibold">Categorías:</span>
-                                        </div>
-                                        <div className="flex flex-col space-y-1">
-                                            
-                                                {objeto.data.categorias.map((categoria)=>(
-                                                <div key={categoria.idCategoria}  className="flex items-center gap-2 py-1 px-2 text-sm">
-                                                    <ChevronRight className="h-4 w-4 text-secondary" />
-                                                    <span className="text-muted-foreground">
-                                                        {categoria.Descripcion}
-                                                    </span>
-                                                </div>
-                                            ))}
-                                            
+                                            <canspan className="font-semibold">Cantidad de Subastas:</canspan>
+                                            <p className="text-muted-foreground">
+                                        {usuario.data.CantidadSubastas}
+                                    </p>
                                         </div>
                                     </div>
-                                
-
-                                {objeto.data.actors && objeto.data.actors.length > 0 && (
+                                )}
+                                {usuario.data.idRol == 3 && (
                                     <div>
                                         <div className="flex items-center gap-4 mb-2">
-                                            <Star className="h-5 w-5 text-primary" />
-                                            <span className="font-semibold">Vendedor:</span>
-                                        </div>
-                                        <div className="flex flex-col space-y-1">
-                                        
-                                                <div  className="flex items-center gap-2 py-1 px-2 text-sm">
-                                                    <Star className="h-4 w-4 text-secondary" />
-                                                    <span className="text-muted-foreground"> </span>
-                                                </div>
-                                        
+                                            <Film className="h-5 w-5 text-primary" />
+                                            <span className="font-semibold">Cantidad de Pujas:</span>
+                                            <p className="text-muted-foreground">
+                                                {usuario.data.CantidadPujas}
+                                            </p>
                                         </div>
                                     </div>
                                 )}

@@ -82,102 +82,125 @@ export function DetailSubasta() {
 
                         </h1>
                     </div>
+        <Card>
+            <CardContent className="p-6 space-y-6">
+                <h2 className="text-xl font-bold flex items-center gap-2">
+                Información de la obra
+                </h2>
+                <div className="flex items-center gap-4">
+                    <User className="h-5 w-5 text-primary" />
+                    <span className="font-semibold">Autor:</span>
+                    <p className="text-muted-foreground">
+                        {subasta.data.objeto.Autor}
+                    </p>
+                </div>
 
-                    <Card>
-                        <CardContent className="p-6 space-y-6">
-                            {/* Información de autor, condicion e estadp en una sola fila */}
-                            <div className="flex flex-wrap items-center gap-x-10 gap-y-4">
-                                <div className="flex items-center gap-4">
-                                    <Globe className="h-5 w-5 text-primary" />
-                                    <span className="font-semibold">Propietario:</span>
-                                    <p className="text-muted-foreground">
-                                        {subasta.data.objeto.propietario}
-                                    </p>
-                                </div>
-                                <br/>
-                                {/* Autor */}
-                                <div className="flex items-center gap-4">
-                                    <User className="h-5 w-5 text-primary" />
-                                    <span className="font-semibold">Autor:</span>
-                                    <p className="text-muted-foreground">
-                                    {subasta.data.objeto.Autor}
-                                    </p>
-                                </div>
-                                {/* Condición */}
-                                <div className="flex items-center gap-4">
-                                    <Star className="h-5 w-5 text-primary" />
-                                    <span className="font-semibold">Condición:</span>
-                                    <p className="text-muted-foreground">
-                                        {subasta.data.objeto.condicion}
-                                    </p>
-                                </div>
-                                {/* Estado */}
-                                <div className="flex items-center gap-4">
-                                    <Globe className="h-5 w-5 text-primary" />
-                                    <span className="font-semibold">Estado:</span>
-                                    <p className="text-muted-foreground">
-                                        {subasta.data.estadosubasta}
-                                    </p>
-                                </div>
-                                
-                            </div>
+                <div className="flex items-center gap-4">
+                    <Globe className="h-5 w-5 text-primary" />
+                    <span className="font-semibold">Propietario:</span>
+                    <p className="text-muted-foreground">
+                        {subasta.data.objeto.propietario}
+                    </p>
+                </div>
 
-                            {/* Contenedor de dos columnas para categorías y vendedor */}
-                            <div className="grid gap-4 md:grid-cols-2">
-                            
-                                    <div>
-                                        <div className="flex items-center gap-4 mb-2">
-                                            <Film className="h-5 w-5 text-primary" />
-                                            <span className="font-semibold">Categorías:</span>
-                                        </div>
-                                        <div className="flex flex-col space-y-1">
-                                            
-                                                {subasta.data.objeto.categorias.map((categoria)=>(
-                                                <div key={categoria.idCategoria}  className="flex items-center gap-2 py-1 px-2 text-sm">
-                                                    <ChevronRight className="h-4 w-4 text-secondary" />
-                                                    <span className="text-muted-foreground">
-                                                        {categoria.Descripcion}
-                                                    </span>
-                                                </div>
-                                            ))}
-                                            
-                                        </div>
-                                    </div>
-                                    <div>
-                                    <div className="flex items-center gap-4 mb-2">
-                                        <Clock className="h-5 w-5 text-primary" />
-                                        <span className="font-semibold">Fechas:</span>
-                                    </div>
+                <div className="flex items-center gap-4">
+                    <Star className="h-5 w-5 text-primary" />
+                    <span className="font-semibold">Condición:</span>
+                    <p className="text-muted-foreground">
+                        {subasta.data.objeto.condicion}
+                    </p>
+                </div>
 
-                                    <div className="flex flex-col space-y-1">
-                                        {subasta.data.FechaHoraInicio && subasta.data.FechaHoraInicio.length > 0 && (
-                                        <div className="flex items-center gap-2 py-1 px-2 text-sm">
-                                            <Clock className="h-4 w-4 text-secondary" />
-                                            <span className="text-muted-foreground">
-                                            <b>Fecha Inicio:</b></span>
-                                            <p className="text-muted-foreground">
-                                            {subasta.data.FechaHoraInicio}
-                                            </p>
+                {/* Categorías */}
+                <div>
+                    <div className="flex items-center gap-4 mb-2">
+                        <Film className="h-5 w-5 text-primary" />
+                        <span className="font-semibold">Categorías:</span>
+                    </div>
+                    <div className="space-y-1">
+                    {subasta.data.objeto.categorias.map((categoria)=>(
+                        <div key={categoria.idCategoria} className="flex items-center gap-2 py-1 px-2 text-sm">
+                            <ChevronRight className="h-4 w-4 text-secondary" />
+                            <span className="text-muted-foreground">
+                                {categoria.Descripcion}
+                            </span>
+                        </div>
+                    ))}
+                    </div>
+                </div>
 
-                                        </div>
-                                        )}
+            </CardContent>
+            </Card>
+            <Card>
+            <CardContent className="p-6 space-y-6">
+                <h2 className="text-xl font-bold flex items-center gap-2">
+                Información de la subasta
+                </h2>
+                <div className="flex items-center gap-4">
+                    <Globe className="h-5 w-5 text-primary" />
+                    <span className="font-semibold">Estado:</span>
+                    <p className="text-muted-foreground">
+                        {subasta.data.estadosubasta}
+                    </p>
+                </div>
+                <div className="flex items-center gap-4">
+                    <Globe className="h-5 w-5 text-primary" />
+                    <span className="font-semibold">Precio Base:</span>
+                    <p className="text-muted-foreground">
+                        {new Intl.NumberFormat('es-CR', {
+                            style: 'currency',
+                            currency: 'CRC'
+                        }).format(subasta.data.PrecioInicial)}
+                    </p>
+                </div>
 
-                                        {subasta.data.FechaHoraFinal && subasta.data.FechaHoraFinal.length > 0 && (
-                                        <div className="flex items-center gap-2 py-1 px-2 text-sm">
-                                            <Clock className="h-4 w-4 text-secondary" />
-                                            <span className="text-muted-foreground">
-                                            <b>Fecha Final:</b></span>
-                                            <p className="text-muted-foreground">
-                                            {subasta.data.FechaHoraFinal}
-                                            </p>
-                                        </div>
-                                        )}
-                                    </div>
-                                    </div>
+                <div className="flex items-center gap-4">
+                    <Globe className="h-5 w-5 text-primary" />
+                    <span className="font-semibold">Incremento min:</span>
+                    <p className="text-muted-foreground">
+                        {new Intl.NumberFormat('es-CR', {
+                            style: 'currency',
+                            currency: 'CRC'
+                        }).format(subasta.data.Incremento)}
+                    </p>
+                </div>         
+                <div className="flex items-center gap-4">
+                    <Globe className="h-5 w-5 text-primary" />
+                    <span className="font-semibold">Cantidad de pujas:</span>
+                    <p className="text-muted-foreground">
+                        {subasta.data.CantidadPujas}
+                    </p>
+                </div>
 
-                            </div>
-                        </CardContent>
-                    </Card>
+                <div>
+                    <div className="flex items-center gap-4 mb-2">
+                        <Clock className="h-5 w-5 text-primary" />
+                        <span className="font-semibold">Fechas:</span>
+                    </div>
+
+                    <div className="flex flex-col space-y-2">
+
+                        <div className="flex items-center gap-2 text-sm">
+                            <Clock className="h-4 w-4 text-secondary" />
+                            <b>Inicio:</b>
+                            <span className="text-muted-foreground">
+                                {subasta.data.FechaHoraInicio}
+                            </span>
+                        </div>
+
+                        <div className="flex items-center gap-2 text-sm">
+                            <Clock className="h-4 w-4 text-secondary" />
+                            <b>Final:</b>
+                            <span className="text-muted-foreground">
+                                {subasta.data.FechaHoraFinal}
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+            </CardContent>
+            </Card>
                 </div>
             </div>
             <Button

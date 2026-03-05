@@ -108,7 +108,7 @@ export default function TableUsuario() {
                                         <Tooltip>
                                             <TooltipTrigger asChild>
                                                 <Button variant="ghost" size="icon" >
-                                                    <Link to={`/usuario/detail/${usuario.idUsuario}`}>
+                                                    <Link to={`/usuario/detalle/${usuario.idUsuario}`}>
                                                         <InfoIcon className="h-4 w-4 text-primary" />
                                                     </Link>
                                                 </Button>
