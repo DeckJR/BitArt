@@ -151,6 +151,18 @@ export default function TableObjeto() {
                                             <TooltipContent>Eliminar</TooltipContent>
                                         </Tooltip>
                                     </TooltipProvider>
+                                    <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <Button variant="ghost" size="icon" >
+                                                    <Link to={`subasta/objeto/${objeto.idObjeto}`}>
+                                                        <InfoIcon className="h-4 w-4 text-primary" />
+                                                    </Link>
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent>Subastas del Objeto</TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
                                 </TableCell>
                             </TableRow>
                         ))}
