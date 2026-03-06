@@ -21,14 +21,14 @@ export function Home() {
           Subasta de Pinturas
         </h1>
         <p className="text-lg md:text-xl text-white/80 mb-6 drop-shadow">
-          Obtén las mejores pinturas al precio que tu decidas!!
+          ¡¡Obtén las mejores pinturas al precio que tu decidas!!
         </p>
         <div className="flex justify-center gap-4">
           <a
-            href="/movies"
+            href="/objeto/table"
             className="px-6 py-3 bg-primary text-white rounded-lg font-semibold shadow-lg hover:bg-primary/90 transition"
           >
-            Ver Catálogo
+            Ver Pinturas
           </a> 
           <a
             href="/user/login"
