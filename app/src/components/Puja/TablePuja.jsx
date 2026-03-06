@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { LoadingGrid } from "../ui/custom/LoadingGrid";
 import { ErrorAlert } from "../ui/custom/ErrorAlert";
 import { EmptyState } from "../ui/custom/EmptyState";
-import {useParams, useNavigate } from 'react-router-dom';
+import {useParams, useNavigate, useLocation } from 'react-router-dom';
 
 // Headers de la tabla
 const pujaColumns = [
@@ -24,6 +24,8 @@ export default function TablePuja() {
     const [puja, setPuja] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
+    const location = useLocation();
+    const objetoNombreFromState = location.state?.objetoNombre ?? null;
     useEffect(() => {
         const fetchData = async () => {
         try {
@@ -56,7 +58,7 @@ export default function TablePuja() {
         <div className="container mx-auto py-8">
             <div className="flex items-center justify-between mb-6">
                 <h1 className="text-3xl font-bold tracking-tight">
-                    Listado de Pujas
+                    {objetoNombreFromState ? `Listado de pujas de la subasta de la pintura: ${objetoNombreFromState}` : 'Listado de Pujas'}
                 </h1>                
             </div>
             <div className="rounded-md border">

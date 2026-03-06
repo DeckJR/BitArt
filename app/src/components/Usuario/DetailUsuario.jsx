@@ -10,8 +10,6 @@ import {
     Globe,
     User,
     Film,
-    Star,
-    ChevronRight,
     ArrowLeft
 } from "lucide-react";
 import { LoadingGrid } from '../ui/custom/LoadingGrid';
@@ -91,6 +89,15 @@ export function DetailUsuario() {
                                     <span className="font-semibold">Fecha de Registro:</span>
                                     <p className="text-muted-foreground">
                                         {usuario.data.FechaRegistro}
+                                    </p>
+                                </div>
+
+                                {/* Correo */}
+                                <div className="flex items-center gap-4">
+                                    <Globe className="h-5 w-5 text-primary" />
+                                    <span className="font-semibold">Correo:</span>
+                                    <p className="text-muted-foreground">
+                                        {usuario.data.Correo}
                                     </p>
                                 </div>
 
