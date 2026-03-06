@@ -39,7 +39,7 @@ export function ListObjeto() {
 
     return (    
         <div className="mx-auto max-w-7xl p-6">
-        <ListCardObjeto data={data.data} isShopping />
+        <ListCardObjeto data={data.data} isPintura />
         </div>
     );
 }

@@ -27,7 +27,7 @@ export function ListCardSubastaActiva({ data, isActive }) {
           </CardHeader>
 
           {/* Imagen */}
-            <div className="relative w-full h-80 overflow-hidden ">{item.objeto.imagen ? (
+            <div className="relative w-full h-100 overflow-hidden ">{item.objeto.imagen ? (
               <img
                 src={`${BASE_URL}/${item.objeto.imagen}`}
                 alt={item.objeto.Nombre}

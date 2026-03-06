@@ -25,7 +25,7 @@ export function Home() {
         </p>
         <div className="flex justify-center gap-4">
           <a
-            href="/objeto/table"
+            href="/objeto/list"
             className="px-6 py-3 bg-primary text-white rounded-lg font-semibold shadow-lg hover:bg-primary/90 transition"
           >
             Ver Pinturas

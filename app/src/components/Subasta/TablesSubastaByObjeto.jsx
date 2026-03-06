@@ -53,11 +53,10 @@ export default function TableSubastaByObjeto() {
 
     return (
         <div className="container mx-auto py-8">
-             <h1 className="text-3xl font-bold tracking-tight">
+            <h1 className="text-3xl font-bold tracking-tight">
                     {objetoNombreFromState ? `Listado de subastas de la pintura: ${objetoNombreFromState}` : 'Subastas del objeto'}
                 </h1>
-            <div className="rounded-md border">
-                 
+            <div className="rounded-md border"> 
                 <Table>
                     <TableHeader className="bg-primary/50">
                         <TableRow>

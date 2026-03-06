@@ -1,17 +1,16 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
-import { Clock, Globe, ShoppingCart, Info, FilmIcon } from "lucide-react";
+import {  ShoppingCart, Info, FilmIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 ListCardObjeto.propTypes = {
     data: PropTypes.array,
-    isShopping: PropTypes.bool.isRequired,
+    isPintura: PropTypes.bool.isRequired,
 };
 
-export function ListCardObjeto({ data, isShopping }) {
+export function ListCardObjeto({ data, isPintura }) {
     const BASE_URL = import.meta.env.VITE_BASE_URL + "uploads";
 
     return (
@@ -19,18 +18,19 @@ export function ListCardObjeto({ data, isShopping }) {
         {data && data.map((item) => (
             <Card key={item.idObjeto} className="flex flex-col overflow-hidden">
             {/* Header */}
+            
             <CardHeader className="text-secondary text-center">
                 <CardTitle className="text-lg font-semibold">
-                {item.objeto.Nombre}
+                {item.Nombre}
                 </CardTitle>
-                <p className="text-sm opacity-80">{item.objeto.Autor}</p>
+                <p className="text-sm opacity-80">{item.Autor}</p>
             </CardHeader>
 
             {/* Imagen */}
-                <div className="relative w-full aspect-video">{item.objeto.imagen ? (
+                <div className="relative w-full h-100 overflow-hidden ">{item.imagen ? (
                 <img
-                    src={` ${BASE_URL}/${item.objeto.imagen}`}
-                    alt={item.objeto.Nombre}
+                    src={` ${BASE_URL}/${item.imagen}`}
+                    alt={item.Nombre}
                     className="h-full w-full object-cover"
                 />
                 ) : (
@@ -38,37 +38,10 @@ export function ListCardObjeto({ data, isShopping }) {
                     <FilmIcon className="h-1/2 w-1/2" />
                 </div>
                 )}
-                {isShopping && item.PrecioInicial && (
-                <Badge
-                    variant="secondary"
-                    className="absolute top-2 right-2 text-base font-bold bg-primary text-primary-foreground"
-                >
-                    ₡{parseFloat(item.PrecioInicial).toFixed(2)}
-                </Badge>
-                )}
             </div>
 
             {/* Contenido */}
-            <CardContent className="flex-1 space-y-2 pt-4">
-                <p className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Clock className="h-4 w-4 text-primary" />
-                <b>Fecha Inicio: </b>
-                {item.FechaHoraInicio} 
-                </p>
-                <p className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Globe className="h-4 w-4 text-secondary" />
-                <b>Fecha Final: </b>{item.FechaHoraFinal}
-                </p>
-                <p className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Clock className="h-4 w-4 text-primary" />
-                <b>Incremento Min: </b>
-                {item.Incremento} 
-                </p>
-                <p className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Globe className="h-4 w-4 text-secondary" />
-                <b>Cantidad de Pujas </b>{item.CantidadPujas}
-                </p>
-            </CardContent>
+         
 
             {/* Acciones */}
             <div className="flex justify-end gap-2 border-t p-3">
@@ -87,7 +60,7 @@ export function ListCardObjeto({ data, isShopping }) {
                 </Tooltip>
                 </TooltipProvider>
 
-                {isShopping && (
+                {isPintura && (
                 <TooltipProvider>
                     <Tooltip>
                     <TooltipTrigger asChild>
