@@ -121,7 +121,6 @@ class SubastaModel
     public function getSubastaByObjeto($idObjeto)
     {
         
-        $obj = new ObjetoModel();
         $estSub = new EstadoSubastaModel();
         $puj = new PujaModel();
         //Consulta sql
@@ -129,11 +128,17 @@ class SubastaModel
         //Ejecutar la consulta
         $vResultado = $this->enlace->ExecuteSQL($vSql);
 
-        $vResultado = $vResultado[0];        
-        
-        $vResultado->estadosubasta = $estSub->get((int)$vResultado->idEstadoSubasta)->Descripcion;
+        if (!empty($vResultado) && is_array($vResultado)) {
+            for ($i = 0; $i < count($vResultado); $i++) {
+                $sub = $vResultado[$i];
+                        
+                    
+                $sub->estadosubasta = $estSub->get((int)$sub->idEstadoSubasta)->Descripcion;
 
-        $vResultado->CantidadPujas = $puj->contarPujasbySubasta((int)$vResultado->idSubasta);
+                $sub->CantidadPujas = $puj->contarPujasbySubasta((int)$sub->idSubasta);
+
+            }
+        }
 
         // Retornar el objeto
         return $vResultado;
