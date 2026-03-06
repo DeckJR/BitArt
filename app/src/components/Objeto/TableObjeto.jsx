@@ -145,22 +145,23 @@ export default function TableObjeto() {
                                         <Tooltip>
                                             <TooltipTrigger asChild>
                                                 <Button variant="ghost" size="icon" >
-                                                    <Trash2 className="h-4 w-4 text-destructive" />
+                                                    <Link to={`/subasta/objeto/${objeto.idObjeto}`} 
+                                                    state={{ objetoNombre: objeto.Nombre }}>
+                                                        <InfoIcon className="h-4 w-4 text-primary" />
+                                                    </Link>
                                                 </Button>
                                             </TooltipTrigger>
-                                            <TooltipContent>Eliminar</TooltipContent>
+                                            <TooltipContent>Subastas del Objeto</TooltipContent>
                                         </Tooltip>
                                     </TooltipProvider>
                                     <TooltipProvider>
                                         <Tooltip>
                                             <TooltipTrigger asChild>
                                                 <Button variant="ghost" size="icon" >
-                                                    <Link to={`subasta/objeto/${objeto.idObjeto}`}>
-                                                        <InfoIcon className="h-4 w-4 text-primary" />
-                                                    </Link>
+                                                    <Trash2 className="h-4 w-4 text-destructive" />
                                                 </Button>
                                             </TooltipTrigger>
-                                            <TooltipContent>Subastas del Objeto</TooltipContent>
+                                            <TooltipContent>Eliminar</TooltipContent>
                                         </Tooltip>
                                     </TooltipProvider>
                                 </TableCell>

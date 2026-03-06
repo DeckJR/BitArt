@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { LoadingGrid } from "../ui/custom/LoadingGrid";
 import { ErrorAlert } from "../ui/custom/ErrorAlert";
 import { EmptyState } from "../ui/custom/EmptyState";
-import {useParams, useNavigate } from 'react-router-dom';
+import {useParams, useNavigate, useLocation } from 'react-router-dom';
 
 // Headers de la tabla
 const subastaColumns = [
@@ -22,6 +22,8 @@ export default function TableSubastaByObjeto() {
     const [subasta, setSubasta] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
+    const location = useLocation();
+    const objetoNombreFromState = location.state?.objetoNombre ?? null;
     useEffect(() => {
         const fetchData = async () => {
         try {
@@ -42,7 +44,7 @@ export default function TableSubastaByObjeto() {
         }
         };
         fetchData()
-    }, []);
+    }, [id]);
 
     if (loading) return <LoadingGrid type="grid" />; 
     if (error) return <ErrorAlert title="Error al cargar subastas" message={error} />; 
@@ -51,7 +53,11 @@ export default function TableSubastaByObjeto() {
 
     return (
         <div className="container mx-auto py-8">
+             <h1 className="text-3xl font-bold tracking-tight">
+                    {objetoNombreFromState ? `Listado de subastas de la pintura: ${objetoNombreFromState}` : 'Subastas del objeto'}
+                </h1>
             <div className="rounded-md border">
+                 
                 <Table>
                     <TableHeader className="bg-primary/50">
                         <TableRow>

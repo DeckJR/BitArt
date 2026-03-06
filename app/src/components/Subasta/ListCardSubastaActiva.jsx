@@ -83,7 +83,8 @@ export function ListCardSubastaActiva({ data, isActive }) {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button size="icon" className="size-8">
-                    <Link to={`/puja/detalle/${item.idSubasta}`} state={{ objetoNombre: item.objeto?.Nombre, /* ← enviamos el nombre */}}>
+                    <Link to={`/puja/detalle/${item.idSubasta}`} 
+                    state={{ objetoNombre: item.objeto?.Nombre, /* ← enviamos el nombre */}}>
                       <Edit />
                     </Link>                    
                   </Button>
