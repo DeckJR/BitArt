@@ -1,0 +1,923 @@
+{
+  "info": {
+    "_postman_id": "0df8c139-9fb9-44ff-9b5f-c8dfe452ce80",
+    "name": "BitArt",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "51756254",
+    "_collection_link": "https://go.postman.co/collection/51756254-0df8c139-9fb9-44ff-9b5f-c8dfe452ce80?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Usuario",
+      "item": [
+        {
+          "name": "Lista de Usuarios",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/usuario",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "usuario"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Usuario por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/usuario/5",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "usuario",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Rol",
+      "item": [
+        {
+          "name": "Lista de Roles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/rol",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "rol"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Rol de Usuario",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/rol/getRolUsuario/5",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "rol",
+                "getRolUsuario",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Rol por Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/rol/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "rol",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "EstadoUsuario",
+      "item": [
+        {
+          "name": "Lista de Estados de Usuarios",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/estadousuario",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "estadousuario"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Estado de un Usuario",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/estadousuario/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "estadousuario",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Objeto",
+      "item": [
+        {
+          "name": "listado Objetos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/objeto",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "objeto"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Objeto por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/objeto/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "objeto",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Categoria",
+      "item": [
+        {
+          "name": "Listado de Categorias",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/categoria",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "categoria"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Categoria por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/categoria/5",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "categoria",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Categorias de objeto",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/categoria/getCategoriaObjeto/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "categoria",
+                "getCategoriaObjeto",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Subasta",
+      "item": [
+        {
+          "name": "Listado de Subastas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/subasta",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "subasta"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Subasta por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/subasta/6",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "subasta",
+                "6"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Contar Subastas por Usuario",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/subasta/contarSubastabyUsuario/4",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "subasta",
+                "contarSubastabyUsuario",
+                "4"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Subasta por Objeto",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/subasta/getSubastaByObjeto/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "subasta",
+                "getSubastaByObjeto",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Subastas Finalizadas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/subasta/getAllFinalizadas",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "subasta",
+                "getAllFinalizadas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Subastas Activas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/subasta/getAllActivas",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "subasta",
+                "getAllActivas"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Puja",
+      "item": [
+        {
+          "name": "Lista de Pujas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/puja",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "puja"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Pujas por Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Pujas por Subasta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/puja/getPujasbySubasta/3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "puja",
+                "getPujasbySubasta",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Pujas por Usuario",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/puja/getPujasbyUsuario/6",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "puja",
+                "getPujasbyUsuario",
+                "6"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Contar por Subasta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/puja/ContarPujasBySubasta/6",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "puja",
+                "ContarPujasBySubasta",
+                "6"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Contar por Usuario",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/puja/ContarPujasByUsuario/5",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "puja",
+                "ContarPujasByUsuario",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Pago",
+      "item": [
+        {
+          "name": "Listado Pago",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/pago",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "pago"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Pago by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/pago/4",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "pago",
+                "4"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Pagos by subasta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/pago/getPagobySubasta/6",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "pago",
+                "getPagobySubasta",
+                "6"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "EstadoObjeto",
+      "item": [
+        {
+          "name": "Listado de Estados Objeto",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/estadoobjeto",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "estadoobjeto"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Objeto por Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/estadoobjeto/3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "estadoobjeto",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "EstadoSubasta",
+      "item": [
+        {
+          "name": "Listado EstadoSubasta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/estadosubasta",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "estadosubasta"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "EstadoSubasta por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/estadosubasta/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "estadosubasta",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "EstadoPago",
+      "item": [
+        {
+          "name": "Listado EstadoPago",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/estadopago",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "estadopago"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "EstadoPago por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/estadopago/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "estadopago",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Condicion",
+      "item": [
+        {
+          "name": "Listado Condicion",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/condicion",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "condicion"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Condicion por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/condicion/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "condicion",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Imagen",
+      "item": [
+        {
+          "name": "Listado Imagenes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/imagen",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "imagen"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Imagen por IdObjeto",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/imagen/7",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "imagen",
+                "7"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "ResultadoSubasta",
+      "item": [
+        {
+          "name": "Listado Resultados de Subastas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/resultadosubasta",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "resultadosubasta"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Resultado de Subasta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:81/BitArt/api/resultadosubasta/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "81",
+              "path": [
+                "BitArt",
+                "api",
+                "resultadosubasta",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,8 +1,6 @@
-CREATE DATABASE  IF NOT EXISTS `bitartdb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
-USE `bitartdb`;
--- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.45, for Win64 (x86_64)
 --
--- Host: localhost    Database: bitartdb
+-- Host: 127.0.0.1    Database: bitartdb
 -- ------------------------------------------------------
 -- Server version	5.5.5-10.4.32-MariaDB
 
@@ -133,7 +131,7 @@ CREATE TABLE `estadosubasta` (
 
 LOCK TABLES `estadosubasta` WRITE;
 /*!40000 ALTER TABLE `estadosubasta` DISABLE KEYS */;
-INSERT INTO `estadosubasta` VALUES (1,'Programada'),(2,'Abierta'),(3,'Finalizada'),(4,'Cancenlada');
+INSERT INTO `estadosubasta` VALUES (1,'Cancelado'),(2,'Programada'),(3,'Abierta'),(4,'Finalizada');
 /*!40000 ALTER TABLE `estadosubasta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,7 +182,7 @@ CREATE TABLE `imagen` (
 
 LOCK TABLES `imagen` WRITE;
 /*!40000 ALTER TABLE `imagen` DISABLE KEYS */;
-INSERT INTO `imagen` VALUES (1,1,'LaMonaLisa.jpg'),(2,2,'LaNocheEstrellada.jpg'),(3,3,'Guernica.jpg'),(4,4,'LaUltimaCena.jpg'),(5,5,'ElNacimientoDeVenus.jpg'),(6,6,'LosGirasoles.jpg'),(7,7,'ElGrito.jpg'),(8,8,'LaPersistenciaDeLaMemoria.jpg'),(9,9,'LasDosFridas.jpg'),(10,10,'LasMeninas.jpg'),(11,11,'LaLibertadGuiandoAlPueblo.jpg'),(12,12,'ImpresionSolNaciente.jpg'),(13,13,'LaGranOlaDeKanagawajpg'),(14,14,'ElBeso.jpg'),(15,15,'LaRendicionDeBreda.jpg'),(16,16,'LaJovenDeLaPerla.jpg'),(17,17,'ElJardinDeLasDelicias.jpg'),(18,18,'NapoleonCruzandoLosAlpes.jpg'),(19,19,'ElCaminanteSobreElMarDeNubes.jpg'),(20,20,'LaCreacionDeAdan.jpg');
+INSERT INTO `imagen` VALUES (1,1,'LaMonaLisa.jpg'),(2,2,'LaNocheEstrellada.jpg'),(3,3,'Guernica.jpg'),(4,4,'LaUltimaCena.jpg'),(5,5,'ElNacimientoDeVenus.jpg'),(6,6,'LosGirasoles.jpg'),(7,7,'ElGrito.jpg'),(8,8,'LaPersistenciaDeLaMemoria.jpg'),(9,9,'LasDosFridas.jpg'),(10,10,'LasMeninas.jpg'),(11,11,'LaLibertadGuiandoAlPueblo.jpg'),(12,12,'ImpresionSolNaciente.jpg'),(13,13,'LaGranOlaDeKanagawa.jpg'),(14,14,'ElBeso.jpg'),(15,15,'LaRendicionDeBreda.jpg'),(16,16,'LaJovenDeLaPerla.jpg'),(17,17,'ElJardinDeLasDelicias.jpg'),(18,18,'NapoleonCruzandoLosAlpes.jpg'),(19,19,'ElCaminanteSobreElMarDeNubes.jpg'),(20,20,'LaCreacionDeAdan.jpg');
 /*!40000 ALTER TABLE `imagen` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -430,7 +428,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'Dereck','Jiménez','Rodríguez','dereckalonsoj.r@gmail.com','admin123',1,'2026-02-18 12:53:25',1),(2,'Abraham','Alvarez','Soto','aaas06072005@gmail.com','admin123',1,'2026-02-18 12:53:25',2),(3,'Jose María','Cubillo','Gutierrez','gutierrezjosem@gmail.com','vendedor123',2,'2026-02-18 12:53:25',1),(4,'María Angelica','Solis','Sibaja','nosequeponer11@gmail.com','vendedor123',2,'2026-02-18 12:53:25',2),(5,'Cristel','Meléndez','Jiménez','cristelm.j@gmail.com','comprador123',3,'2026-02-18 12:53:25',1),(6,'Axel','Orozco','Guzman','axelo.g@gmail.com','comprador123',3,'2026-02-18 12:53:25',2);
+INSERT INTO `usuario` VALUES (1,'Dereck','Jiménez','Rodríguez','dereckalonsoj.r@gmail.com','admin123',1,'2026-02-18 13:04:50',1),(2,'Abraham','Alvarez','Soto','aaas06072005@gmail.com','admin123',1,'2026-02-18 13:04:50',2),(3,'Jose María','Cubillo','Gutierrez','gutierrezjosem@gmail.com','vendedor123',2,'2026-02-18 13:04:50',1),(4,'María Angelica','Solis','Sibaja','nosequeponer11@gmail.com','vendedor123',2,'2026-02-18 13:04:50',2),(5,'Cristel','Meléndez','Jiménez','cristelm.j@gmail.com','comprador123',3,'2026-02-18 13:04:50',1),(6,'Axel','Orozco','Guzman','axelo.g@gmail.com','comprador123',3,'2026-02-18 13:04:50',2);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -443,4 +441,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-02-22  0:23:29
+-- Dump completed on 2026-03-06  2:17:22

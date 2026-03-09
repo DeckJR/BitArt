@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
-import { Edit,Clock, Globe, ShoppingCart, Info, FilmIcon } from "lucide-react";
+import { FileClock,Clock, ShoppingCart, Info, Hash } from "lucide-react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -35,7 +35,7 @@ export function ListCardSubastaFinalizada({ data, isInactive }) {
               />
             ) : (
               <div className="h-full w-full bg-muted flex items-center justify-center text-muted-foreground">
-                <FilmIcon className="h-1/2 w-1/2" />
+                <Hash className="h-1/2 w-1/2" />
               </div>
             )}
             {isInactive && item.estadosubasta && (
@@ -56,11 +56,11 @@ export function ListCardSubastaFinalizada({ data, isInactive }) {
               {item.FechaHoraInicio} 
             </p>
             <p className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Globe className="h-4 w-4 text-secondary" />
+              <Clock className="h-4 w-4 text-secondary" />
               <b>Fecha Final: </b>{item.FechaHoraFinal}
             </p>
             <p className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Globe className="h-4 w-4 text-secondary" />
+              <Hash className="h-4 w-4 text-secondary" />
               <b>Cantidad de Pujas </b>{item.CantidadPujas}
             </p>
           </CardContent>
@@ -87,7 +87,7 @@ export function ListCardSubastaFinalizada({ data, isInactive }) {
                 <TooltipTrigger asChild>
                   <Button size="icon" className="size-8">
                     <Link to={`/puja/detalle/${item.idSubasta}`} state={{ objetoNombre: item.objeto?.Nombre, /* ← enviamos el nombre */}}>
-                      <Edit />
+                      <FileClock />
                     </Link>
                   </Button>
                 </TooltipTrigger>

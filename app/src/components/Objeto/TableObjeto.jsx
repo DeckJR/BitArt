@@ -14,7 +14,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Plus, Trash2, ArrowLeft, RotateCw, InfoIcon} from "lucide-react";
+import { Plus, Trash2, ArrowLeft, RotateCw, InfoIcon, BookOpen} from "lucide-react";
 import ObjetoService from "@/services/ObjetoService";
 import { useEffect, useState } from "react";
 import { LoadingGrid } from "../ui/custom/LoadingGrid";
@@ -147,7 +147,7 @@ export default function TableObjeto() {
                                                 <Button variant="ghost" size="icon" >
                                                     <Link to={`/subasta/objeto/${objeto.idObjeto}`} 
                                                     state={{ objetoNombre: objeto.Nombre }}>
-                                                        <InfoIcon className="h-4 w-4 text-primary" />
+                                                        <BookOpen className="h-4 w-4 text-primary" />
                                                     </Link>
                                                 </Button>
                                             </TooltipTrigger>

@@ -7,10 +7,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
+    FileLock,
+    FileClock,
+    UserRoundPen,
     Clock,
-    Globe,
+    BookTextIcon,
     User,
-    Film,
+    List,
     ChevronRight,
     ArrowLeft
 } from "lucide-react";
@@ -63,7 +66,7 @@ export function DetailObjeto() {
                                 className="w-full h-full object-contain"
                             />
                         
-                            <Film className="h-1/2 w-1/2 text-muted-foreground" />
+                            <List className="h-1/2 w-1/2 text-muted-foreground" />
                         
                     </div>
                     {/* Badge del año en la esquina inferior derecha */}
@@ -88,7 +91,7 @@ export function DetailObjeto() {
                             <div className="flex flex-wrap items-center gap-x-10 gap-y-4">               
                                 {/* Propietario */}
                                 <div className="flex items-center gap-4">
-                                    <Clock className="h-5 w-5 text-primary" />
+                                    <User className="h-5 w-5 text-primary" />
                                     <span className="font-semibold">Propietario:</span>
                                     <p className="text-muted-foreground">
                                         {objeto.data.propietario}
@@ -96,14 +99,14 @@ export function DetailObjeto() {
                                 </div>
                                 {/* Autor */}
                                 <div className="flex items-center gap-4">
-                                    <User className="h-5 w-5 text-primary" />
+                                    <UserRoundPen className="h-5 w-5 text-primary" />
                                     <span className="font-semibold">Autor:</span>
                                     <p className="text-muted-foreground">
                                     {objeto.data.Autor}
                                     </p>
                                 </div>
                                 <div className="flex items-center gap-4">
-                                    <User className="h-5 w-5 text-primary" />
+                                    <BookTextIcon className="h-5 w-5 text-primary" />
                                     <span className="font-semibold">Descripcion:</span>
                                     <p className="text-muted-foreground">
                                     {objeto.data.Descripcion}
@@ -118,7 +121,7 @@ export function DetailObjeto() {
                                     <br/>
                                 </div>
                                 <div className="flex items-center gap-4">
-                                    <Clock className="h-5 w-5 text-primary" />
+                                    <FileLock className="h-5 w-5 text-primary" />
                                     <span className="font-semibold">Condición:</span>
                                     <p className="text-muted-foreground">
                                         {objeto.data.condicion}
@@ -126,7 +129,7 @@ export function DetailObjeto() {
                                 </div>
                                 {/* Estado */}
                                 <div className="flex items-center gap-4">
-                                    <Globe className="h-5 w-5 text-primary" />
+                                    <FileClock className="h-5 w-5 text-primary" />
                                     <span className="font-semibold">Estado:</span>
                                     <p className="text-muted-foreground">
                                         {objeto.data.estado}
@@ -140,7 +143,7 @@ export function DetailObjeto() {
                             
                                     <div>
                                         <div className="flex items-center gap-4 mb-2">
-                                            <Film className="h-5 w-5 text-primary" />
+                                            <List className="h-5 w-5 text-primary" />
                                             <span className="font-semibold">Categorías:</span>
                                         </div>
                                         <div className="flex flex-col space-y-1">

@@ -7,12 +7,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
+    UserRoundPen,
     Clock,
-    Globe,
     User,
-    Film,
-    Star,
+    List,
+    FileLock,
+    FileClock,
     ChevronRight,
+    Banknote,
+    BanknoteArrowUp,
+    Hash,
     ArrowLeft
 } from "lucide-react";
 import { LoadingGrid } from '../ui/custom/LoadingGrid';
@@ -64,7 +68,7 @@ export function DetailSubasta() {
                                 className="w-full h-full object-contain"
                             />
                         
-                            <Film className="h-1/2 w-1/2 text-muted-foreground" />
+                            <List className="h-1/2 w-1/2 text-muted-foreground" />
                         
                     </div>
                     {/* Badge del año en la esquina inferior derecha */}
@@ -97,7 +101,7 @@ export function DetailSubasta() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <Globe className="h-5 w-5 text-primary" />
+                    <UserRoundPen className="h-5 w-5 text-primary" />
                     <span className="font-semibold">Propietario:</span>
                     <p className="text-muted-foreground">
                         {subasta.data.objeto.propietario}
@@ -105,7 +109,7 @@ export function DetailSubasta() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <Star className="h-5 w-5 text-primary" />
+                    <FileLock className="h-5 w-5 text-primary" />
                     <span className="font-semibold">Condición:</span>
                     <p className="text-muted-foreground">
                         {subasta.data.objeto.condicion}
@@ -115,7 +119,7 @@ export function DetailSubasta() {
                 {/* Categorías */}
                 <div>
                     <div className="flex items-center gap-4 mb-2">
-                        <Film className="h-5 w-5 text-primary" />
+                        <List className="h-5 w-5 text-primary" />
                         <span className="font-semibold">Categorías:</span>
                     </div>
                     <div className="space-y-1">
@@ -138,14 +142,14 @@ export function DetailSubasta() {
                 Información de la subasta
                 </h2>
                 <div className="flex items-center gap-4">
-                    <Globe className="h-5 w-5 text-primary" />
+                    <FileClock className="h-5 w-5 text-primary" />
                     <span className="font-semibold">Estado:</span>
                     <p className="text-muted-foreground">
                         {subasta.data.estadosubasta}
                     </p>
                 </div>
                 <div className="flex items-center gap-4">
-                    <Globe className="h-5 w-5 text-primary" />
+                    <Banknote className="h-5 w-5 text-primary" />
                     <span className="font-semibold">Precio Base:</span>
                     <p className="text-muted-foreground">
                         {new Intl.NumberFormat('es-CR', {
@@ -156,7 +160,7 @@ export function DetailSubasta() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <Globe className="h-5 w-5 text-primary" />
+                    <BanknoteArrowUp className="h-5 w-5 text-primary" />
                     <span className="font-semibold">Incremento min:</span>
                     <p className="text-muted-foreground">
                         {new Intl.NumberFormat('es-CR', {
@@ -166,7 +170,7 @@ export function DetailSubasta() {
                     </p>
                 </div>         
                 <div className="flex items-center gap-4">
-                    <Globe className="h-5 w-5 text-primary" />
+                    <Hash className="h-5 w-5 text-primary" />
                     <span className="font-semibold">Cantidad de pujas:</span>
                     <p className="text-muted-foreground">
                         {subasta.data.CantidadPujas}

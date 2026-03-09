@@ -2,9 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Layers,
-  Film,
-//  ChartArea,
-  Filter,
+  List,
   Wrench,
   LogIn,
   UserPlus,
@@ -13,7 +11,7 @@ import {
   Menu,
   X,
   ChevronDown,
-  Clapperboard,
+  Wallpaper,
   User,
 // ShoppingBasket
 } from "lucide-react";
@@ -36,11 +34,11 @@ export default function Header() {
   const userEmail = "Invitado";
 
 const navItems = [
-  { title: "Subastas Activas", href: "subasta/Activa", icon: <Film className="h-4 w-4" /> },
+  { title: "Subastas Activas", href: "subasta/Activa", icon: <List className="h-4 w-4" /> },
   {
     title: "Subastas Finalizadas",
     href: "subasta/finalizada",
-    icon: <Filter className="h-4 w-4" />,
+    icon: <List className="h-4 w-4" />,
   },
 ];
 
@@ -81,7 +79,7 @@ const userItems = [
           to="/"
           className="flex items-center gap-2 text-xl font-semibold tracking-wide hover:opacity-90 transition"
         >
-          <Clapperboard className="h-6 w-6" />
+          <Wallpaper className="h-6 w-6" />
           <span className="hidden sm:inline">BitArt App</span>
         </Link>
 
@@ -91,7 +89,7 @@ const userItems = [
             {/* Películas */}
             <MenubarMenu>
               <MenubarTrigger className="text-white font-medium flex items-center gap-1 hover:text-secondary transition">
-                <Film className="h-4 w-4" /> Subastas
+                <List className="h-4 w-4" /> Subastas
                 <ChevronDown className="h-3 w-3" />
               </MenubarTrigger>
               <MenubarContent className="bg-primary/0 backdrop-blur-md border-white/10">
@@ -174,13 +172,13 @@ const userItems = [
               <nav className="mt-8 px-4 space-y-6">
                 <div>
                   <Link to="/" className="flex items-center gap-2 text-lg font-semibold">
-                    <Clapperboard /> BitArt App
+                    <Wallpaper /> BitArt App
                   </Link>
                 </div>
 
                 <div>
                   <h4 className="mb-2 text-lg font-semibold flex items-center gap-2">
-                    <Film /> Pinturas
+                    <List /> Pinturas
                   </h4>
                   {navItems.map((item) => (
                     <Link

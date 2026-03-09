@@ -6,10 +6,11 @@ import { ErrorAlert } from "../ui/custom/ErrorAlert";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
+    FileClock,
     Clock,
-    Globe,
     User,
-    Film,
+    Mail,
+    Hash,
     ArrowLeft
 } from "lucide-react";
 import { LoadingGrid } from '../ui/custom/LoadingGrid';
@@ -73,7 +74,7 @@ export function DetailUsuario() {
                                 </div>
                                 {/* estado */}
                                 <div className="flex items-center gap-4">
-                                    <Clock className="h-5 w-5 text-primary" />
+                                    <FileClock className="h-5 w-5 text-primary" />
                                     <span className="font-semibold">Estado:</span>
                                     <p className="text-muted-foreground">
                                         {usuario.data.estado}
@@ -85,7 +86,7 @@ export function DetailUsuario() {
                             <div className="grid gap-4 md:grid-cols-2">
                                 {/* Fecha de Registro */}
                                 <div className="flex items-center gap-4">
-                                    <Globe className="h-5 w-5 text-primary" />
+                                    <Clock className="h-5 w-5 text-primary" />
                                     <span className="font-semibold">Fecha de Registro:</span>
                                     <p className="text-muted-foreground">
                                         {usuario.data.FechaRegistro}
@@ -94,7 +95,7 @@ export function DetailUsuario() {
 
                                 {/* Correo */}
                                 <div className="flex items-center gap-4">
-                                    <Globe className="h-5 w-5 text-primary" />
+                                    <Mail className="h-5 w-5 text-primary" />
                                     <span className="font-semibold">Correo:</span>
                                     <p className="text-muted-foreground">
                                         {usuario.data.Correo}
@@ -104,7 +105,7 @@ export function DetailUsuario() {
                                 {usuario.data.idRol ==2 && (
                                     <div>
                                         <div className="flex items-center gap-4 mb-2">
-                                            <Film className="h-5 w-5 text-primary" />
+                                            <Hash className="h-5 w-5 text-primary" />
                                             <canspan className="font-semibold">Cantidad de Subastas:</canspan>
                                             <p className="text-muted-foreground">
                                         {usuario.data.CantidadSubastas}
@@ -115,7 +116,7 @@ export function DetailUsuario() {
                                 {usuario.data.idRol == 3 && (
                                     <div>
                                         <div className="flex items-center gap-4 mb-2">
-                                            <Film className="h-5 w-5 text-primary" />
+                                            <Hash className="h-5 w-5 text-primary" />
                                             <span className="font-semibold">Cantidad de Pujas:</span>
                                             <p className="text-muted-foreground">
                                                 {usuario.data.CantidadPujas}
