@@ -15,6 +15,7 @@ import { ListSubastaActiva } from './components/Subasta/ListSubastaActiva'
 import { ListSubastafinalizada } from './components/Subasta/ListSubastafinalizada'
 import { DetailSubasta } from './components/Subasta/DetailSubasta'
 import { DetailUsuario } from './components/Usuario/DetailUsuario'
+import { CreateUsuario } from './components/Usuario/CreateUsuario'
 
 const rutas = createBrowserRouter([
   {
@@ -35,7 +36,8 @@ const rutas = createBrowserRouter([
       {path:"puja/detalle/:id", element: <TablePuja/>},
       {path:"usuario/table", element: <TableUsuario/>},
       {path:"subasta/objeto/:id", element: <TableSubastaByObjeto/>},
-      {path:"usuario/detalle/:id", element: <DetailUsuario />}
+      {path:"usuario/detalle/:id", element: <DetailUsuario />},
+      {path:"usuario/create/", element: <CreateUsuario />}
 
     ]
   }

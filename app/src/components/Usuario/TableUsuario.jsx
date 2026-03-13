@@ -74,7 +74,7 @@ export default function TableUsuario() {
                     <Tooltip>
                         <TooltipTrigger asChild>
                             <Button asChild variant="outline" size="icon" className="text-primary">
-                                <Link to="/objeto/create">
+                                <Link to="/usuario/create">
                                     <Plus className="h-4 w-4" />
                                 </Link>
                             </Button>
