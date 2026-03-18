@@ -33,6 +33,7 @@ require_once "models/ResultadoSubastaModel.php";
 require_once "models/RolModel.php";
 require_once "models/SubastaModel.php";
 require_once "models/UsuarioModel.php";
+require_once "models/ObjetoCategoriaModel.php";
 
 /***--- Agregar todos los controladores*/
 require_once "controllers/UsuarioController.php";
@@ -49,6 +50,7 @@ require_once "controllers/SubastaController.php";
 require_once "controllers/ResultadoSubastaController.php";
 require_once "controllers/PujaController.php";
 require_once "controllers/PagoController.php";
+require_once "controllers/ObjetoCategoriaController.php";
 
 
 

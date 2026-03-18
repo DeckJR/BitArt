@@ -31,7 +31,8 @@ class ObjetoModel
 
             $obj->condicion = $cond->get((int)$obj->idCondicion)->Descripcion;
 
-            $obj->imagen = $imag->getImagenObjeto((int)$obj->idObjeto)->imagen;
+            $imgObj = $imag->getImagenObjeto((int)$obj->idObjeto);
+            $obj->imagen = $imgObj ? $imgObj->imagen : null; // o "" si quieres cadena vacía
 
             $obj->estado = $estObj->get((int)$obj->idEstado)->Descripcion;
 
@@ -62,11 +63,49 @@ class ObjetoModel
             $vResultado->categorias = $cat->getCategoriaObjeto((int)$vResultado->idObjeto);
 
             $vResultado->condicion = $cond->get((int)$vResultado->idCondicion)->Descripcion;
-
-            $vResultado->imagen = $imag->getImagenObjeto((int)$vResultado->idObjeto)->imagen;
-
+            
+            $imagenObj = $imag->getImagenObjeto((int)$vResultado->idObjeto);
+            // Si existe la imagen, tomarla; si no, dejarla como null o placeholder
+            $vResultado->imagen = $imagenObj ? $imagenObj->imagen : null;
             $vResultado->estado = $estObj->get((int)$vResultado->idEstado)->Descripcion;            
 
         return $vResultado;
     }
+
+public function create($objeto)
+{
+    // Usuario simulado (hasta que exista login)
+    $idUsuario = 3;
+    //$_SESSION['idUsuario'] = $usuario->id; // guardamos el id del usuario logueado
+
+    $idEstado = 1; // Activo
+    // Insertar objeto
+    $sql = "INSERT INTO objeto
+            (idUsuario, Nombre, Descripcion, Autor, FechaRegistro, idCondicion, idEstado)
+            VALUES
+            ($idUsuario,
+            '$objeto->Nombre',
+            '$objeto->Descripcion',
+            '$objeto->Autor',
+            NOW(),
+            $objeto->idCondicion,
+            $idEstado)";
+
+    // Ejecutar consulta y obtener ID generado
+    $idObjeto = $this->enlace->executeSQL_DML_last($sql);
+
+    // --- Categorías ---
+    if (!empty($objeto->categorias)) {
+        foreach ($objeto->categorias as $categoria) {
+            $sql = "INSERT INTO ObjetoCategoria (idObjeto, idCategoria)
+                    VALUES ($idObjeto, $categoria)";
+            $this->enlace->executeSQL_DML($sql);
+        }
+    }
+
+    // Retornar objeto creado
+    return $this->get($idObjeto);
+
+}
+
 }

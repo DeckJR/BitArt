@@ -2,7 +2,7 @@
 //class Genre
 class imagen{
     //POST Crear
-    public function create()
+public function create()
     {
         try {
             $request = new Request();

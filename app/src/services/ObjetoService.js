@@ -8,5 +8,8 @@ class ObjetoService {
     getObjetoById(idObjeto) {
         return axios.get(BASE_URL + '/' + idObjeto);
     }
+    createObjeto(Objeto) {
+    return axios.post(BASE_URL, JSON.stringify(Objeto));
+    }
 }
 export default new ObjetoService();

@@ -8,5 +8,6 @@ class UsuarioService {
     getUsuarioById(idUsuario) {
         return axios.get(BASE_URL + '/' + idUsuario);
     }
+   
 }
 export default new UsuarioService();
