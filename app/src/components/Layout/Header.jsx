@@ -54,6 +54,11 @@ const mantItems = [
       href: "usuario/table",
       icon: <Wrench className="h-4 w-4" />,
   },
+  {
+      title: "Subastas",
+      href: "subasta/table",
+      icon: <Wrench className="h-4 w-4" />,
+  },
 ];
 
 //Falta modificar y crear los inicios de sesión de Usuario

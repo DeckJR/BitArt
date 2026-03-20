@@ -10,6 +10,7 @@ import { ListObjeto } from './components/Objeto/ListObjeto'
 import TablePuja from './components/Puja/TablePuja'
 import TableUsuario from './components/Usuario/TableUsuario'
 import TableSubastaByObjeto from './components/Subasta/TablesSubastaByObjeto'
+import TableSubasta from './components/Subasta/TableSubasta'
 import { DetailObjeto } from './components/Objeto/DetailObjeto'
 import { ListSubastaActiva } from './components/Subasta/ListSubastaActiva'
 import { ListSubastafinalizada } from './components/Subasta/ListSubastafinalizada'
@@ -42,7 +43,8 @@ const rutas = createBrowserRouter([
       {path:"usuario/create/", element: <CreateUsuario />},
       {path:"objeto/create/", element: <CreateObjeto />},
       {path:"objeto/update/:id", element: <UpdateObjeto />},      
-      {path:"usuario/update/:id", element: <UpdateUsuario />}
+      {path:"usuario/update/:id", element: <UpdateUsuario />},
+      {path:"subasta/table", element: <TableSubasta/>},
     ]
   }
 ])

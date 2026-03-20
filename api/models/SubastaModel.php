@@ -13,8 +13,7 @@ class SubastaModel
         $estSub = new EstadoSubastaModel();
         $puj = new PujaModel();
         //Consulta sql
-        $vSql = "SELECT * FROM subasta where idEstadoSubasta = 2  order by idSubasta desc
-";
+        $vSql = "SELECT * FROM subasta  order by idSubasta desc";
 
         //Ejecutar la consulta
         $vResultado = $this->enlace->ExecuteSQL($vSql);
