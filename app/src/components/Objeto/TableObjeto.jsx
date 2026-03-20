@@ -21,18 +21,20 @@ import { LoadingGrid } from "../ui/custom/LoadingGrid";
 import { ErrorAlert } from "../ui/custom/ErrorAlert";
 import { EmptyState } from "../ui/custom/EmptyState";
 import { useNavigate } from 'react-router-dom';
+//import { useUser } from "@/hooks/useUser";
 
 // Headers de la tabla
 const objetoColumns = [
 
     { key: "image", label: "Imagen" },
     { key: "name", label: "Nombre" },
-    { key: "description", label: "Descripcion" },
+    { key: "Condition", label: "Condición" },
     { key: "state", label: "Estado" },
-    { key: "actions", label: "Acciones" },   // <-- agrega esta
+    { key: "actions", label: "Acciones" },   // <-- agrega esta columna para las acciones
 ];
 
 export default function TableObjeto() {
+   // const {isVendedor} = useUser();
     const navigate = useNavigate();
     const BASE_URL = import.meta.env.VITE_BASE_URL + 'uploads';
     const [objeto, setObjeto] = useState([]);
@@ -72,8 +74,9 @@ export default function TableObjeto() {
                 <h1 className="text-3xl font-bold tracking-tight">
                     Listado de Pinturas
                 </h1>
-                {/* Modificar cuando hagamos el create del objeto*/}
+                    {/* comentado la validacion futura*/}
                 <TooltipProvider>
+            {/* {isVendedor() && (*/}
                     <Tooltip>
                         <TooltipTrigger asChild>
                             <Button asChild variant="outline" size="icon" className="text-primary">
@@ -84,6 +87,7 @@ export default function TableObjeto() {
                         </TooltipTrigger>
                         <TooltipContent>Crear Pintura</TooltipContent>
                     </Tooltip>
+            {/*} )}*/}
                 </TooltipProvider>
             </div>
 
@@ -116,8 +120,8 @@ export default function TableObjeto() {
                                 )}
                                 </TableCell>
                                 <TableCell className="font-medium"> {objeto.Nombre} </TableCell>
-                                <TableCell> {objeto.Descripcion} </TableCell>
-                                <TableCell> {objeto.estado} </TableCell>
+                                <TableCell className="font-medium"> {objeto.condicion} </TableCell>
+                                <TableCell className="font-medium"> {objeto.estado} </TableCell>
                                 <TableCell className="flex justify-start items-center gap-1">
                                     <TooltipProvider>
                                         <Tooltip>
@@ -134,7 +138,7 @@ export default function TableObjeto() {
                                     <TooltipProvider>
                                         <Tooltip>
                                             <TooltipTrigger asChild>
-                                                <Button variant="ghost" size="icon" >
+                                                <Button variant="ghost" size="icon" onClick={()=> navigate(`/objeto/update/${objeto.idObjeto}`)} >
                                                     <RotateCw className="h-4 w-4 text-destructive" />
                                                 </Button>
                                             </TooltipTrigger>

@@ -11,5 +11,11 @@ class ObjetoService {
     createObjeto(Objeto) {
     return axios.post(BASE_URL, JSON.stringify(Objeto));
     }
+    
+    updateObjeto(objeto) {
+    console.log("Update URL:", `${BASE_URL}/${objeto.idObjeto}`); // para debug
+    return axios.put(`${BASE_URL}/${objeto.idObjeto}`, objeto);
+    }
 }
+
 export default new ObjetoService();

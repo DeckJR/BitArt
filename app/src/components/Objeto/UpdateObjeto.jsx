@@ -1,96 +1,62 @@
 import { useEffect, useState } from "react";
-import { useForm, Controller, useFieldArray } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
-// shadcn/ui
+// UI
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 // icons
-import { Plus, Save, ArrowLeft } from "lucide-react";
+import { Save, ArrowLeft } from "lucide-react";
 
 // servicios
-import GenreService from "../../services/GenreService";
-import ActorService from "../../services/ActorService";
-import DirectorService from "../../services/DirectorService";
-import MovieService from "../../services/MovieService";
-import ImageService from "../../services/ImageService";
+import ObjetoService from "../../services/ObjetoService";
+import ImagenService from "@/services/ImagenService";
+import CategoriaService from "@/services/CategoriaService";
+import CondicionService from "@/services/CondicionService";
+import UsuarioService from "@/services/UsuarioService";
 
-// componentes reutilizables
-import { CustomMultiSelect } from "../ui/custom/custom-multiple-select"; // select multi con chips
-import { ActorsForm } from "./Form/ActorsForm";
+// componentes
+import { CustomMultiSelect } from "../ui/custom/custom-multiple-select";
 import { CustomSelect } from "../ui/custom/custom-select";
-import { CustomInputField } from "../ui/custom/custom-input-field";
 
-export function UpdateMovie() {
+export function UpdateObjeto() {
   const navigate = useNavigate();
-  const { id } = useParams(); // id de la película a actualizar
-  //URL base imagen
+  const { id } = useParams();
   const BASE_URL_image = import.meta.env.VITE_BASE_URL + "uploads";
-  //Guardar pelicula a modificar
-  //const [dataMovie, setDataMovie] = useState([]);
 
-  /*** Estados para selects y preview de imagen ***/
-  const [dataDirector, setDataDirector] = useState([]);
-  const [dataGenres, setDataGenres] = useState([]);
-  const [dataActors, setDataActors] = useState([]);
+  const [dataUsuario, setDataUsuario] = useState(null);
+  const [dataCategoria, setDataCategoria] = useState([]);
+  const [dataCondicion, setDataCondicion] = useState([]);
   const [file, setFile] = useState(null);
   const [fileURL, setFileURL] = useState(null);
   const [error, setError] = useState("");
 
-  /*** Esquema de validación Yup ***/
-  const movieSchema = yup.object({
-    title: yup.string().required("El título es requerido").min(2, "El título debe tener al menos 2 caracteres"),
-    year: yup
-      .number()
-      .typeError("Solo acepta números")
-      .required("El año es requerido")
-      .positive("Solo acepta números positivos"),
-    time: yup.string().required("La duración es requerida"),
-    lang: yup.string().required("El idioma es requerido"),
-    director_id: yup.number().typeError("Seleccione un director").required("El director es requerido"),
-    genres: yup.array().of(yup.number()).min(1, "Seleccione al menos un género"),
-    actors: yup.array().of(
-      yup.object().shape({
-        actor_id: yup.number().typeError("Seleccione un actor").required("El actor es requerido"),
-        role: yup.string().required("El rol es requerido"),
-      })
-    ),
+  const ObjetoSchema = yup.object({
+    Nombre: yup.string().required("El nombre es requerido").min(3),
+    Descripcion: yup.string().required("La descripción es requerida").min(20),
+    Autor: yup.string().required("El autor es requerido").min(3),
+    idCondicion: yup.number().typeError("Seleccione una condición").required("La condición es requerida"),
+    categorias: yup.array().min(1, "Seleccione al menos una categoría"),
   });
 
-  /*** React Hook Form ***/
   const { control, handleSubmit, reset, formState: { errors } } = useForm({
     defaultValues: {
-      id: "",
-      title: "",
-      year: "",
-      time: "",
-      lang: "",
-      director_id: "",
-      genres: [],
-      actors: [{ actor_id: "", role: "" }],
+      idObjeto: "",
+      Nombre: "",
+      Descripcion: "",
+      Autor: "",
+      idCondicion: "",
+      categorias: [],
     },
-
-    resolver: yupResolver(movieSchema),
+    resolver: yupResolver(ObjetoSchema),
   });
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "actors",
-  });
-
-  const addNewActor = () => append({ actor_id: "", role: "" });
-  const removeActor = (index) => {
-    if (fields.length > 1) remove(index);
-  };
-
-  /*** Manejo de imagen ***/
   const handleChangeImage = (e) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
@@ -99,37 +65,36 @@ export function UpdateMovie() {
     }
   };
 
-  /*** Cargar selects y datos de la película al montar ***/
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const directorsRes = await DirectorService.getDirectores();
-        const genresRes = await GenreService.getGenres();
-        const actorsRes = await ActorService.getActors();
-        const movieRes = await MovieService.getMovieById(id);
-        // Si la petición es exitosa, se guardan los datos
-        setDataDirector(directorsRes.data.data || []);
-        setDataGenres(genresRes.data.data || []);
-        setDataActors(actorsRes.data.data || []);
-        //Asignar al formulario la Pelicula a actualizar
-        if (movieRes.data) {
-          const movie = movieRes.data.data
-          console.log(movie)
+        const objetoRes = await ObjetoService.getObjetoById(id);
+        const usuarioRes = await UsuarioService.getUsuarioById(objetoRes.data.data.idUsuario);
+        const categoriasRes = await CategoriaService.getAllCategoria();
+        const condicionRes = await CondicionService.getAllCondicion();
+
+        setDataUsuario(usuarioRes.data.data || []);
+        setDataCategoria(categoriasRes.data.data || []);
+        setDataCondicion(condicionRes.data.data || []);
+
+        if (objetoRes.data) {
+          const obj = objetoRes.data.data;
+
           reset({
-            id: movie.id,
-            title: movie.title,
-            year: movie.year,
-            time: movie.time,
-            lang: movie.lang,
-            director_id: movie.director_id,
-            genres: movie.genres.map(g => g.id),
-            actors: movie.actors.map(a => ({ actor_id: a.id, role: a.role }))
-          })
-          if (movie.imagen) setFileURL(BASE_URL_image + "/" + movie.imagen.image)
+            idObjeto: obj.idObjeto,
+            Nombre: obj.Nombre,
+            Descripcion: obj.Descripcion,
+            Autor: obj.Autor,
+            idCondicion: obj.idCondicion,
+            categorias: obj.categorias.map(c => c.idCategoria),
+          });
+
+          if (obj.imagen) {
+            setFileURL(BASE_URL_image + "/" + obj.imagen);
+          }
         }
 
       } catch (err) {
-        // Si el error no es por cancelación, se registra
         if (err.name !== "AbortError") setError(err.message);
       }
     };
@@ -137,39 +102,35 @@ export function UpdateMovie() {
     fetchData();
   }, [BASE_URL_image, id, reset]);
 
-
-  /*** Submit ***/
   const onSubmit = async (dataForm) => {
     try {
-      // isValid es async y recibe los datos
-      const isValid = await movieSchema.isValid(dataForm);
+      const isValid = await ObjetoSchema.isValid(dataForm);
       if (!isValid) return;
 
-      const response = await MovieService.updateMovie(dataForm);
-      //Imagen y notificación
+      const response = await ObjetoService.updateObjeto(dataForm);
+
       if (response.data) {
-        if(file){
-          //archivo FormData
-          const formData = new FormData()
-          formData.append("file", file)
-          formData.append("movie_id", response.data.data.id)
-          //Guardar
-          await ImageService.createImage(formData)
+        if (file) {
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("idObjeto", response.data.data.idObjeto);
+          await ImagenService.createImagen(formData);
         }
-        
-        //Notificar
-        toast.success(`Pelicula actualizada ${response.data.data.id} - ${response.data.data.title}`,
+
+        toast.success(
+          `Objeto actualizado ${response.data.data.idObjeto} - ${response.data.data.Nombre}`,
           { duration: 3000 }
-        )
-        //Redireccionar a la lista
-        navigate("/movie/table")
+        );
+
+        navigate("/objeto/table");
+
       } else if (response.error) {
-        setError(response.error)
+        setError(response.error);
       }
 
     } catch (err) {
       console.error(err);
-      setError("Error al actualizar película");
+      setError("Error al actualizar objeto");
     }
   };
 
@@ -177,135 +138,100 @@ export function UpdateMovie() {
 
   return (
     <Card className="p-6 max-w-5xl mx-auto">
-      <h2 className="text-2xl font-bold mb-6">Actualizar Película</h2>
+      <h2 className="text-2xl font-bold mb-6">Actualizar Pintura</h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* Título */}
+
+        {/* Nombre */}
         <div>
-          <Label className="block mb-1 text-sm font-medium" htmlFor="title">Título</Label>
+          <Label className="block mb-1 text-sm font-medium">Nombre</Label>
           <Controller
-            name="title"
+            name="Nombre"
             control={control}
-            render={({ field }) => <Input {...field} id="title" placeholder="Ingrese el título" />}
+            render={({ field }) => <Input {...field} placeholder="Ingrese el nombre" />}
           />
-          {errors.title && <p className="text-sm text-red-500">{errors.title.message}</p>}
+          {errors.Nombre && <p className="text-sm text-red-500">{errors.Nombre.message}</p>}
         </div>
 
-        {/* Año*/}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div>
-            <Controller
-              name="year"
-              control={control}
-              render={({ field }) =>
-                <CustomInputField
-                  {...field}
-                  label="Año"
-                  placeholder="2025"
-                  error={errors.year?.message}
-                />
-              }
-            />
-          </div>
-          {/*Duración*/}
-          <div>
-            <Controller
-              name="time"
-              control={control}
-              render={({ field }) =>
-                <CustomInputField
-                  {...field}
-                  label="Duración (min)"
-                  placeholder="160"
-                  error={errors.time?.message} />
-              }
-            />
-          </div>
-          {/*Idioma*/}
-          <div>
-            <Controller
-              name="lang"
-              control={control}
-              render={({ field }) =>
-                <CustomInputField
-                  {...field}
-                  label="Idioma"
-                  placeholder="Español"
-                  error={errors.lang?.message} />}
-            />
-          </div>
-        </div>
-
-        {/* Director */}
+        {/* Descripción */}
         <div>
-          <Label className="block mb-1 text-sm font-medium">Director</Label>
-
+          <Label className="block mb-1 text-sm font-medium">Descripción</Label>
           <Controller
-            name="director_id"
+            name="Descripcion"
+            control={control}
+            render={({ field }) => <Input {...field} placeholder="Ingrese la descripción" />}
+          />
+          {errors.Descripcion && <p className="text-sm text-red-500">{errors.Descripcion.message}</p>}
+        </div>
+
+        {/* Autor */}
+        <div>
+          <Label className="block mb-1 text-sm font-medium">Autor</Label>
+          <Controller
+            name="Autor"
+            control={control}
+            render={({ field }) => <Input {...field} placeholder="Ingrese el autor" />}
+          />
+          {errors.Autor && <p className="text-sm text-red-500">{errors.Autor.message}</p>}
+        </div>
+
+        {/* Categorías */}
+        <div>
+          <Controller
+            name="categorias"
+            control={control}
+            render={({ field }) =>
+              <CustomMultiSelect
+                field={field}
+                data={dataCategoria}
+                label="Categorías"
+                getOptionLabel={(item) => item.Descripcion}
+                getOptionValue={(item) => item.idCategoria}
+                error={errors.categorias?.message}
+              />
+            }
+          />
+        </div>
+
+        {/* Condición */}
+        <div>
+          <Label className="block mb-1 text-sm font-medium">Condición</Label>
+          <Controller
+            name="idCondicion"
             control={control}
             render={({ field }) =>
               <CustomSelect
                 field={field}
-                data={dataDirector}
-                label="Director"
-                getOptionLabel={(director) => `${director.fname} ${director.lname}`}
-                getOptionValue={(director) => director.id}
-                error={errors.director_id?.message}
+                data={dataCondicion}
+                label="Condición"
+                getOptionLabel={(c) => c.Descripcion}
+                getOptionValue={(c) => c.idCondicion}
+                error={errors.idCondicion?.message}
               />
             }
           />
-
         </div>
-        {/* Géneros */}
-        <div>
 
-          <Controller
-            name="genres"
-            control={control}
-            render={({ field }) =>
-              <CustomMultiSelect field={field} data={dataGenres}
-                label="Géneros"
-                getOptionLabel={(item) => item.title}
-                getOptionValue={(item) => item.id}
-                placeholder="Seleccione géneros"
-                error={errors.genres?.message} />}
+        {/* Usuario */}
+        <div>
+          <Label className="block mb-1 text-sm font-medium">Propietario</Label>
+          <Input
+            readOnly
+            value={
+              dataUsuario
+                ? (
+                    dataUsuario.nombre ??
+                    dataUsuario.nombreCompleto ??
+                    [dataUsuario.firstName, dataUsuario.lastName].filter(Boolean).join(" ")
+                  )
+                : ""
+            }
           />
         </div>
-        {/* Actores */}
-        <div>
-          <div className="flex items-center justify-between">
-            <Label className="block mb-1 text-sm font-medium">Actores</Label>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button type="button" size="icon" className="bg-accent text-accent-foreground hover:bg-accent/90" onClick={addNewActor}>
-                    <Plus className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Agregar actor</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
 
-          <div className="space-y-4 mt-3">
-            {fields.map((field, index) => (
-              <ActorsForm
-                key={field.id}
-                index={index}
-                control={control}
-                data={dataActors}
-                onRemove={removeActor}
-                disableRemoveButton={fields.length === 1}
-                errors={errors}
-              />
-            ))}
-          </div>
-        </div>
         {/* Imagen */}
         <div className="mb-6">
-          <Label htmlFor="image" className="block mb-1 text-sm font-medium">
-            Imagen
-          </Label>
+          <Label className="block mb-1 text-sm font-medium">Imagen</Label>
 
           <div
             className="relative w-56 h-56 border-2 border-dashed border-muted/50 rounded-lg flex items-center justify-center cursor-pointer overflow-hidden hover:border-primary transition-colors"
@@ -317,6 +243,7 @@ export function UpdateMovie() {
                 <p className="text-xs text-muted-foreground">(jpg, png, máximo 5MB)</p>
               </div>
             )}
+
             {fileURL && (
               <img
                 src={fileURL}
@@ -335,22 +262,24 @@ export function UpdateMovie() {
           />
         </div>
 
+        {/* Botones */}
         <div className="flex justify-between gap-4 mt-6">
           <Button
             type="button"
-            variant="default" // sólido
+            variant="default"
             className="flex items-center gap-2 bg-accent text-white"
             onClick={() => navigate(-1)}
           >
             <ArrowLeft className="w-4 h-4" />
             Regresar
           </Button>
-          {/* Botón Guardar */}
+
           <Button type="submit" className="flex-1">
             <Save className="w-4 h-4" />
             Guardar
           </Button>
         </div>
+
       </form>
     </Card>
   );

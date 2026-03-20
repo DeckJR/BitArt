@@ -15,6 +15,7 @@ class ObjetoModel
         $cat = new CategoriaModel();
         $estObj = new EstadoObjetoModel();
         $usr = new UsuarioModel();
+        $sub = new SubastaModel();
 
         //Consulta sql
         $vSql = "SELECT * FROM objeto order by idObjeto desc;";
@@ -35,6 +36,7 @@ class ObjetoModel
             $obj->imagen = $imgObj ? $imgObj->imagen : null; // o "" si quieres cadena vacía
 
             $obj->estado = $estObj->get((int)$obj->idEstado)->Descripcion;
+            $obj->subasta = $sub->getSubastaByObjeto((int)$obj->idObjeto);
 
             }
             }
@@ -67,7 +69,9 @@ class ObjetoModel
             $imagenObj = $imag->getImagenObjeto((int)$vResultado->idObjeto);
             // Si existe la imagen, tomarla; si no, dejarla como null o placeholder
             $vResultado->imagen = $imagenObj ? $imagenObj->imagen : null;
-            $vResultado->estado = $estObj->get((int)$vResultado->idEstado)->Descripcion;            
+            $vResultado->estado = $estObj->get((int)$vResultado->idEstado)->Descripcion;
+            $vResultado->subasta = $sub->getSubastaByObjeto((int)$vResultado->idObjeto);
+
 
         return $vResultado;
     }
@@ -75,7 +79,6 @@ class ObjetoModel
 public function create($objeto)
 {
     // Usuario simulado (hasta que exista login)
-    $idUsuario = 3;
     //$_SESSION['idUsuario'] = $usuario->id; // guardamos el id del usuario logueado
 
     $idEstado = 1; // Activo
@@ -83,7 +86,7 @@ public function create($objeto)
     $sql = "INSERT INTO objeto
             (idUsuario, Nombre, Descripcion, Autor, FechaRegistro, idCondicion, idEstado)
             VALUES
-            ($idUsuario,
+            ($objeto->idUsuario,
             '$objeto->Nombre',
             '$objeto->Descripcion',
             '$objeto->Autor',
@@ -107,5 +110,29 @@ public function create($objeto)
     return $this->get($idObjeto);
 
 }
+public function update($objeto)
+{
+    // Actualizar objeto
+    $sql = "UPDATE objeto SET
+            Nombre = '$objeto->Nombre',
+            Descripcion = '$objeto->Descripcion',
+            Autor = '$objeto->Autor',
+            idCondicion = $objeto->idCondicion
+            WHERE idObjeto = $objeto->idObjeto";
 
+    $this->enlace->executeSQL_DML($sql);
+
+    $sql = "DELETE FROM ObjetoCategoria WHERE idObjeto = $objeto->idObjeto";
+    $this->enlace->executeSQL_DML($sql);
+
+    if (!empty($objeto->categorias)) {
+        foreach ($objeto->categorias as $categoria) {
+            $sql = "INSERT INTO ObjetoCategoria (idObjeto, idCategoria)
+                    VALUES ($objeto->idObjeto, $categoria)";
+            $this->enlace->executeSQL_DML($sql);
+        }
+    }
+
+    return $this->get($objeto->idObjeto);
+}
 }

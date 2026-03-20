@@ -157,4 +157,9 @@ class SubastaModel
         $rows = $this->enlace->ExecuteSQL($sql, [$idUsuario]);
         return $rows ? (int)$rows[0]->totalSubastas : 0;
     }
+    
+
+
+
+
 }

@@ -26,7 +26,8 @@ import UsuarioService from "@/services/UsuarioService";
 
 export function CreateObjeto() {
   const navigate = useNavigate();
-
+  const usuarioLogin = 3;
+  
   /*** Estados para selects y preview de imagen ***/
   const [dataUsuario, setDataUsuario] = useState(null);
   const [dataCategoria, setDataCategoria] = useState([]);
@@ -56,7 +57,6 @@ export function CreateObjeto() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-     // idUsuario: "",  no se muestra ya que se llama desde el modelo
       Nombre: "",
       Descripcion: "",
       Autor: "",
@@ -76,7 +76,7 @@ export function CreateObjeto() {
     }
   };
     //se quema al simular
-      const usuarioLogin = 3;
+      
   /***Listados de carga en el formulario ***/
   useEffect(()=>{
     const fechData=async()=>{
@@ -110,6 +110,7 @@ export function CreateObjeto() {
     }
 
     try {
+      dataForm.idUsuario = usuarioLogin;
       console.log(dataForm)
       if (ObjetoSchema.isValid()) { 
         //Verificar datos del formulario 
@@ -225,7 +226,6 @@ export function CreateObjeto() {
   />
 
 </div>
-   
       
       {/* Nombre del propietario */}
       <div>
