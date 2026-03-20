@@ -77,5 +77,54 @@ class UsuarioModel
 			// Retornar el objeto
 			return $vResultado;
 		} 
+    }/*
+    public function create($objeto)
+    {
+        // Usuario simulado (hasta que exista login)
+        $idUsuario = 3;
+        //$_SESSION['idUsuario'] = $usuario->id; // guardamos el id del usuario logueado
+        $idEstado = 1; // Activo
+        // Insertar objeto
+        $sql = "INSERT INTO objeto
+                (idUsuario, Nombre, Descripcion, Autor, FechaRegistro, idCondicion, idEstado)
+                VALUES
+                ($idUsuario,
+                '$objeto->Nombre',
+                '$objeto->Descripcion',
+                '$objeto->Autor',
+                NOW(),
+                $objeto->idCondicion,
+                $idEstado)";
+        // Ejecutar consulta y obtener ID generado
+        $idObjeto = $this->enlace->executeSQL_DML_last($sql);
+        // --- Categorías ---
+        if (!empty($objeto->categorias)) {
+            foreach ($objeto->categorias as $categoria) {
+                $sql = "INSERT INTO ObjetoCategoria (idObjeto, idCategoria)
+                        VALUES ($idObjeto, $categoria)";
+                $this->enlace->executeSQL_DML($sql);
+            }
+        }
+        // Retornar objeto creado
+        return $this->get($idObjeto);
+    } */
+    public function update($usuario)
+    {
+        // Consulta SQL
+        $sql = "UPDATE usuario SET 
+                Nombre = '$usuario->Nombre',
+                Apellido1 = '$usuario->Apellido1',
+                Apellido2 = '$usuario->Apellido2',
+                Correo = '$usuario->Correo',
+                Contrasenna = '$usuario->Contrasenna',
+                idRol = $usuario->idRol,
+                idEstadoUsuario = $usuario->idEstadoUsuario
+                WHERE idUsuario = $usuario->idUsuario";
+
+        // Ejecutar consulta
+        $cResults = $this->enlace->executeSQL_DML($sql);
+
+        // Retornar usuario actualizado
+        return $this->get($usuario->idUsuario);
     }
 }

@@ -8,6 +8,11 @@ class UsuarioService {
     getUsuarioById(idUsuario) {
         return axios.get(BASE_URL + '/' + idUsuario);
     }
-   
+    createUsuario(Usuario) {
+    return axios.post(BASE_URL, JSON.stringify(Usuario));
+    }
+    updateUsuario(Usuario) {
+    return axios.put(BASE_URL, Usuario);
+    }
 }
 export default new UsuarioService();

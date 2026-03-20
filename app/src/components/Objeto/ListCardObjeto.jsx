@@ -51,7 +51,7 @@ export function ListCardObjeto({ data, isPintura }) {
                     <Button
                         size="icon" className="size-8"
                     >
-                        <Link to={`/objeto/detail/${item.idObjeto}`}>
+                        <Link to={`/objeto/detalle/${item.idObjeto}`}>
                         <Info />
                         </Link>
                     </Button>

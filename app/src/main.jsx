@@ -18,6 +18,7 @@ import { DetailUsuario } from './components/Usuario/DetailUsuario'
 import { CreateUsuario } from './components/Usuario/CreateUsuario'
 import { CreateObjeto } from './components/Objeto/CreateObjeto'
 import { UpdateObjeto } from './components/Objeto/UpdateObjeto'
+import { UpdateUsuario} from './components/Usuario/UpdateUsuario'
 const rutas = createBrowserRouter([
   {
     element: <Layout/>,
@@ -40,8 +41,8 @@ const rutas = createBrowserRouter([
       {path:"usuario/detalle/:id", element: <DetailUsuario />},
       {path:"usuario/create/", element: <CreateUsuario />},
       {path:"objeto/create/", element: <CreateObjeto />},
-      {path:"objeto/update/:id", element: <UpdateObjeto />},
-
+      {path:"objeto/update/:id", element: <UpdateObjeto />},      
+      {path:"usuario/update/:id", element: <UpdateUsuario />}
     ]
   }
 ])

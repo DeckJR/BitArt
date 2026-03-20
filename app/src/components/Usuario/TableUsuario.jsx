@@ -14,7 +14,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {Plus, Trash2, ArrowLeft, RotateCw, InfoIcon } from "lucide-react";
+import {Plus, ArrowLeft, RotateCw, InfoIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { LoadingGrid } from "../ui/custom/LoadingGrid";
 import { ErrorAlert } from "../ui/custom/ErrorAlert";
@@ -120,20 +120,12 @@ export default function TableUsuario() {
                                         <Tooltip>
                                             <TooltipTrigger asChild>
                                                 <Button variant="ghost" size="icon" >
-                                                    <RotateCw className="h-4 w-4 text-destructive" />
+                                                    <Link to={`/usuario/update/${usuario.idUsuario}`}>
+                                                        <RotateCw className="h-4 w-4 text-destructive" />                                                    
+                                                    </Link>
                                                 </Button>
                                             </TooltipTrigger>
                                             <TooltipContent>Actualizar</TooltipContent>
-                                        </Tooltip>
-                                    </TooltipProvider>
-                                    <TooltipProvider>
-                                        <Tooltip>
-                                            <TooltipTrigger asChild>
-                                                <Button variant="ghost" size="icon" >
-                                                    <Trash2 className="h-4 w-4 text-destructive" />
-                                                </Button>
-                                            </TooltipTrigger>
-                                            <TooltipContent>Eliminar</TooltipContent>
                                         </Tooltip>
                                     </TooltipProvider>
                                 </TableCell>
