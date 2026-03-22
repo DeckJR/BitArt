@@ -20,5 +20,8 @@ class SubastaService {
     getAllSubastaFinalizada() {
         return axios.get(BASE_URL + '/' + 'getAllFinalizadas');
     }
+    CreateSubasta(subasta) {
+    return axios.post(BASE_URL, JSON.stringify(subasta));
+    }
 }
 export default new SubastaService();

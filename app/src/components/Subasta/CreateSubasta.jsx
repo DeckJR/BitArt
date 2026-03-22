@@ -40,12 +40,12 @@ const SubastaSchema = yup.object({
   precioInicial: yup
     .number()
     .required("El precio inicial es requerido")
-    .min(0.01, "El precio debe ser mayor a 0"),
+    .min(1, "El precio debe ser mayor a 0"),
 
   incrementoMinimo: yup
     .number()
     .required("El incremento mínimo es requerido")
-    .min(0.01, "El incremento mínimo debe ser mayor a 0"),
+    .min(1, "El incremento mínimo debe ser mayor a 0"),
 
   fechaInicioFecha: yup.string().required("La fecha de inicio es requerida"),
   fechaInicioHora: yup.string().required("La hora de inicio es requerida"),
@@ -55,20 +55,31 @@ const SubastaSchema = yup.object({
 }).test(
   "fechaFinMayor",
   "La fecha y hora de fin debe ser posterior a la de inicio",
-  (values) => {
+  function (values) {
     const { fechaInicioFecha, fechaInicioHora, fechaFinFecha, fechaFinHora } = values;
 
     if (!fechaInicioFecha || !fechaInicioHora || !fechaFinFecha || !fechaFinHora) {
-      return true; // validación individual se encarga de los campos vacíos
+      return true;
     }
 
-    // Creamos objetos Date para comparar
-    const inicio = new Date(`${fechaInicioFecha}T${fechaInicioHora}`);
-    const fin = new Date(`${fechaFinFecha}T${fechaFinHora}`);
+    const [hInicio, mInicio] = fechaInicioHora.split(":").map(Number);
+    const inicio = new Date(fechaInicioFecha);
+    inicio.setHours(hInicio, mInicio, 0, 0);
 
-    return fin > inicio;
+    const [hFin, mFin] = fechaFinHora.split(":").map(Number);
+    const fin = new Date(fechaFinFecha);
+    fin.setHours(hFin, mFin, 0, 0);
+
+    if (fin <= inicio) {
+      return this.createError({
+        path: "fechaFinHora",
+        message: "La fecha y hora de fin debe ser posterior a la de inicio",
+      });
+    }
+
+    return true;
   }
-);
+)
 
   /*** React Hook Form ***/
   const {
@@ -77,14 +88,14 @@ const SubastaSchema = yup.object({
     formState: { errors },
   } = useForm({
     defaultValues: {
-      idObjeto: "",
-      precioInicial: "",
-      incrementoMinimo: "",
-      fechaInicioFecha: "",
-      fechaInicioHora: "",
-      fechaFinFecha: "",
-      fechaFinHora: "",
-    },
+    idObjeto: null,
+    precioInicial: null,
+    incrementoMinimo: null,
+    fechaInicioFecha: "",
+    fechaInicioHora: "",
+    fechaFinFecha: "",
+    fechaFinHora: "",
+  },
     resolver: yupResolver(SubastaSchema),
   });
 
@@ -119,20 +130,22 @@ const SubastaSchema = yup.object({
 
 
   /*** Submit ***/
-  const onSubmit = async (dataForm) => {
- try {
-    dataForm.idUsuarioVendedor = usuarioLogin;
+ const onSubmit = async (dataForm) => {
+  try {
+    const subastaEnviar = {
+      idObjeto: dataForm.idObjeto,
+      PrecioInicial: dataForm.precioInicial,
+      Incremento: dataForm.incrementoMinimo,
+      FechaHoraInicio: `${dataForm.fechaInicioFecha} ${dataForm.fechaInicioHora}:00`,
+      FechaHoraFinal: `${dataForm.fechaFinFecha} ${dataForm.fechaFinHora}:00`
+    };
 
-    dataForm.fechaInicio =
-      dataForm.fechaInicioFecha + " " + dataForm.fechaInicioHora + ":00";
+    console.log("Enviando...", subastaEnviar); 
 
-    dataForm.fechaFin =
-      dataForm.fechaFinFecha + " " + dataForm.fechaFinHora + ":00";
-
-    const response = await SubastaService.createSubasta(dataForm);
+    const response = await SubastaService.CreateSubasta(subastaEnviar);
 
     if (response.data?.success) {
-      toast.success("Subasta creada correctamente", { duration: 3000 });
+      toast.success("Subasta creada correctamente");
       navigate("/subasta/table");
     } else {
       setError(response.data?.message || "Error al crear la subasta");
@@ -141,7 +154,7 @@ const SubastaSchema = yup.object({
     console.error(err);
     setError("Error al crear la subasta: " + err.message);
   }
-  };
+};
 
   if (error) return <p className="text-red-600">{error}</p>;
 
@@ -178,15 +191,23 @@ const SubastaSchema = yup.object({
           <Label className="block mb-1 text-sm font-medium" htmlFor="precioInicial">
             Precio Base
           </Label>
-          <Controller
+        <Controller
             name="precioInicial"
             control={control}
             render={({ field }) => (
-              <Input {...field} id="precioInicial" placeholder="Ingrese el precio base" />
+              <Input
+                {...field}
+                id="precioInicial"
+                type="number"
+                placeholder="Ingrese el precio base"
+              />
             )}
           />
+
           {errors.precioInicial && (
-            <p className="text-sm text-red-500">{errors.precioInicial.message}</p>
+            <p className="text-sm text-red-500">
+              {errors.precioInicial.message}
+            </p>
           )}
         </div>
 
@@ -196,17 +217,34 @@ const SubastaSchema = yup.object({
             Incremento Mínimo
           </Label>
           <Controller
-            name="incrementoMinimo"
-            control={control}
-            render={({ field }) => (
-              <Input {...field} id="incrementoMinimo" placeholder="Ingrese el incremento mínimo" />
+              name="incrementoMinimo"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  type="number"
+                  placeholder="Ingrese el incremento mínimo"
+                  onChange={(e) =>
+                    field.onChange(
+                      e.target.value === "" ? "" : Number(e.target.value)
+                    )
+                  }
+                />
+              )}
+            />
+
+            {errors.incrementoMinimo && (
+              <p className="text-sm text-red-500">
+                {errors.incrementoMinimo.message}
+              </p>
             )}
-          />
-          {errors.incrementoMinimo && (
-            <p className="text-sm text-red-500">{errors.incrementoMinimo.message}</p>
-          )}
         </div>
           </div>
+
+
+
+
+
         {/* Fecha de Inicio */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
@@ -219,6 +257,9 @@ const SubastaSchema = yup.object({
     control={control}
     render={({ field }) => <Input {...field} type="date" />}
   />
+  {errors.fechaInicioFecha && (
+    <p className="text-sm text-red-500">{errors.fechaInicioFecha.message}</p>
+  )}
 
  </div>
  <div>
@@ -232,9 +273,7 @@ const SubastaSchema = yup.object({
     render={({ field }) => <Input {...field} type="time" />}
   />
 
-  {errors.fechaInicioFecha && (
-    <p className="text-sm text-red-500">{errors.fechaInicioFecha.message}</p>
-  )}
+  
   {errors.fechaInicioHora && (
     <p className="text-sm text-red-500">{errors.fechaInicioHora.message}</p>
   )}
@@ -256,6 +295,9 @@ const SubastaSchema = yup.object({
     control={control}
     render={({ field }) => <Input {...field} type="date" />}
   />
+  {errors.fechaFinFecha && (
+    <p className="text-sm text-red-500">{errors.fechaFinFecha.message}</p>
+  )}
   </div>
 
   <div>
@@ -268,14 +310,11 @@ const SubastaSchema = yup.object({
     render={({ field }) => <Input {...field} type="time" />}
   />
 
-  {errors.fechaFinFecha && (
-    <p className="text-sm text-red-500">{errors.fechaFinFecha.message}</p>
-  )}
-  {errors.fechaFinHora && (
-    <p className="text-sm text-red-500">{errors.fechaFinHora.message}</p>
-  )}
   </div>
-</div>
+ {errors.fechaFinHora && (
+    <p className="text-sm text-red-500">{errors.fechaFinHora.message}</p>
+  )}</div>
+
         {/* Nombre del propietario */}
         <div>
           <Label className="block mb-1 text-sm font-medium" htmlFor="prop-nombre">

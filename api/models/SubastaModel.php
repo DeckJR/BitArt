@@ -156,6 +156,29 @@ class SubastaModel
         $rows = $this->enlace->ExecuteSQL($sql, [$idUsuario]);
         return $rows ? (int)$rows[0]->totalSubastas : 0;
     }
+
+   public function create($subasta)
+{
+    // Estado inicial 2 = Programada
+    $idEstadoSubasta = 2;
+
+    // Insertar subasta
+    $sql = "INSERT INTO subasta
+            (idObjeto, PrecioInicial, Incremento, FechaHoraInicio, FechaHoraFinal, idEstadoSubasta)
+            VALUES
+            (
+                $subasta->idObjeto,
+                $subasta->PrecioInicial,
+                $subasta->Incremento,
+                '$subasta->FechaHoraInicio',
+                '$subasta->FechaHoraFinal',
+                $idEstadoSubasta
+            )";
+
+    $idSubasta = $this->enlace->executeSQL_DML_last($sql);
+
+    return $this->get($idSubasta);
+}
     
 
 
