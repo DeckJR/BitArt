@@ -31,6 +31,22 @@ class objeto
         }
     }
 
+    public function getObjetoByUsuario($id)
+    {
+        try {
+            $response = new Response();
+            //Obtener el listado del Modelo
+            $objeto = new  ObjetoModel();
+            $result = $objeto->getObjetoByUsuario($id);
+            //Dar respuesta
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            $response->toJSON($result);
+            handleException($e);
+            
+        }
+    }
+
     public function create()
     {
         try {

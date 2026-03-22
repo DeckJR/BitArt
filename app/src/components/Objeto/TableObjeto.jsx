@@ -14,7 +14,8 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Plus, Trash2, ArrowLeft, RotateCw, InfoIcon, BookOpen} from "lucide-react";
+import toast from "react-hot-toast";
+import { Plus, ArrowLeft, RotateCw, InfoIcon, BookOpen} from "lucide-react";
 import ObjetoService from "@/services/ObjetoService";
 import { useEffect, useState } from "react";
 import { LoadingGrid } from "../ui/custom/LoadingGrid";
@@ -136,14 +137,31 @@ export default function TableObjeto() {
                                         </Tooltip>
                                     </TooltipProvider>
                                     <TooltipProvider>
-                                        <Tooltip>
-                                            <TooltipTrigger asChild>
-                                                <Button variant="ghost" size="icon" onClick={()=> navigate(`/objeto/update/${objeto.idObjeto}`)} >
-                                                    <RotateCw className="h-4 w-4 text-destructive" />
-                                                </Button>
-                                            </TooltipTrigger>
-                                            <TooltipContent>Actualizar</TooltipContent>
-                                        </Tooltip>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            disabled={objeto.subastaActiva || Number(objeto.idEstado) == 2}
+                                            onClick={() => {
+                                                navigate(`/objeto/update/${objeto.idObjeto}`);
+                                            }}
+                                            >
+                                            <RotateCw
+                                                className={`h-4 w-4 ${
+                                                objeto.subastaActiva || Number(objeto.idEstado) == 2
+                                                    ? "text-gray-400"
+                                                    : "text-destructive"
+                                                }`}
+                                            />
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                        {objeto.subastaActiva
+                                            ? "No se puede actualizar: subasta activa"
+                                            : "Actualizar"}
+                                        </TooltipContent>
+                                    </Tooltip>
                                     </TooltipProvider>
                                     <TooltipProvider>
                                         <Tooltip>
@@ -159,14 +177,59 @@ export default function TableObjeto() {
                                         </Tooltip>
                                     </TooltipProvider>
                                     <TooltipProvider>
-                                        <Tooltip>
-                                            <TooltipTrigger asChild>
-                                                <Button variant="ghost" size="icon" >
-                                                    <Trash2 className="h-4 w-4 text-destructive" />
-                                                </Button>
-                                            </TooltipTrigger>
-                                            <TooltipContent>Eliminar</TooltipContent>
-                                        </Tooltip>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                        <Button
+                                            className="w-24 text-center"
+                                            variant={objeto.idEstado == 1 ? "destructive" : "outline"}
+                                            size="icon"
+                                            disabled={objeto.subastaActiva}
+                                            onClick={async () => {
+                                            try {
+                                                const nuevoIdEstado = objeto.idEstado == 1 ? 2 : 1;
+
+                                                const objetoActualizar = {
+                                                idObjeto: objeto.idObjeto,
+                                                Nombre: objeto.Nombre,
+                                                Descripcion: objeto.Descripcion,
+                                                Autor: objeto.Autor,
+                                                idCondicion: objeto.idCondicion,
+                                                idEstado: nuevoIdEstado,
+                                                categorias: objeto.categorias.map(c => c.idCategoria) 
+                                                };
+
+                                                await ObjetoService.updateObjeto(objetoActualizar);
+
+                                                setObjeto((prev) =>
+                                                prev.map((o) =>
+                                                    o.idObjeto === objeto.idObjeto
+                                                    ? {
+                                                        ...o,
+                                                        idEstado: nuevoIdEstado,
+                                                        estado: nuevoIdEstado === 1 ? "Activo" : "Inactivo"
+                                                        }
+                                                    : o
+                                                )
+                                                );
+
+                                                toast.success("Estado actualizado");
+
+                                            } catch (err) {
+                                                console.error(err);
+                                                toast.error("Error al actualizar estado");
+                                            }
+                                            }}
+                                        >
+                                            {objeto.idEstado == 1 ? "Desactivar" : "Activar"}
+                                        </Button>
+                                        </TooltipTrigger>
+
+                                        <TooltipContent>
+                                        {objeto.subastaActiva
+                                            ? "No se puede cambiar: subasta activa"
+                                            : `Estado actual: ${objeto.estado}`}
+                                        </TooltipContent>
+                                    </Tooltip>
                                     </TooltipProvider>
                                 </TableCell>
                             </TableRow>

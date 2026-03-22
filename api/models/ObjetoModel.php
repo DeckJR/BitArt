@@ -36,8 +36,17 @@ class ObjetoModel
             $obj->imagen = $imgObj ? $imgObj->imagen : null; // o "" si quieres cadena vacía
 
             $obj->estado = $estObj->get((int)$obj->idEstado)->Descripcion;
-            $obj->subasta = $sub->getSubastaByObjeto((int)$obj->idObjeto);
-
+            $subastas = $sub->getSubastaByObjeto((int)$obj->idObjeto); // devuelve array
+            $obj->subasta = !empty($subastas) ? $subastas : [];
+            
+            // Ver si hay subasta activa
+            $obj->subastaActiva = false;
+            foreach ($obj->subasta as $s) {
+                if (isset($s->idEstadoSubasta) && $s->idEstadoSubasta == "3") {
+                    $obj->subastaActiva = true;
+                    break;
+                }
+            }
             }
             }
 
@@ -70,11 +79,64 @@ class ObjetoModel
             // Si existe la imagen, tomarla; si no, dejarla como null o placeholder
             $vResultado->imagen = $imagenObj ? $imagenObj->imagen : null;
             $vResultado->estado = $estObj->get((int)$vResultado->idEstado)->Descripcion;
-            $vResultado->subasta = $sub->getSubastaByObjeto((int)$vResultado->idObjeto);
+            $subastas = $sub->getSubastaByObjeto((int)$vResultado->idObjeto); // devuelve array
+            $vResultado->subasta = !empty($subastas) ? $subastas : [];
+            
+            // Ver si hay subasta activa
+            $vResultado->subastaActiva = false;
+            foreach ($vResultado->subasta as $s) {
+                if (isset($s->idEstadoSubasta) && $s->idEstadoSubasta == "3") {
+                    $vResultado->subastaActiva = true;
+                    break;
+                }
+            }
 
 
         return $vResultado;
     }
+
+public function getObjetoByUsuario($id)
+{
+    $cond = new CondicionModel();
+    $imag = new ImagenModel();
+    $cat = new CategoriaModel();
+    $estObj = new EstadoObjetoModel();
+    $usr = new UsuarioModel();
+    $sub = new SubastaModel();
+
+    $vSql = "SELECT * FROM objeto WHERE idUsuario = $id AND idEstado = 1 ORDER BY idObjeto DESC;";
+    $vResultado = $this->enlace->ExecuteSQL($vSql);
+
+    if (!empty($vResultado) && is_array($vResultado)) {
+        foreach ($vResultado as $obj) {
+
+            $obj->propietario = $usr->get((int)$obj->idUsuario)->nombreCompleto;
+            $obj->categorias = $cat->getCategoriaObjeto((int)$obj->idObjeto);
+            $obj->condicion = $cond->get((int)$obj->idCondicion)->Descripcion;
+
+            $imgObj = $imag->getImagenObjeto((int)$obj->idObjeto);
+            $obj->imagen = $imgObj ? $imgObj->imagen : null;
+
+            $obj->estado = $estObj->get((int)$obj->idEstado)->Descripcion;
+
+            // Subasta: siempre array, incluso si no tiene subasta
+            $subastas = $sub->getSubastaByObjeto((int)$obj->idObjeto); // devuelve array
+            $obj->subasta = !empty($subastas) ? $subastas : [];
+            
+            // Ver si hay subasta activa
+            $obj->subastaActiva = false;
+            foreach ($obj->subasta as $s) {
+                if (isset($s->idEstadoSubasta) && $s->idEstadoSubasta == "3") {
+                    $obj->subastaActiva = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    return $vResultado;
+}
+
 
 public function create($objeto)
 {
@@ -117,7 +179,8 @@ public function update($objeto)
             Nombre = '$objeto->Nombre',
             Descripcion = '$objeto->Descripcion',
             Autor = '$objeto->Autor',
-            idCondicion = $objeto->idCondicion
+            idCondicion = $objeto->idCondicion,
+            idEstado = $objeto->idEstado
             WHERE idObjeto = $objeto->idObjeto";
 
     $this->enlace->executeSQL_DML($sql);

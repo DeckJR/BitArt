@@ -8,6 +8,11 @@ class ObjetoService {
     getObjetoById(idObjeto) {
         return axios.get(BASE_URL + '/' + idObjeto);
     }
+
+    getObjetoByUsuario(idUsuario) {
+        return axios.get(BASE_URL + '/' + 'getObjetoByUsuario' + '/' + idUsuario);
+    }
+
     createObjeto(Objeto) {
     return axios.post(BASE_URL, JSON.stringify(Objeto));
     }

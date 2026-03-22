@@ -20,6 +20,10 @@ import { CreateUsuario } from './components/Usuario/CreateUsuario'
 import { CreateObjeto } from './components/Objeto/CreateObjeto'
 import { UpdateObjeto } from './components/Objeto/UpdateObjeto'
 import { UpdateUsuario} from './components/Usuario/UpdateUsuario'
+import { CreateSubasta } from './components/Subasta/CreateSubasta'
+
+
+
 const rutas = createBrowserRouter([
   {
     element: <Layout/>,
@@ -45,6 +49,7 @@ const rutas = createBrowserRouter([
       {path:"objeto/update/:id", element: <UpdateObjeto />},      
       {path:"usuario/update/:id", element: <UpdateUsuario />},
       {path:"subasta/table", element: <TableSubasta/>},
+      {path:"subasta/create/", element: <CreateSubasta />},
     ]
   }
 ])

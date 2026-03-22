@@ -24,6 +24,7 @@ import UsuarioService from "@/services/UsuarioService";
 // componentes
 import { CustomMultiSelect } from "../ui/custom/custom-multiple-select";
 import { CustomSelect } from "../ui/custom/custom-select";
+import EstadoObjetoService from "@/services/EstadoObjetoService";
 
 export function UpdateObjeto() {
   const navigate = useNavigate();
@@ -33,9 +34,11 @@ export function UpdateObjeto() {
   const [dataUsuario, setDataUsuario] = useState(null);
   const [dataCategoria, setDataCategoria] = useState([]);
   const [dataCondicion, setDataCondicion] = useState([]);
+  const [dataEstado, setDataEstado] = useState([]);
   const [file, setFile] = useState(null);
   const [fileURL, setFileURL] = useState(null);
   const [error, setError] = useState("");
+
 
   const ObjetoSchema = yup.object({
     Nombre: yup.string().required("El nombre es requerido").min(3),
@@ -43,6 +46,7 @@ export function UpdateObjeto() {
     Autor: yup.string().required("El autor es requerido").min(3),
     idCondicion: yup.number().typeError("Seleccione una condición").required("La condición es requerida"),
     categorias: yup.array().min(1, "Seleccione al menos una categoría"),
+    idEstado: yup.number().typeError("Seleccione un estado").required("El estado es requerido"),
   });
 
   const { control, handleSubmit, reset, formState: { errors } } = useForm({
@@ -53,6 +57,7 @@ export function UpdateObjeto() {
       Autor: "",
       idCondicion: "",
       categorias: [],
+      idEstado: "",
     },
     resolver: yupResolver(ObjetoSchema),
   });
@@ -72,10 +77,12 @@ export function UpdateObjeto() {
         const usuarioRes = await UsuarioService.getUsuarioById(objetoRes.data.data.idUsuario);
         const categoriasRes = await CategoriaService.getAllCategoria();
         const condicionRes = await CondicionService.getAllCondicion();
+        const estadoRes = await EstadoObjetoService.getAllEstadoObjeto();
 
         setDataUsuario(usuarioRes.data.data || []);
         setDataCategoria(categoriasRes.data.data || []);
         setDataCondicion(condicionRes.data.data || []);
+        setDataEstado(estadoRes.data.data || []);
 
         if (objetoRes.data) {
           const obj = objetoRes.data.data;
@@ -87,6 +94,7 @@ export function UpdateObjeto() {
             Autor: obj.Autor,
             idCondicion: obj.idCondicion,
             categorias: obj.categorias.map(c => c.idCategoria),
+            idEstado: obj.idEstado
           });
 
           if (obj.imagen) {
@@ -192,7 +200,7 @@ export function UpdateObjeto() {
             }
           />
         </div>
-
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Condición */}
         <div>
           <Label className="block mb-1 text-sm font-medium">Condición</Label>
@@ -211,7 +219,25 @@ export function UpdateObjeto() {
             }
           />
         </div>
-
+        {/*Estado*/}        
+        <div>
+        <Label className="block mb-1 text-sm font-medium">Estado</Label>
+        <Controller
+          name="idEstado"
+          control={control}
+          render={({ field }) =>
+            <CustomSelect
+              field={field}
+              data={dataEstado}
+              label="Estado"
+              getOptionLabel={(e) => e.Descripcion}
+              getOptionValue={(e) => e.idEstadoObjeto}
+              error={errors.idEstadoObjeto?.message}
+            />
+          }
+        />
+      </div>
+          </div>    
         {/* Usuario */}
         <div>
           <Label className="block mb-1 text-sm font-medium">Propietario</Label>
