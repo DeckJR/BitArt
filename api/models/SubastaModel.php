@@ -57,7 +57,6 @@ class SubastaModel
         // Retornar el objeto
         return $vResultado;
     }
-
     public function allActivas()
     {
         $obj = new ObjetoModel();
@@ -65,7 +64,6 @@ class SubastaModel
         $puj = new PujaModel();
         //Consulta sql
         $vSql = "SELECT * FROM subasta where idEstadoSubasta = 3 order by idSubasta desc;";
-
         //Ejecutar la consulta
         $vResultado = $this->enlace->ExecuteSQL($vSql);
 
@@ -76,12 +74,9 @@ class SubastaModel
                 $sub->objeto = $obj->get((int)$sub->idObjeto);
                     
                 $sub->estadosubasta = $estSub->get((int)$sub->idEstadoSubasta)->Descripcion;
-
                 $sub->CantidadPujas = $puj->contarPujasbySubasta((int)$sub->idSubasta);
-
             }
         }
-
         // Retornar el objeto
         return $vResultado;
     }
@@ -112,11 +107,6 @@ class SubastaModel
         // Retornar el objeto
         return $vResultado;
     }
-
-
-
-
-
     public function getSubastaByObjeto($idObjeto)
     {
         
@@ -157,31 +147,42 @@ class SubastaModel
         return $rows ? (int)$rows[0]->totalSubastas : 0;
     }
 
-   public function create($subasta)
-{
-    // Estado inicial 2 = Programada
-    $idEstadoSubasta = 2;
+    public function create($subasta)
+    {
+        // Estado inicial 5 = Borrador
+        $idEstadoSubasta = 5;
 
-    // Insertar subasta
-    $sql = "INSERT INTO subasta
-            (idObjeto, PrecioInicial, Incremento, FechaHoraInicio, FechaHoraFinal, idEstadoSubasta)
-            VALUES
-            (
-                $subasta->idObjeto,
-                $subasta->PrecioInicial,
-                $subasta->Incremento,
-                '$subasta->FechaHoraInicio',
-                '$subasta->FechaHoraFinal',
-                $idEstadoSubasta
-            )";
+        // Insertar subasta
+        $sql = "INSERT INTO subasta
+                (idObjeto, PrecioInicial, Incremento, FechaHoraInicio, FechaHoraFinal, idEstadoSubasta)
+                VALUES
+                (
+                    $subasta->idObjeto,
+                    $subasta->PrecioInicial,
+                    $subasta->Incremento,
+                    '$subasta->FechaHoraInicio',
+                    '$subasta->FechaHoraFinal',
+                    $idEstadoSubasta
+                )";
 
-    $idSubasta = $this->enlace->executeSQL_DML_last($sql);
+        $idSubasta = $this->enlace->executeSQL_DML_last($sql);
 
-    return $this->get($idSubasta);
-}
+        return $this->get($idSubasta);
+    }
     
+    public function update($subasta)
+    {
+        $sql = "UPDATE subasta SET
+                idObjeto = '$subasta->idObjeto',
+                PrecioInicial = '$subasta->PrecioInicial',
+                Incremento = '$subasta->Incremento',
+                FechaHoraInicio = '$subasta->FechaHoraInicio',
+                FechaHoraFinal = '$subasta->FechaHoraFinal',
+                idEstadoSubasta = '$subasta->idEstadoSubasta'
+                WHERE idSubasta = $subasta->idSubasta";
 
+        $this->enlace->executeSQL_DML($sql);
 
-
-
+        return $this->get($subasta->idSubasta);
+    }
 }

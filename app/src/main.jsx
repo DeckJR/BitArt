@@ -21,6 +21,7 @@ import { CreateObjeto } from './components/Objeto/CreateObjeto'
 import { UpdateObjeto } from './components/Objeto/UpdateObjeto'
 import { UpdateUsuario} from './components/Usuario/UpdateUsuario'
 import { CreateSubasta } from './components/Subasta/CreateSubasta'
+import { UpdateSubasta} from './components/Subasta/UpdateSubasta'
 
 
 
@@ -50,6 +51,7 @@ const rutas = createBrowserRouter([
       {path:"usuario/update/:id", element: <UpdateUsuario />},
       {path:"subasta/table", element: <TableSubasta/>},
       {path:"subasta/create/", element: <CreateSubasta />},
+      {path:"subasta/update/:id", element: <UpdateSubasta/>}
     ]
   }
 ])

@@ -112,7 +112,7 @@ const SubastaSchema = yup.object({
 
       // Filtramos solo los objetos activos y que no tengan subasta activa
       const objetosDisponibles = objetos.filter(obj => obj.estado === "Activo" && 
-        (!obj.subasta || obj.subasta.every(s => s.idEstadoSubasta !== "3"))
+        (!obj.subasta || obj.subasta.every(s => s.idEstadoSubasta !== "3" &&  s.idEstadoSubasta !== "2" &&  s.idEstadoSubasta !== "5"))
       );
 
       setDataUsuario(usuarioRes.data.data || []);

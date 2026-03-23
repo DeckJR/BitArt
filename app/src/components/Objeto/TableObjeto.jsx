@@ -137,31 +137,31 @@ export default function TableObjeto() {
                                         </Tooltip>
                                     </TooltipProvider>
                                     <TooltipProvider>
-                                    <Tooltip>
-                                        <TooltipTrigger asChild>
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            disabled={objeto.subastaActiva || Number(objeto.idEstado) == 2}
-                                            onClick={() => {
-                                                navigate(`/objeto/update/${objeto.idObjeto}`);
-                                            }}
-                                            >
-                                            <RotateCw
-                                                className={`h-4 w-4 ${
-                                                objeto.subastaActiva || Number(objeto.idEstado) == 2
-                                                    ? "text-gray-400"
-                                                    : "text-destructive"
-                                                }`}
-                                            />
-                                            </Button>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                        {objeto.subastaActiva
-                                            ? "No se puede actualizar: subasta activa"
-                                            : "Actualizar"}
-                                        </TooltipContent>
-                                    </Tooltip>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    disabled={objeto.subastaActiva || Number(objeto.idEstado) == 2}
+                                                    onClick={() => {
+                                                        navigate(`/objeto/update/${objeto.idObjeto}`);
+                                                    }}
+                                                    >
+                                                    <RotateCw
+                                                        className={`h-4 w-4 ${
+                                                        objeto.subastaActiva || Number(objeto.idEstado) == 2
+                                                            ? "text-gray-400"
+                                                            : "text-destructive"
+                                                        }`}
+                                                    />
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent>
+                                                {objeto.subastaActiva
+                                                    ? "No se puede actualizar: subasta activa"
+                                                    : "Actualizar"}
+                                            </TooltipContent>
+                                        </Tooltip>
                                     </TooltipProvider>
                                     <TooltipProvider>
                                         <Tooltip>

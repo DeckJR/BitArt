@@ -14,13 +14,16 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {Plus, ArrowLeft, RotateCw, InfoIcon } from "lucide-react";
+import {Ban, Plus, Send, ArrowLeft, RotateCw, InfoIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { LoadingGrid } from "../ui/custom/LoadingGrid";
 import { ErrorAlert } from "../ui/custom/ErrorAlert";
 import { EmptyState } from "../ui/custom/EmptyState";
 import SubastaService from "@/services/SubastaService";
+import PujaService from "@/services/PujaService";
 import { useNavigate } from 'react-router-dom';
+import toast from "react-hot-toast";
+import { date } from "zod";
 
 // Headers de la tabla
 const subastaColumns = [
@@ -118,13 +121,120 @@ export default function TableUsuario() {
                                     <TooltipProvider>
                                         <Tooltip>
                                             <TooltipTrigger asChild>
-                                                <Button variant="ghost" size="icon" >
-                                                    <Link to={`/subasta/update/${subasta.idSubasta}`}>
-                                                        <RotateCw className="h-4 w-4 text-destructive" />                                                    
-                                                    </Link>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    disabled={subasta.FechaHoraInicio>= Date.now() || Number(subasta.idEstadoSubasta) == 3 || (PujaService.ContarPujasBySubasta(subasta.idSubasta)) > 0 }
+                                                    onClick={() => {
+                                                        navigate(`/subasta/update/${subasta.idSubasta}`);
+                                                    }}
+                                                    >
+                                                    <RotateCw
+                                                        className={`h-4 w-4 ${
+                                                        subasta.FechaHoraInicio>= Date.now() || Number(subasta.idEstadoSubasta) == 3 || (PujaService.ContarPujasBySubasta(subasta.idSubasta)) > 0 
+                                                            ? "text-gray-400"
+                                                            : "text-destructive"
+                                                        }`}
+                                                    />
                                                 </Button>
                                             </TooltipTrigger>
-                                            <TooltipContent>Actualizar</TooltipContent>
+                                            <TooltipContent>
+                                                {subasta.FechaHoraInicio>= Date.now() || Number(subasta.idEstadoSubasta) == 3 || (PujaService.ContarPujasBySubasta(subasta.idSubasta)) > 0 
+                                                    ? "No se puede actualizar: subasta iniciada"
+                                                    : "Actualizar"}
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                    <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    disabled={ Number(subasta.idEstadoSubasta) == 1 || Number(subasta.idEstadoSubasta) == 3 ||  Number(subasta.idEstadoSubasta) == 4 }
+                                                    onClick={async () => {
+                                                        try {
+                                                            const nuevoIdEstadoSubasta = subasta.idEstadoSubasta == 2 && subasta.FechaHoraInicio > date.now() && subasta.FechaHoraFinal ? 3 : 2;
+
+                                                            const subastaActualizar = {
+                                                            idSubasta: subasta.idSubasta,
+                                                            idObjeto: subasta.idObjeto,
+                                                            PrecioInicial: subasta.PrecioInicial,
+                                                            Incremento: subasta.Incremento,
+                                                            FechaHoraInicio: subasta.FechaHoraInicio,
+                                                            FechaHoraFinal: subasta.FechaHoraFinal,
+                                                            idEstadoSubasta: nuevoIdEstadoSubasta
+                                                            };
+                                                            await SubastaService.updateSubasta(subastaActualizar);
+                                                            
+                                                            toast.success("Subasta de la pintura " + subasta.objeto.Nombre + " se encuentra:" + (nuevoIdEstadoSubasta==2? "Programada":"Abierta"));
+
+                                                        } catch (err) {
+                                                            console.error(err);
+                                                            toast.error("Error al programar o al abrir la subasta");
+                                                        }
+                                                    }}
+                                                    >
+                                                    <Send
+                                                        className={`h-4 w-4 ${
+                                                        Number(subasta.idEstadoSubasta) == 1 || Number(subasta.idEstadoSubasta) == 3 ||  Number(subasta.idEstadoSubasta) ==  4
+                                                            ? "text-gray-400"
+                                                            : "text-destructive"
+                                                        }`}
+                                                    />
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent>
+                                                {subasta.FechaHoraInicio>= Date.now() || Number(subasta.idEstadoSubasta) == 3 || (PujaService.ContarPujasBySubasta(subasta.idSubasta)) > 0 
+                                                    ? "No se puede publicar: subasta activa, cancelada o finalizada"
+                                                    : "Publicar"}
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                    <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    disabled={ Number(subasta.idEstadoSubasta) == 1 ||  Number(subasta.idEstadoSubasta) == 4 || Number(PujaService.ContarPujasBySubasta(subasta.idSubasta)) > 0 }
+                                                    onClick={async () => {
+                                                        try {
+                                                            const nuevoIdEstadoSubasta = 1;
+
+                                                            const subastaActualizar = {
+                                                            idSubasta: subasta.idSubasta,
+                                                            idObjeto: subasta.idObjeto,
+                                                            PrecioInicial: subasta.PrecioInicial,
+                                                            Incremento: subasta.Incremento,
+                                                            FechaHoraInicio: subasta.FechaHoraInicio,
+                                                            FechaHoraFinal: subasta.FechaHoraFinal,
+                                                            idEstadoSubasta: nuevoIdEstadoSubasta
+                                                            };
+                                                            await SubastaService.updateSubasta(subastaActualizar);
+                                                            
+                                                            toast.success("Subasta de la pintura " + subasta.objeto.Nombre + " se encuentra: Cancelada");
+
+                                                        } catch (err) {
+                                                            console.error(err);
+                                                            toast.error("Error al cancelar la subasta");
+                                                        }
+                                                    }}
+                                                    >
+                                                    <Ban
+                                                        className={`h-4 w-4 ${
+                                                        Number(subasta.idEstadoSubasta) == 1 ||  Number(subasta.idEstadoSubasta) == 4 || (PujaService.ContarPujasBySubasta(subasta.idSubasta)) > 0
+                                                            ? "text-gray-400"
+                                                            : "text-destructive"
+                                                        }`}
+                                                    />
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent>
+                                                {Number(subasta.idEstadoSubasta) == 1 ||  Number(subasta.idEstadoSubasta) == 4 || (PujaService.ContarPujasBySubasta(subasta.idSubasta)) > 0
+                                                    ? "No se puede cancelar: subasta abierta o finalizada"
+                                                    : "Cancelar"}
+                                            </TooltipContent>
                                         </Tooltip>
                                     </TooltipProvider>
                                 </TableCell>

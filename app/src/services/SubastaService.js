@@ -23,5 +23,8 @@ class SubastaService {
     CreateSubasta(subasta) {
     return axios.post(BASE_URL, JSON.stringify(subasta));
     }
+    updateSubasta(Subasta) {
+    return axios.put(BASE_URL, Subasta);
+    }
 }
 export default new SubastaService();

@@ -53,7 +53,7 @@ class PujaModel
         $sql  = "SELECT COUNT(*) AS totalPujas
         FROM puja
         WHERE idUsuario = $idUsuario";
-        $rows = $this->enlace->ExecuteSQL($sql, [$idUsuario]);
+        $rows = $this->enlace->ExecuteSQL($sql);
 
         return $rows ? (int)$rows[0]->totalPujas : 0;
     }
@@ -65,7 +65,7 @@ class PujaModel
         $sql  = "SELECT COUNT(*) AS totalPujas
         FROM puja
         WHERE idSubasta = $idSubasta";
-        $rows = $this->enlace->ExecuteSQL($sql, [$idSubasta]);
+        $rows = $this->enlace->ExecuteSQL($sql);
         return $rows ? (int)$rows[0]->totalPujas : 0;
     }
 
