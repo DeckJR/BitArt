@@ -36,7 +36,7 @@ export function CreateUsuario() {
     Apellido1: yup.string().required('El primer apellido es requerido').min(4,'El primer apellido debe tener mínimo 4 caracteres'),
     Apellido2: yup.string().required('El segundo apellido es requerido').min(4,'El segundo apellido debe tener mínimo 4 caracteres'),
     Correo: yup.string().required('El correo es requerido').min(10,'El correo debe de tener minimo 10 caracteres').matches(/@/, 'El correo debe contener @').email('Debe ingresar un correo válido'),
-    Contrasenna: yup.string().required('La contraseña es requerida').min(8,'La contraseña debe de tener minimo 8 caracteres').matches(/[0-9]/, "Debe contener al menos un número").matches(/[!@#$%^&*(),.?":{}|<>]/, "Debe contener al menos un carácter especial"),
+    Contrasenna: yup.string().required('La contraseña es requerida').min(8,'La contraseña debe de tener minimo 8 caracteres').matches(/[0-9]/, "Debe contener al menos un número"),
     idRol: yup.number().required("Debe seleccionar un rol").typeError("Debe seleccionar un rol").positive("Debe seleccionar un rol válido"),
     idEstadoUsuario: yup.number().required("Debe seleccionar un estado").typeError("Debe seleccionar un estado").positive("Debe seleccionar un estado válido")    
   })
@@ -202,7 +202,7 @@ export function CreateUsuario() {
               }
             />
           </div>
-          {/*Contraseña*/}          
+          {/*Estado*/}          
           <div>
             <Label className="block mb-1 text-sm font-medium">Estado</Label>
             <Controller

@@ -2,8 +2,7 @@ import Header from "./Header";
 import { Footer } from "./Footer";
 import { Outlet } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { UsuarioProvider } from "@/context/UsuarioProvider";
-//import { useEffect, useContext } from "react";
+import UsuarioProvider from "@/context/UsuarioProvider";//import { useEffect, useContext } from "react";
 //import { UsuarioContext } from "@/context/UsuarioContext";
 
 export function Layout() {

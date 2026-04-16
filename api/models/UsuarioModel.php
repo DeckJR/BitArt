@@ -1,4 +1,7 @@
 <?php
+
+use Firebase\JWT\JWT;
+
 class UsuarioModel
 {
     public $enlace;
@@ -77,37 +80,7 @@ class UsuarioModel
 			// Retornar el objeto
 			return $vResultado;
 		} 
-    }/*
-    public function create($objeto)
-    {
-        // Usuario simulado (hasta que exista login)
-        $idUsuario = 3;
-        //$_SESSION['idUsuario'] = $usuario->id; // guardamos el id del usuario logueado
-        $idEstado = 1; // Activo
-        // Insertar objeto
-        $sql = "INSERT INTO objeto
-                (idUsuario, Nombre, Descripcion, Autor, FechaRegistro, idCondicion, idEstado)
-                VALUES
-                ($idUsuario,
-                '$objeto->Nombre',
-                '$objeto->Descripcion',
-                '$objeto->Autor',
-                NOW(),
-                $objeto->idCondicion,
-                $idEstado)";
-        // Ejecutar consulta y obtener ID generado
-        $idObjeto = $this->enlace->executeSQL_DML_last($sql);
-        // --- Categorías ---
-        if (!empty($objeto->categorias)) {
-            foreach ($objeto->categorias as $categoria) {
-                $sql = "INSERT INTO ObjetoCategoria (idObjeto, idCategoria)
-                        VALUES ($idObjeto, $categoria)";
-                $this->enlace->executeSQL_DML($sql);
-            }
-        }
-        // Retornar objeto creado
-        return $this->get($idObjeto);
-    } */
+    }
     public function update($usuario)
     {
         // Consulta SQL
@@ -127,4 +100,75 @@ class UsuarioModel
         // Retornar usuario actualizado
         return $this->get($usuario->idUsuario);
     }
+
+    public function create($usuario)
+{
+    // Estado activo por defecto
+    $idEstadoUsuario = 1;
+
+    // Datos recibidos
+    $nombre     = $usuario->Nombre;
+    $apellido1  = $usuario->Apellido1;
+    $apellido2  = $usuario->Apellido2;
+    $correo     = $usuario->Correo;
+    $contrasena = password_hash($usuario->Contrasenna, PASSWORD_DEFAULT);
+    $idRol      = (int)$usuario->idRol;
+
+    // Insertar usuario
+    $sql = "INSERT INTO usuario
+            (Nombre, Apellido1, Apellido2, Correo, Contrasenna, idRol, FechaRegistro, idEstadoUsuario)
+            VALUES
+            ('$nombre',
+             '$apellido1',
+             '$apellido2',
+             '$correo',
+             '$contrasena',
+             $idRol,
+             NOW(),
+             $idEstadoUsuario)";
+
+    // Ejecutar y obtener el ID generado
+    $idUsuario = $this->enlace->executeSQL_DML_last($sql);
+
+    // Retornar usuario creado
+    return $this->get($idUsuario);
+}
+
+
+    public function login($objeto)
+    {
+        $vSql = "SELECT * FROM usuario WHERE Correo='$objeto->Correo'";
+        $vResultado = $this->enlace->ExecuteSQL($vSql);
+
+        if (empty($vResultado)) {
+            return false;
+        }
+
+       if (is_object($vResultado[0])) {
+			$user = $vResultado[0];
+			if (password_verify($objeto->Contrasenna, $user->Contrasenna)) {
+				$usuario = $this->get($user->idUsuario);
+				if (!empty($usuario)) {
+                $data = [
+						'idUsuario' => $usuario->idUsuario,
+						'Correo' => $usuario->Correo,
+						'rol' => $usuario->rol,
+						'iat' => time(),  // Hora de emisión
+						'exp' => time() + 3600 // Expiración en 1 hora
+					];
+
+					// Generar el token JWT
+					$jwt_token = JWT::encode($data, config::get('SECRET_KEY'), 'HS256');
+
+					// Enviar el token como respuesta
+					return $jwt_token;
+
+
+                }
+            }
+       } else {
+			return false;
+}
+}
+
 }

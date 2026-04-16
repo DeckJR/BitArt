@@ -72,18 +72,26 @@ class puja
             
         }
     }
-    public function ContarPujasBySubasta($param)
-    {
-        try {
-            $response = new Response();
-            $puja = new PujaModel();
-            $result = $puja->contarPujasbySubasta($param);
-            //Dar respuesta
-            $response->toJSON($result);
-        } catch (Exception $e) {
-            $response->toJSON($result);
-            handleException($e);
-            
-        }
+   public function ContarPujasBySubasta($param)
+{
+    try {
+        $response = new Response();
+        $puja = new PujaModel();
+        $result = $puja->contarPujasbySubasta($param);
+        
+        $response->toJSON([
+            'success' => true,
+            'subasta_id' => $param,
+            'totalPujas' => $result ?? 0
+        ]);
+        
+    } catch (Exception $e) {
+        $response = new Response();
+        $response->toJSON([
+            'success' => false,
+            'error' => $e->getMessage(),
+            'totalPujas' => 0  // ← IMPORTANTE: 0 por defecto
+        ]);
     }
+}
 }

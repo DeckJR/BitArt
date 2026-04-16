@@ -13,7 +13,6 @@ import {
   ChevronDown,
   Wallpaper,
   User,
-// ShoppingBasket
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -25,90 +24,111 @@ import {
   MenubarItem,
 } from "@/components/ui/menubar";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-
-
-
+import { useUser } from "@/hooks/useUser";
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const userEmail = "Invitado";
+  const { user, isAuthenticated, clearUser, authorize } = useUser();
+  const userEmail = user?.Correo || "Invitado";
 
-const navItems = [
-  { title: "Subastas Activas", href: "subasta/Activa", icon: <List className="h-4 w-4" /> },
-  {
-    title: "Subastas Finalizadas",
-    href: "subasta/finalizada",
-    icon: <List className="h-4 w-4" />,
-  },
-];
+  // MISMO FORMATO que MoviesApp
+  const navItems = [
+    {
+      title: "Subastas Activas",
+      href: "subasta/Activa",
+      icon: <List className="h-4 w-4" />,
+      show: true, 
+    },
+    {
+      title: "Subastas Finalizadas",
+      href: "subasta/finalizada",
+      icon: <List className="h-4 w-4" />,
+      show: authorize(["Administrador" , "Comprador"]), // solo admin y comprador
+    },
+  ];
 
-//Añadir el nombre de los mantenimientos que se ocupan
-const mantItems = [
- {
+  const mantItems = [
+    {
       title: "Pinturas",
       href: "objeto/table",
       icon: <Wrench className="h-4 w-4" />,
-  },
-  {
+      show: authorize(["Administrador, Vendedor"]), // solo admin y vendedor
+    },
+    {
       title: "Usuarios",
       href: "usuario/table",
       icon: <Wrench className="h-4 w-4" />,
-  },
-  {
+      show: authorize(["Administrador"]),
+    },
+    {
       title: "Subastas",
       href: "subasta/table",
       icon: <Wrench className="h-4 w-4" />,
-  },
-];
+      show: authorize(["Administrador", "Vendedor"]),
+    },
+  ];
 
-//Falta modificar y crear los inicios de sesión de Usuario
-const userItems = [
-  { title: "Login", href: "/user/login", icon: <LogIn className="h-4 w-4" /> },
-  {
-    title: "Registrarse",
-    href: "/user/create",
-    icon: <UserPlus className="h-4 w-4" />,
-  },
-  {
-    title: "Logout",
-    href: "#login",
-    icon: <LogOut className="h-4 w-4" />,
-  },
-];
+  const userItems = [
+    {
+      title: "Login",
+      href: "/usuario/login",
+      icon: <LogIn className="h-4 w-4" />,
+      show: !isAuthenticated,
+    },
+    {
+      title: "Registrarse",
+      href: "/usuario/Register",
+      icon: <UserPlus className="h-4 w-4" />,
+      show: !isAuthenticated,
+    },
+    {
+      title: "Logout",
+      href: "#",
+      icon: <LogOut className="h-4 w-4" />,
+      show: isAuthenticated,
+      action: clearUser,
+    },
+  ];
+
+  // Función reutilizable para clicks (igual que MoviesApp)
+  const handleItemClick = (e, item) => {
+    e.preventDefault();
+    if (item.action) item.action();
+    setMobileOpen(false);
+  };
+
   return (
     <header className="w-full fixed top-0 left-0 z-50 backdrop-blur-xl bg-gradient-to-r from-primary/80 via-primary/60 to-primary/80 border-b border-white/10 shadow-lg">
       <div className="flex items-center justify-between px-6 py-3 max-w-[1280px] mx-auto text-white">
 
-        {/* -------- Logo -------- */}
-        <Link
-          to="/"
-          className="flex items-center gap-2 text-xl font-semibold tracking-wide hover:opacity-90 transition"
-        >
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2 text-xl font-semibold tracking-wide hover:opacity-90 transition">
           <Wallpaper className="h-6 w-6" />
           <span className="hidden sm:inline">BitArt App</span>
         </Link>
 
-        {/* -------- Menú escritorio -------- */}
+        {/* Menú Desktop - EXACTO como MoviesApp */}
         <div className="hidden md:flex flex-1 justify-center">
           <Menubar className="w-auto bg-transparent border-none shadow-none space-x-6">
-            {/* Películas */}
+            
+            {/* Subastas */}
             <MenubarMenu>
               <MenubarTrigger className="text-white font-medium flex items-center gap-1 hover:text-secondary transition">
                 <List className="h-4 w-4" /> Subastas
                 <ChevronDown className="h-3 w-3" />
               </MenubarTrigger>
               <MenubarContent className="bg-primary/0 backdrop-blur-md border-white/10">
-                {navItems.map((item) => (
-                  <MenubarItem key={item.href} asChild>
+                {navItems
+                  .filter((item) => item.show)
+                  .map((item) => (
                     <Link
+                      key={item.href}
                       to={item.href}
-                      className="flex items-center gap-2 py-2 px-3 rounded-md text-sm hover:bg-accent/10 transition"
-      >
-        
+                      className="flex items-center gap-2 py-2 px-3 text-white/90 hover:bg-white/10 rounded-md transition"
+                    >
                       {item.icon} {item.title}
                     </Link>
-                  </MenubarItem>
-                ))}
+                  ))}
               </MenubarContent>
             </MenubarMenu>
 
@@ -119,16 +139,17 @@ const userItems = [
                 <ChevronDown className="h-3 w-3" />
               </MenubarTrigger>
               <MenubarContent className="bg-primary/0 backdrop-blur-md border-white/10">
-                {mantItems.map((item) => (
-                  <MenubarItem key={item.href} asChild> 
+                {mantItems
+                  .filter((item) => item.show)
+                  .map((item) => (
                     <Link
+                      key={item.href}
                       to={item.href}
-                      className="flex items-center gap-2 py-2 px-3 rounded-md text-sm hover:bg-accent/10 transition"
+                      className="flex items-center gap-2 py-2 px-3 text-white/90 hover:bg-white/10 rounded-md transition"
                     >
-                    {item.icon} {item.title}
+                      {item.icon} {item.title}
                     </Link>
-                  </MenubarItem>
-                ))}
+                  ))}
               </MenubarContent>
             </MenubarMenu>
 
@@ -139,14 +160,23 @@ const userItems = [
                 <ChevronDown className="h-3 w-3" />
               </MenubarTrigger>
               <MenubarContent className="bg-primary/0 backdrop-blur-md border-white/10">
-                {userItems.map((item) => (
+                {userItems.filter(item => item.show).map(item => (
                   <MenubarItem key={item.href} asChild>
-                    <Link
-                      to={item.href}
-                      className="flex items-center gap-2 py-2 px-3 rounded-md text-sm hover:bg-accent/10 transition"
-                    >
-                      {item.icon} {item.title}
-                    </Link>
+                    {item.action ? (
+                      <button
+                        onClick={(e) => handleItemClick(e, item)}
+                        className="flex items-center gap-2 py-2 px-3 w-full text-left text-white/90 hover:bg-white/10 rounded-md transition"
+                      >
+                        {item.icon} {item.title}
+                      </button>
+                    ) : (
+                      <Link
+                        to={item.href}
+                        className="flex items-center gap-2 py-2 px-3 hover:bg-white/10 rounded-md transition"
+                      >
+                        {item.icon} {item.title}
+                      </Link>
+                    )}
                   </MenubarItem>
                 ))}
               </MenubarContent>
@@ -154,7 +184,7 @@ const userItems = [
           </Menubar>
         </div>
 
-        {/* -------- Carrito + Menú móvil -------- */}
+        {/* Carrito + Mobile */}
         <div className="flex items-center gap-4">
           <Link to="/cart" className="relative hover:opacity-80">
             <ShoppingCart className="h-6 w-6" />
@@ -166,7 +196,7 @@ const userItems = [
             </Badge>
           </Link>
 
-          {/* Menú móvil */}
+          {/* Mobile Menu - EXACTO como MoviesApp */}
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
               <button className="md:hidden inline-flex items-center justify-center p-2 rounded-lg bg-white/10 hover:bg-white/20 transition">
@@ -183,49 +213,52 @@ const userItems = [
 
                 <div>
                   <h4 className="mb-2 text-lg font-semibold flex items-center gap-2">
-                    <List /> Pinturas
+                    <List /> Subastas
                   </h4>
-                  {navItems.map((item) => (
-                    <Link
-                      key={item.href}
-                      to={item.href}
-                      onClick={() => setMobileOpen(false)}
-                      className="flex items-center gap-2 py-2 px-3 rounded-md text-white/90 hover:bg-white/10 transition"
-                    >
-                      {item.icon} {item.title}
-                    </Link>
-                  ))}
+                  {navItems
+                    .filter((item) => item.show)
+                    .map((item) => (
+                      <Link
+                        key={item.href}
+                        to={item.href}
+                        onClick={() => setMobileOpen(false)}
+                        className="flex items-center gap-2 py-2 px-3 text-white/90 hover:bg-white/10 rounded-md transition block"
+                      >
+                        {item.icon} {item.title}
+                      </Link>
+                    ))}
                 </div>
 
                 <div>
                   <h4 className="mb-2 text-lg font-semibold flex items-center gap-2">
                     <Layers /> Mantenimientos
                   </h4>
-                  {mantItems.map((item) => (
-                    <Link
-                      key={item.href}
-                      to={item.href}
-                      onClick={() => setMobileOpen(false)}
-                      className="flex items-center gap-2 py-2 px-3 rounded-md text-white/90 hover:bg-white/10 transition"
-                    >
-                      {item.icon} {item.title}
-                    </Link>
-                  ))}
+                  {mantItems
+                    .filter((item) => item.show)
+                    .map((item) => (
+                      <Link
+                        key={item.href}
+                        to={item.href}
+                        onClick={() => setMobileOpen(false)}
+                        className="flex items-center gap-2 py-2 px-3 text-white/90 hover:bg-white/10 rounded-md transition block"
+                      >
+                        {item.icon} {item.title}
+                      </Link>
+                    ))}
                 </div>
 
                 <div>
                   <h4 className="mb-2 text-lg font-semibold flex items-center gap-2">
                     <User /> {userEmail}
                   </h4>
-                  {userItems.map((item) => (
-                    <Link
+                  {userItems.filter(item => item.show).map(item => (
+                    <button
                       key={item.href}
-                      to={item.href}
-                      onClick={() => setMobileOpen(false)}
-                      className="flex items-center gap-2 py-2 px-3 rounded-md text-white/90 hover:bg-white/10 transition"
+                      onClick={(e) => handleItemClick(e, item)}
+                      className="flex items-center gap-2 py-2 px-3 w-full text-left text-white/90 hover:bg-white/10 rounded-md transition"
                     >
                       {item.icon} {item.title}
-                    </Link>
+                    </button>
                   ))}
                 </div>
               </nav>

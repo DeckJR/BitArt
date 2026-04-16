@@ -1,75 +1,72 @@
-import { useState, useEffect } from "react";
-import toast from "react-hot-toast";
-import { UsuarioContext } from "./UsuarioContext";
+// src/context/UserProvider.jsx
+import { useState, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
-//para avance 4
-// Cargar usuario desde localStorage
-function loadUserFromStorage() {
-  const storedUser = localStorage.getItem("usuario");
-  if (!storedUser) return null;
-  try {
-    return JSON.parse(storedUser);
-  } catch (error) {
-    console.error("Error al leer el usuario:", error);
-    return null;
-  }
-}
+import { jwtDecode } from "jwt-decode";
+import { UsuarioContext } from "./UsuarioContext";
 
-export function UsuarioProvider({ children }) {
-  const [usuario, setUsuario] = useState(() => loadUserFromStorage());
+export default function UsuarioProvider({ children }) {
+    const [token, setToken] = useState(() => localStorage.getItem("token") || null);
 
-  // Mantener localStorage sincronizado
-  useEffect(() => {
-    if (usuario) {
-      localStorage.setItem("usuario", JSON.stringify(usuario));
-    } else {
-      localStorage.removeItem("usuario");
-    }
-  }, [usuario]);
+    // Decodifica el token actual solo cuando token cambia, evitando usar useEffect para un estado derivado.
+    const user = useMemo(() => {
+        if (!token) return null;
 
-  // Login: reemplaza completamente los valores del usuario
-  const login = (nuevosValores) => {
-  // Creamos un objeto nuevo con spread y añadimos un campo temporal para forzar cambio de referencia
-  const usuarioActualizado = {
-    id: nuevosValores.id || "3",
-    nombre: nuevosValores.nombre || "Jose María Cubillo Gutierrez",
-    correo: nuevosValores.correo || "gutierrezjosem@gmail.com",
-    rol: nuevosValores.rol || "Vendedor",
-    estado: nuevosValores.estado || "Activo",
-    __updated: Date.now() // campo temporal para forzar nueva referencia
-  };
+        try {
+            return jwtDecode(token);
+        } catch (error) {
+            console.error("Token inválido:", error);
+            return null;
+        }
+    }, [token]);
 
-  setUsuario(usuarioActualizado);
+    // Guarda el token en localStorage y actualiza el estado para mantener la sesión del usuario.
+    const saveUser = useCallback((newToken) => {
+        localStorage.setItem("token", newToken);
+        setToken(newToken);
+    }, []);
 
-  // Sobrescribimos localStorage inmediatamente
-  localStorage.setItem("usuario", JSON.stringify(usuarioActualizado));
+    // Limpia la sesión eliminando el token del estado y del almacenamiento local.
+    const clearUser = useCallback(() => {
+        setToken(null);
+        localStorage.removeItem("token");
+    }, []);
 
-  toast.success(`Bienvenido ${usuarioActualizado.nombre}`);
-};
+    // Retorna la información decodificada del token actual de forma segura.
+    const decodeToken = useCallback(() => {
+        return user;
+    }, [user]);
 
-  const logout = () => {
-    if (usuario) toast(`Sesión cerrada: ${usuario.nombre}`);
-    setUsuario(null);
-  };
+    // Verifica si el rol del usuario autenticado está incluido dentro de los roles permitidos.
+    const authorize = useCallback(
+        (requiredRoles = []) => {
+            if (!user || !user.rol) return false;
+            return requiredRoles.includes(user.rol);
+        },
+        [user]
+    );
 
-  const isVendedor = () => usuario?.rol?.toLowerCase() === "vendedor";
-  const hasRole = (rol) => usuario?.rol === rol;
+    const isAuthenticated = !!token && !!user;
 
-  const value = {
-    usuario,
-    login,
-    logout,
-    isVendedor,
-    hasRole,
-  };
+    const contextValue = useMemo(
+        () => ({
+            token,
+            user,
+            isAuthenticated,
+            saveUser,
+            clearUser,
+            decodeToken,
+            authorize,
+        }),
+        [token, user, isAuthenticated, saveUser, clearUser, decodeToken, authorize]
+    );
 
-  return (
-    <UsuarioContext.Provider value={value}>
-      {children}
-    </UsuarioContext.Provider>
-  );
+    return (
+        <UsuarioContext.Provider value={contextValue}>
+            {children}
+        </UsuarioContext.Provider>
+    );
 }
 
 UsuarioProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-}; 
+    children: PropTypes.node.isRequired,
+};
