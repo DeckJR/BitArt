@@ -31,19 +31,34 @@ class puja
         }
     }
     public function getPujasBySubasta($param)
-    {
-        try {
-            $response = new Response();
-            $puja = new PujaModel();
-            $result = $puja->getPujasbySubasta($param);
-            //Dar respuesta
-            $response->toJSON($result);
-        } catch (Exception $e) {
-            $response->toJSON($result);
-            handleException($e);
-            
+{
+    try {
+        $response = new Response();
+        $puja = new PujaModel();
+
+        $result = $puja->getPujasbySubasta($param);
+
+        // 🔥 asegurar array plano
+        if (!is_array($result)) {
+            $result = [];
         }
+
+        $response->toJSON([
+            "success" => true,
+            "status" => 200,
+            "message" => empty($result) ? "Sin pujas aún" : "Solicitud exitosa",
+            "data" => $result
+        ]);
+
+    } catch (Exception $e) {
+        $response->toJSON([
+            "success" => false,
+            "status" => 500,
+            "message" => "Error interno",
+            "data" => []
+        ]);
     }
+}
     public function getPujasByUsuario($param)
     {
         try {
@@ -94,4 +109,28 @@ class puja
         ]);
     }
 }
+ public function create()
+    {
+        try {
+            $request = new Request();
+            $response = new Response();
+            //Obtener json enviado
+            $inputJSON = $request->getJSON();
+            //Instancia del modelo
+            $puja = new PujaModel();
+            //Acción del modelo a ejecutar
+            $result = $puja->create($inputJSON);
+            //Dar respuesta
+            $response->toJSON([
+                "success" => true,
+                "status" => 200,
+                "message" => "Puja creada",
+                "data" => $result
+            ]);        
+} catch (Exception $e) {
+            $response->toJSON($result);
+            handleException($e);
+            
+        }
+    }
 }

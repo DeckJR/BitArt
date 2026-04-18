@@ -32,19 +32,25 @@ class PujaModel
     }
     /*Obtener */
     public function get($id)
-    {
-        
-        $sub = new SubastaModel();
-        $usr = new UsuarioModel();
-        $vSql = "SELECT * FROM puja where idPuja=$id";
+{
+    $sub = new SubastaModel();
+    $usr = new UsuarioModel();
 
-        $vResultado = $this->enlace->ExecuteSQL($vSql);
-        $vResultado = $vResultado[0];
-        $vResultado->subasta = $sub->get((int)$vResultado->idSubasta);
-        $vResultado->usuario = $usr->get((int)$vResultado->idUsuario)->nombreCompleto;
+    $vSql = "SELECT * FROM puja WHERE idPuja=$id";
 
-        return $vResultado;
+    $vResultado = $this->enlace->ExecuteSQL($vSql);
+
+    if (!$vResultado || !isset($vResultado[0])) {
+        return null;
     }
+
+    $vResultado = $vResultado[0];
+
+    $vResultado->subasta = $sub->get((int)$vResultado->idSubasta);
+    $vResultado->usuario = $usr->get((int)$vResultado->idUsuario)->nombreCompleto;
+
+    return $vResultado;
+}
 
     //Campo Calculado si es vendedor
     public function contarPujasbyUsuario(int $idUsuario): int
@@ -86,16 +92,41 @@ class PujaModel
 
     //pujas por subasta
     public function getPujasbySubasta($idSubasta){
-        $usr = new UsuarioModel();
-        $vSql = "SELECT * FROM puja where idSubasta=$idSubasta order by idPuja desc;";    
-        $vResultado = $this->enlace->ExecuteSQL($vSql);
-        if (!empty($vResultado) && is_array($vResultado)) {
-            for ($i = 0; $i < count($vResultado); $i++) {
-                $puj = $vResultado[$i];
-                $puj->usuario = $usr->get((int)$puj->idUsuario)->nombreCompleto;
-            }
+    $usr = new UsuarioModel();
+
+    $vSql = "SELECT * FROM puja WHERE idSubasta=$idSubasta ORDER BY idPuja DESC;";
+    $vResultado = $this->enlace->ExecuteSQL($vSql);
+
+    if (!empty($vResultado) && is_array($vResultado)) {
+        for ($i = 0; $i < count($vResultado); $i++) {
+            $puj = $vResultado[$i];
+            $puj->usuario = $usr->get((int)$puj->idUsuario)->nombreCompleto;
         }
-        // Retornar el objeto
-        return $vResultado;
     }
+
+    return $vResultado ?? []; 
+}
+
+
+//Crear
+public function create($objeto)
+{
+   $sql = "INSERT INTO puja (
+            idUsuario,
+            idSubasta,
+            MontoOfertado,
+            FechaHora
+        )
+        VALUES (
+            $objeto->idUsuario,
+            $objeto->idSubasta,
+            $objeto->MontoOfertado,
+            NOW()
+        )";
+
+    $id = $this->enlace->executeSQL_DML_last($sql);
+
+    return $this->get($id);
+}
+
 }

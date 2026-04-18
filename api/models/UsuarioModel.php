@@ -153,6 +153,7 @@ class UsuarioModel
 						'idUsuario' => $usuario->idUsuario,
 						'Correo' => $usuario->Correo,
 						'rol' => $usuario->rol,
+                        'nombreCompleto' => $usuario->nombreCompleto,
 						'iat' => time(),  // Hora de emisión
 						'exp' => time() + 3600 // Expiración en 1 hora
 					];

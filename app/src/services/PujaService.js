@@ -22,5 +22,8 @@ class PujaService {
     {
         return axios.get(BASE_URL + '/' + 'ContarPujasBySubasta' + '/' + idSubasta)
     }
+    createPuja(data) {
+    return axios.post(BASE_URL + '/create', data);
+    }
 }
 export default new PujaService();

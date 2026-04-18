@@ -52,7 +52,7 @@ export default function Header() {
       title: "Pinturas",
       href: "objeto/table",
       icon: <Wrench className="h-4 w-4" />,
-      show: authorize(["Administrador, Vendedor"]), // solo admin y vendedor
+      show: authorize(["Administrador", "Vendedor"]), // solo admin y vendedor
     },
     {
       title: "Usuarios",

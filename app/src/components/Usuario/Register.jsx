@@ -15,8 +15,8 @@ const schema = yup.object({
   Nombre: yup.string().required("El nombre es obligatorio"),
   Apellido1: yup.string().required("El primer apellido es obligatorio"),
   Apellido2: yup.string().required("El segundo apellido es obligatorio"),
-  email: yup.string().email("Correo inválido").required("El correo es obligatorio"),
-  password: yup.string().min(6, "Mínimo 6 caracteres").required("La contraseña es obligatoria"),
+  Correo: yup.string().email("Correo inválido").required("El correo es obligatorio"),
+  Contrasenna: yup.string().min(6, "Mínimo 6 caracteres").required("La contraseña es obligatoria"),
 });
 
 export default function Register() {
@@ -45,7 +45,7 @@ export default function Register() {
         Apellido1: data.Apellido1,
         Apellido2: data.Apellido2,
         Correo: data.Correo,
-        Contrasenna: data.password,
+        Contrasenna: data.Contrasenna,
         idRol: 3,            // Comprador
         idEstadoUsuario: 1,  // Activo
       };
