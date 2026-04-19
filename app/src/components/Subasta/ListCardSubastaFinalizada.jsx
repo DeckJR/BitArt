@@ -99,12 +99,14 @@ export function ListCardSubastaFinalizada({ data, isInactive }) {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button size="icon" className="size-8"
-                    >
+                    <Button size="icon" className="size-8">
+                  <Link to={`/subasta/resultado/${item.idSubasta}`} 
+                    state={{ objetoNombre: item.objeto?.Nombre, }}>
                       <ShoppingCart />
+                    </Link>
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent>Agregar al carrito</TooltipContent>
+                  <TooltipContent>Pagar</TooltipContent>
                 </Tooltip>
               </TooltipProvider>
             )}

@@ -30,5 +30,35 @@ class resultadosubasta
             
         }
     }
+
+    public function getResultadosBySubasta($param)
+    {       
+        $response = new Response();
+        $puja = new PujaModel();
+    try {
+        
+
+        $result = $puja->getPujasbySubasta($param);
+
+        if (!is_array($result)) {
+            $result = [];
+        }
+
+        $response->toJSON([
+            "success" => true,
+            "status" => 200,
+            "message" => empty($result) ? "Sin pujas aún" : "Solicitud exitosa",
+            "data" => $result
+        ]);
+
+    } catch (Exception $e) {
+        $response->toJSON([
+            "success" => false,
+            "status" => 500,
+            "message" => "Error interno",
+            "data" => []
+        ]);
+    }
+}
     
 }

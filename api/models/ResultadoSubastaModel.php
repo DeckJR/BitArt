@@ -52,4 +52,49 @@ class ResultadoSubastaModel
         // Retornar el objeto
         return $vResultado;
     }
+
+public function getResultadoBySubasta($idSubasta)
+{
+    $sub = new SubastaModel();
+    $usr = new UsuarioModel();
+
+    $sql = "SELECT * 
+            FROM resultadosubasta 
+            WHERE idSubasta = $idSubasta";
+
+    $result = $this->enlace->executeSQL($sql);
+
+    if (empty($result)) {
+        return null;
+    }
+
+    $vResultado = $result[0];
+
+    $vResultado->subasta = $sub->get((int)$vResultado->idSubasta);
+    $vResultado->comprador = $usr->get((int)$vResultado->idUsuario)->nombreCompleto;
+
+    return $vResultado;
+}
+
+    public function create($objeto)
+{
+    $sql = "INSERT INTO resultadosubasta (
+                idSubasta,
+                idUsuario,
+                MontoFinal
+            )
+            VALUES (
+                $objeto->idSubasta,
+                $objeto->idUsuario,
+                $objeto->MontoFinal
+            )";
+
+    $id = $this->enlace->executeSQL_DML_last($sql);
+
+    return $this->get($id);
+}
+
+
+
+
 }
