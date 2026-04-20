@@ -34,21 +34,36 @@ class PagoModel
         return $vResultado;
     }
 
-    public function getPagobySubasta($idSubasta)
-    {
-        $sub = new SubastaModel();
-        //Consulta sql
-        $vSql = "SELECT * FROM pago where idSubasta=$idSubasta";
+ public function getPagoBySubasta($idSubasta)
+{
+    $sql = "SELECT * FROM pago WHERE idSubasta = $idSubasta";
 
-        //Ejecutar la consulta
-        $vResultado = $this->enlace->ExecuteSQL($vSql);
-        
-        $vResultado = $vResultado[0];
-        $vResultado -> subasta = $sub ->get((int)$idSubasta);
-        // Retornar el objeto
-        return $vResultado;
-    }
+    $result = $this->enlace->executeSQL($sql);
+
+    return empty($result) ? null : $result[0];
+}
 
 
+    public function create($objeto)
+{
+    $sql = "INSERT INTO pago (
+                idSubasta,
+                idUsuario,
+                FechaPago,
+                idEstadoPago,
+                MontoFinal
+            )
+            VALUES (
+                $objeto->idSubasta,
+                $objeto->idUsuario,
+                '$objeto->FechaPago',
+                $objeto->idEstadoPago,
+                $objeto->MontoFinal
+            )";
+
+    $id = $this->enlace->executeSQL_DML_last($sql);
+
+    return $this->get($id);
+}
 
 }

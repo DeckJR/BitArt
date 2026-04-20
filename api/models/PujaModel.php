@@ -94,7 +94,7 @@ class PujaModel
     public function getPujasbySubasta($idSubasta){
     $usr = new UsuarioModel();
 
-    $vSql = "SELECT * FROM puja WHERE idSubasta=$idSubasta ORDER BY idPuja DESC;";
+    $vSql = "SELECT * FROM puja WHERE idSubasta=$idSubasta ORDER BY MontoOfertado Asc;";
     $vResultado = $this->enlace->ExecuteSQL($vSql);
 
     if (!empty($vResultado) && is_array($vResultado)) {

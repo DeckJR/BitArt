@@ -31,33 +31,66 @@ class resultadosubasta
         }
     }
 
-    public function getResultadosBySubasta($param)
-    {       
-        $response = new Response();
-        $puja = new PujaModel();
+    public function getResultadoBySubasta($param)
+{       
+    $response = new Response();
+    $resultadosubasta = new ResultadoSubastaModel();
+
     try {
-        
 
-        $result = $puja->getPujasbySubasta($param);
-
-        if (!is_array($result)) {
-            $result = [];
-        }
+        $result = $resultadosubasta->getResultadoBySubasta($param);
 
         $response->toJSON([
             "success" => true,
             "status" => 200,
-            "message" => empty($result) ? "Sin pujas aún" : "Solicitud exitosa",
+            "message" => $result ? "Solicitud exitosa" : "Sin resultado aún",
             "data" => $result
         ]);
 
     } catch (Exception $e) {
+
         $response->toJSON([
             "success" => false,
             "status" => 500,
             "message" => "Error interno",
-            "data" => []
+            "data" => null
         ]);
+    }
+}
+
+public function create()
+{
+    try {
+        $request = new Request();
+        $response = new Response();
+
+        $inputJSON = $request->getJSON();
+
+        $resultadosubasta = new ResultadoSubastaModel();
+
+        // Verificar que no exista ya un resultado para esta subasta
+        $existente = $resultadosubasta->getResultadoBySubasta((int)$inputJSON->idSubasta);
+        if ($existente) {
+            $response->toJSON([
+                "success" => false,
+                "status" => 409,
+                "message" => "Ya existe un resultado para esta subasta."
+            ]);
+            return;
+        }
+
+        $result = $resultadosubasta->create($inputJSON);
+
+        $response->toJSON([
+            "success" => true,
+            "status" => 201,
+            "message" => "Resultado registrado correctamente.",
+            "data" => $result
+        ]);
+
+    } catch (Exception $e) {
+        $response->toJSON($result);
+        handleException($e);
     }
 }
     

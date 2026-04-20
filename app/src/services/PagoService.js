@@ -12,7 +12,7 @@ class PagoService {
         return axios.get(BASE_URL + '/' + 'getPagoBySubasta' + '/' + idSubasta);
     }
     createPago(data) {
-        return axios.post(`${BASE_URL}pago`, data);
+        return axios.post(`${BASE_URL}/create`, data);
     }
 }
 export default new PagoService();

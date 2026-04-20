@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import SubastaService from '../../services/SubastaService';
-import PujaService from '../../services/PujaService';
 import ResultadoSubastaService from '../../services/ResultadoSubastaService';
 import PagoService from '../../services/PagoService';
 import { ErrorAlert } from "../ui/custom/ErrorAlert";
@@ -25,6 +24,12 @@ export function DetailResultadoSubasta() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const formatFecha = (fecha) =>
+    new Intl.DateTimeFormat('es-CR', {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+    }).format(new Date(fecha.replace(' ', 'T')));
+
     const formatCRC = (val) =>
         new Intl.NumberFormat('es-CR', { style: 'currency', currency: 'CRC' }).format(val);
 
@@ -41,19 +46,26 @@ export function DetailResultadoSubasta() {
                 }
                 setSubasta(subRes.data.data);
 
+                
                 const resRes = await ResultadoSubastaService.getResultadoBySubasta(id);
-                if (resRes.data?.success && resRes.data?.data) {
-                    setResultado(resRes.data.data);
-                }
+                const resultadoReal = resRes.data?.data?.data;
 
-                const pujaRes = await PujaService.getPujasBySubasta(id);
-                const pujas = pujaRes.data?.data?.data ?? [];
-                if (pujas.length > 0) setGanador(pujas[0]);
+                if (resRes.data?.data?.success && resultadoReal) {
+                    setResultado(resultadoReal);
+                }
+         
+                setGanador({
+                    idUsuario: resultadoReal.idUsuario,
+                    usuario: resultadoReal.comprador,
+                    MontoOfertado: resultadoReal.MontoFinal
+                });
+
 
                 try {
                     const pagoRes = await PagoService.getPagoBySubasta(id);
-                    if (pagoRes.data?.success && pagoRes.data?.data) setYaPagado(true);
-                } catch { /* no hay pago aún */ }
+                if (pagoRes.data?.data?.success === true) {
+                    setYaPagado(true);
+}                } catch { /* no hay pago aún */ }
 
             } catch (err) {
                 if (err.name !== 'AbortError') setError(err.message);
@@ -87,8 +99,7 @@ export function DetailResultadoSubasta() {
     if (!subasta || !ganador) return <EmptyState message="No se encontró resultado para esta subasta." />;
 
     const montoFinal = parseFloat(resultado?.MontoFinal ?? ganador?.MontoOfertado ?? 0);
-    const esGanador = user?.idUsuario === (resultado?.idUsuario ?? ganador?.idUsuario);
-
+    const esGanador = user?.idUsuario === resultado?.idUsuario;
     return (
         <div className="max-w-2xl mx-auto py-12 px-4">
 
@@ -118,9 +129,6 @@ export function DetailResultadoSubasta() {
                         </div>
                         <div>
                             <p className="font-semibold text-base">{ganador.usuario}</p>
-                            {ganador.correo && (
-                                <p className="text-sm text-muted-foreground">{ganador.correo}</p>
-                            )}
                         </div>
                         {esGanador && (
                             <Badge className="ml-auto bg-green-100 text-green-800 dark:bg-green-950/40 dark:text-green-300 border-0">
@@ -138,7 +146,9 @@ export function DetailResultadoSubasta() {
 
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Clock className="w-4 h-4" />
-                        <span>Cierre de la subasta: <strong className="text-foreground">{subasta.FechaHoraFinal}</strong></span>
+                        <strong className="text-foreground">
+                            {formatFecha(subasta.FechaHoraFinal)}
+                        </strong>
                     </div>
                 </CardContent>
             </Card>
