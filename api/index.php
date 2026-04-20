@@ -34,6 +34,7 @@ require_once "models/RolModel.php";
 require_once "models/SubastaModel.php";
 require_once "models/UsuarioModel.php";
 require_once "models/ObjetoCategoriaModel.php";
+require_once "models/AblyHelper.php";
 
 /***--- Agregar todos los controladores*/
 require_once "controllers/UsuarioController.php";

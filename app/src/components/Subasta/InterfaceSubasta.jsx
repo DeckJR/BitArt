@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react'; // ✅ useRef agregado
 import { useNavigate, useParams } from 'react-router-dom';
 import SubastaService from '../../services/SubastaService';
 import PujaService from '../../services/PujaService';
@@ -8,21 +8,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/hooks/useUser";
 import {
-    UserRoundPen,
-    Clock,
-    User,
-    List,
-    FileLock,
-    FileClock,
-    ChevronRight,
-    Banknote,
-    BanknoteArrowUp,
-    Hash,
-    ArrowLeft,
-    Trophy
+    UserRoundPen, Clock, User, List, FileLock, FileClock,
+    ChevronRight, Banknote, BanknoteArrowUp, Hash, ArrowLeft, Trophy
 } from "lucide-react";
 import { LoadingGrid } from '../ui/custom/LoadingGrid';
 import { EmptyState } from '../ui/custom/EmptyState';
+import { useAblyChannel } from '@/hooks/useAbly';
 
 export function InterfaceSubasta() {
     const navigate = useNavigate();
@@ -37,13 +28,33 @@ export function InterfaceSubasta() {
     const [pujaLoading, setPujaLoading] = useState(false);
     const [pujaError, setPujaError] = useState(null);
     const [pujaExito, setPujaExito] = useState(false);
+    const [pujasSuperada, setPujasSuperada] = useState(false);
 
+    // ✅ La "caja" que siempre tiene el valor actual de subasta
+    const subastaRef = useRef(null);
+
+    // ✅ Cada vez que subasta cambia, actualizamos la caja
+    useEffect(() => {
+        subastaRef.current = subasta;
+    }, [subasta]);
+
+    // Si la subasta ya está Finalizada al cargar, redirigir de una vez
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await SubastaService.getSubastaById(id);
                 setData(response.data);
-                if (!response.data.success) setError(response.data.message);
+
+                if (!response.data.success) {
+                    setError(response.data.message);
+                    return;
+                }
+
+                /*if (response.data?.data?.estadosubasta === 'Finalizada') {
+                    navigate(`/subasta/resultado/${id}`);
+                    return;
+                }*/
+
             } catch (err) {
                 if (err.name !== "AbortError") setError(err.message);
             } finally {
@@ -66,6 +77,57 @@ export function InterfaceSubasta() {
         fetchPujas();
     }, [id]);
 
+    // Ably escucha nueva puja
+    useAblyChannel(
+        id ? `subasta-${id}` : null,
+        'nueva-puja',
+        (data) => {
+            setPujas(prev => {
+                const existe = prev.some(p => String(p.idPuja) === String(data.idPuja));
+                if (existe) return prev;
+
+                const usuarioActualId = String(user?.idUsuario);
+                const quienPujoId = String(data.idUsuario);
+                const usuarioTeniaPuja = prev.some(p => String(p.idUsuario) === usuarioActualId);
+
+                if (usuarioActualId && quienPujoId !== usuarioActualId && usuarioTeniaPuja) {
+                    setPujasSuperada(true);
+                    setTimeout(() => setPujasSuperada(false), 5000);
+                }
+
+                return [data, ...prev];
+            });
+        }
+    );
+
+    // ✅ Ably escucha cierre de subasta — ahora usa subastaRef para ver el valor actual
+    useAblyChannel(
+        id ? `subasta-${id}` : null,
+        'subasta-cerrada',
+        (data) => {
+            // Si la subasta no estaba Abierta en esta sesión, ignorar el mensaje
+            // Esto evita que mensajes viejos de Ably redirijan al usuario
+            if (subastaRef.current?.data?.estadosubasta !== 'Abierta') return;
+
+            setData(prev => {
+                if (!prev) return prev;
+                return {
+                    ...prev,
+                    data: {
+                        ...prev.data,
+                        estadosubasta: 'Finalizada',
+                        ganador: data.ganador ?? null,
+                        montoFinal: data.montoFinal ?? null,
+                    }
+                };
+            });
+
+            setTimeout(() => {
+                navigate(`/subasta/resultado/${id}`);
+            }, 2000);
+        }
+    );
+    
     const formatCRC = (val) =>
         new Intl.NumberFormat('es-CR', { style: 'currency', currency: 'CRC' }).format(val);
 
@@ -105,10 +167,9 @@ export function InterfaceSubasta() {
             });
             setMonto('');
             setPujaExito(true);
-            fetchPujas();
             setTimeout(() => setPujaExito(false), 3000);
         } catch (e) {
-            setPujaError('Error al registrar la puja.'+ e);
+            setPujaError('Error al registrar la puja.' + e);
         } finally {
             setPujaLoading(false);
         }
@@ -128,8 +189,14 @@ export function InterfaceSubasta() {
 
     return (
         <div className="max-w-4xl mx-auto py-12 px-4">
+
+            {pujasSuperada && (
+                <div className="mb-4 bg-orange-100 border border-orange-400 text-orange-800 px-4 py-3 rounded-lg text-sm font-medium animate-pulse">
+                    ⚠️ Tu puja ha sido superada
+                </div>
+            )}
+
             <div className="flex flex-col md:flex-row gap-8 items-start">
-                {/* Sección de la Imagen */}
                 <div className="relative flex-shrink-0 w-full md:w-1/4 lg:w-1/5 rounded-lg overflow-hidden shadow-xl">
                     <div className="aspect-[2/3] w-full bg-muted flex items-center justify-center">
                         <img
@@ -142,7 +209,6 @@ export function InterfaceSubasta() {
                     <Badge variant="secondary" className="absolute bottom-4 right-4 text-1xl" />
                 </div>
 
-                {/* Sección de los Detalles */}
                 <div className="flex-1 space-y-6">
                     <div>
                         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
@@ -152,9 +218,7 @@ export function InterfaceSubasta() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
                         <Card>
                             <CardContent className="p-6 space-y-6">
-                                <h2 className="text-xl font-bold flex items-center gap-2">
-                                    Información de la obra
-                                </h2>
+                                <h2 className="text-xl font-bold flex items-center gap-2">Información de la obra</h2>
                                 <div className="flex items-center gap-4">
                                     <User className="h-5 w-5 text-primary" />
                                     <span className="font-semibold">Autor:</span>
@@ -189,9 +253,7 @@ export function InterfaceSubasta() {
 
                         <Card>
                             <CardContent className="p-6 space-y-6">
-                                <h2 className="text-xl font-bold flex items-center gap-2">
-                                    Información de la subasta
-                                </h2>
+                                <h2 className="text-xl font-bold flex items-center gap-2">Información de la subasta</h2>
                                 <div className="flex items-center gap-4">
                                     <FileClock className="h-5 w-5 text-primary" />
                                     <span className="font-semibold">Estado:</span>
@@ -232,6 +294,20 @@ export function InterfaceSubasta() {
                                         </div>
                                     </div>
                                 </div>
+
+                                {subasta.data.estadosubasta === 'Finalizada' && (
+                                    <div className={`px-4 py-3 rounded-lg flex items-center gap-2 text-sm font-medium ${
+                                        subasta.data.ganador
+                                            ? 'bg-green-100 border border-green-400 text-green-800'
+                                            : 'bg-gray-100 border border-gray-400 text-gray-700'
+                                    }`}>
+                                        <Trophy className="h-5 w-5 text-yellow-500" />
+                                        {subasta.data.ganador
+                                            ? <>Ganador: <strong>{subasta.data.ganador}</strong> — {formatCRC(subasta.data.montoFinal)}</>
+                                            : 'Subasta finalizada sin ofertas'
+                                        }
+                                    </div>
+                                )}
                             </CardContent>
                         </Card>
                     </div>
@@ -247,7 +323,6 @@ export function InterfaceSubasta() {
                 Regresar
             </Button>
 
-            {/* ── Sección de pujas ── */}
             <div className="border-t mt-10 pt-10">
                 <div className="flex items-center gap-3 mb-6">
                     <div className="w-1 h-7 bg-primary rounded" />
@@ -255,8 +330,6 @@ export function InterfaceSubasta() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-[1fr_300px] gap-6 items-start">
-
-                    {/* Tabla historial */}
                     <div className="border rounded-xl overflow-hidden">
                         <table className="w-full text-sm">
                             <thead className="bg-muted">
@@ -278,10 +351,7 @@ export function InterfaceSubasta() {
                                     pujas.map((puja, index) => (
                                         <tr key={puja.idPuja} className={`border-t ${index === 0 ? 'bg-green-50 dark:bg-green-950/20' : ''}`}>
                                             <td className="px-4 py-3 text-muted-foreground">
-                                                {index === 0
-                                                    ? <Trophy className="h-4 w-4 text-yellow-500" />
-                                                    : pujas.length - index
-                                                }
+                                                {index === 0 ? <Trophy className="h-4 w-4 text-yellow-500" /> : pujas.length - index}
                                             </td>
                                             <td className="px-4 py-3">
                                                 <div className="flex items-center gap-2">
@@ -305,9 +375,7 @@ export function InterfaceSubasta() {
                         </table>
                     </div>
 
-                    {/* Panel para pujar */}
                     <div className="border rounded-xl p-5 flex flex-col gap-4 sticky top-6">
-
                         <div className="bg-muted rounded-lg p-4">
                             <p className="text-xs text-muted-foreground mb-1">Puja líder actual</p>
                             <p className="text-2xl font-bold text-green-600">
@@ -366,7 +434,6 @@ export function InterfaceSubasta() {
                             Pujando como: <strong>{user?.nombreCompleto ?? user?.Correo}</strong>
                         </p>
                     </div>
-
                 </div>
             </div>
         </div>

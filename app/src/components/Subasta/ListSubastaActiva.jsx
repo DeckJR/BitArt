@@ -29,7 +29,7 @@ export function ListSubastaActiva() {
             }
         };
         fetchData()
-    }, );
+    }, []);
 
 
     if (loading) return <LoadingGrid type="grid" />;

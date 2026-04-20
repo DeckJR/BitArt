@@ -1,8 +1,8 @@
 CREATE DATABASE  IF NOT EXISTS `bitartdb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 USE `bitartdb`;
--- MySQL dump 10.13  Distrib 8.0.45, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: bitartdb
+-- Host: localhost    Database: bitartdb
 -- ------------------------------------------------------
 -- Server version	5.5.5-10.4.32-MariaDB
 
@@ -176,7 +176,7 @@ CREATE TABLE `imagen` (
   UNIQUE KEY `idObjeto_UNIQUE` (`idObjeto`),
   KEY `fk_imagen_objeto_idx` (`idObjeto`),
   CONSTRAINT `fk_imagen_objeto` FOREIGN KEY (`idObjeto`) REFERENCES `objeto` (`idObjeto`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -185,7 +185,7 @@ CREATE TABLE `imagen` (
 
 LOCK TABLES `imagen` WRITE;
 /*!40000 ALTER TABLE `imagen` DISABLE KEYS */;
-INSERT INTO `imagen` VALUES (1,1,'MONALISAjpeg-69bd7876a63fe.jpeg'),(2,2,'LaNocheEstrellada.jpg'),(3,3,'Guernica.jpg'),(4,4,'LaUltimaCena.jpg'),(5,5,'ElNacimientoDeVenus.jpg'),(6,6,'LosGirasoles.jpg'),(7,7,'ElGrito.jpg'),(8,8,'LaPersistenciaDeLaMemoria.jpg'),(9,9,'LasDosFridas.jpg'),(10,10,'LasMeninas.jpg'),(11,11,'LaLibertadGuiandoAlPueblo.jpg'),(12,12,'ImpresionSolNaciente.jpg'),(13,13,'LaGranOlaDeKanagawa.jpg'),(14,14,'ElBeso.jpg'),(15,15,'LaRendicionDeBreda.jpg'),(16,16,'LaJovenDeLaPerla.jpg'),(17,17,'ElJardinDeLasDelicias.jpg'),(18,18,'NapoleonCruzandoLosAlpes.jpg'),(19,19,'ElCaminanteSobreElMarDeNubes.jpg'),(20,20,'LaCreacionDeAdan.jpg'),(21,21,'Elhijodelhombrejpeg-69b7bd15ce13b.jpeg'),(22,22,'LaEscueladeAtenasjpg-69b85a6fccde6.jpg'),(23,23,'ElentierrodelSeorOrgazjpeg-69b867a17485d.jpeg'),(24,24,'Elretornodelhijoprodigojpeg-69b87207c1dd8.jpeg'),(25,25,'LaCartedeIEnferjpg-69b87c6f6d888.jpg'),(26,26,'HenryFordHospitaljpeg-69b8d03f9ab05.jpeg'),(27,27,'ElColumpiojpeg-69badc26ec3ef.jpeg'),(29,28,'juramentodelosHoraciosjpeg-69c0128543d99.jpeg');
+INSERT INTO `imagen` VALUES (1,1,'MONALISAjpeg-69bd7876a63fe.jpeg'),(2,2,'LaNocheEstrellada.jpg'),(3,3,'Guernica.jpg'),(4,4,'LaUltimaCena.jpg'),(5,5,'ElNacimientoDeVenus.jpg'),(6,6,'LosGirasoles.jpg'),(7,7,'ElGrito.jpg'),(8,8,'LaPersistenciaDeLaMemoria.jpg'),(9,9,'LasDosFridas.jpg'),(10,10,'LasMeninas.jpg'),(11,11,'LaLibertadGuiandoAlPueblo.jpg'),(12,12,'ImpresionSolNaciente.jpg'),(13,13,'LaGranOlaDeKanagawa.jpg'),(14,14,'ElBeso.jpg'),(15,15,'LaRendicionDeBreda.jpg'),(16,16,'LaJovenDeLaPerla.jpg'),(17,17,'ElJardinDeLasDelicias.jpg'),(18,18,'NapoleonCruzandoLosAlpes.jpg'),(19,19,'ElCaminanteSobreElMarDeNubes.jpg'),(20,20,'LaCreacionDeAdan.jpg'),(21,21,'Elhijodelhombrejpeg-69b7bd15ce13b.jpeg'),(22,22,'LaEscueladeAtenasjpg-69b85a6fccde6.jpg'),(23,23,'ElentierrodelSeorOrgazjpeg-69b867a17485d.jpeg'),(24,24,'Elretornodelhijoprodigojpeg-69b87207c1dd8.jpeg'),(25,25,'LaCartedeIEnferjpg-69b87c6f6d888.jpg'),(26,26,'HenryFordHospitaljpeg-69b8d03f9ab05.jpeg'),(27,27,'ElColumpiojpeg-69badc26ec3ef.jpeg'),(29,28,'juramentodelosHoraciosjpeg-69c0128543d99.jpeg'),(30,29,'SalvatorMundi2jpg-69c106067a9c7.jpg');
 /*!40000 ALTER TABLE `imagen` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -212,7 +212,7 @@ CREATE TABLE `objeto` (
   CONSTRAINT `fk_objeto_condicion` FOREIGN KEY (`idCondicion`) REFERENCES `condicion` (`idCondicion`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_objeto_estadoobjeto` FOREIGN KEY (`idEstado`) REFERENCES `estadoobjeto` (`idEstadoObjeto`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_objeto_usuario` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -221,7 +221,7 @@ CREATE TABLE `objeto` (
 
 LOCK TABLES `objeto` WRITE;
 /*!40000 ALTER TABLE `objeto` DISABLE KEYS */;
-INSERT INTO `objeto` VALUES (1,3,'La Mona Lisa','Retrato renacentista de Lisa Gherardini.','Leonardo da Vinci','2026-02-21 15:52:59',1,1),(2,4,'La noche estrellada','Paisaje nocturno expresivo con cielo turbulento y estrellas brillantes.','Vincent van Gogh','2026-02-21 15:52:59',2,1),(3,3,'Guernica','Obra que representa el horror del bombardeo de Guernica durante la guerra civil española.','Pablo Picasso','2026-02-21 15:52:59',3,1),(4,4,'La última cena','Representación del momento en que Jesús anuncia la traición de uno de sus apóstoles.','Leonardo da Vinci','2026-02-21 15:52:59',2,1),(5,3,'El nacimiento de Venus','Escena mitológica que muestra a Venus emergiendo del mar.','Sandro Botticelli','2026-02-21 15:52:59',1,1),(6,4,'Los girasoles','Serie de naturalezas muertas con vibrantes girasoles en jarrón.','Vincent van Gogh','2026-02-21 15:52:59',3,1),(7,3,'El grito','Figura angustiada bajo un cielo rojo que simboliza ansiedad y desesperación.','Edvard Munch','2026-02-21 15:52:59',1,1),(8,4,'La persistencia de la memoria','Relojes derretidos en un paisaje surreal que representan el paso del tiempo.','Salvador Dalí','2026-02-21 15:52:59',1,1),(9,3,'Las dos Fridas','Autorretrato doble que refleja la identidad y el dolor emocional de la artista.','Frida Kahlo','2026-02-21 15:52:59',1,1),(10,4,'Las meninas','Compleja escena cortesana con la infanta Margarita y su séquito.','Diego Velázquez','2026-02-21 15:52:59',1,1),(11,3,'La libertad guiando al pueblo','Alegoría de la revolución francesa con figura femenina liderando al pueblo.','Eugène Delacroix','2026-02-21 15:52:59',3,1),(12,4,'Impresión, sol naciente','Paisaje portuario que dio origen al movimiento impresionista.','Claude Monet','2026-02-21 15:52:59',1,1),(13,3,'La gran ola de Kanagawa','Escena marítima japonesa con una enorme ola amenazante.','Katsushika Hokusai','2026-02-21 15:52:59',3,1),(14,4,'El beso','Obra simbólica que representa el amor envuelto en dorados decorativos.','Gustav Klimt','2026-02-21 15:52:59',1,1),(15,3,'La rendición de Breda','Escena histórica que muestra la entrega de llaves tras una batalla.','Diego Velázquez','2026-02-21 15:52:59',1,1),(16,4,'La joven de la perla','Retrato femenino conocido por su mirada y pendiente de perla.','Johannes Vermeer','2026-02-21 15:52:59',1,1),(17,3,'El jardín de las delicias','Compleja pintura con escenas simbólicas sobre el paraíso y el pecado.','Hieronymus Bosch','2026-02-21 15:52:59',2,1),(18,4,'Napoleón cruzando los Alpes','Representación heroica de Napoleón liderando su ejército.','Jacques-Louis David','2026-02-21 15:52:59',1,1),(19,3,'El caminante sobre el mar de nubes','Representación heroica de Napoleón liderando su ejército.','Caspar David Friedrich','2026-02-21 15:52:59',1,1),(20,4,'La creación de Adán','Escena bíblica que muestra el momento en que Dios da vida a Adán.','Michelangelo Buonarroti','2026-02-21 15:52:59',2,1),(21,3,'El hijo del hombre','La pintura muestra a un hombre con traje y corbata cuyo rostro está parcialmente oculto por una manzana flotante, simbolizando el misterio y la dualidad entre lo visible y lo oculto.','René Magritte','2026-03-16 01:13:32',1,1),(22,3,'La escuela de Atenas','Fresco renacentista que representa a los grandes filósofos de la Antigua Grecia como Platón y Aristóteles reunidos en un mismo espacio.','Raffaello Sanzio da Urbino','2026-03-16 13:30:55',2,1),(23,3,'El entierro del Conde de Orgaz','Pintura renacentista española realizada en 1586. Representa el entierro del noble Gonzalo Ruiz de Toledo, conocido como el Conde de Orgaz,','El Greco','2026-03-16 14:02:36',3,1),(24,3,'El regreso del hijo pródigo','Obra maestra del Barroco neerlandés (c.1668–1669) que representa la parábola bíblica del hijo pródigo, con un uso dramático de luz y emoción.','Rembrandt Harmenszoon van Rijn','2026-03-16 14:48:29',2,1),(25,3,'La Carte de l Enfer','Ilustración inspirada en el infierno descrito en La Divina Comedia de Dante Alighieri, que muestra los distintos círculos del infierno y la jerarquía de los pecados.','Sandro Botticelli','2026-03-16 15:55:58',1,1),(26,3,'Hospital Henry Ford','Es una pintura al óleo sobre metal de 1932 de la artista mexicana Frida Kahlo sobre su experiencia de dar a luz a un feto masculino muerto el 4 de julio en el Hospital Henry Ford en Detroit, Michigan, Estados Unidos, cuando tenía aproximadamente 3 meses de embarazo.','Frida Kahlo','2026-03-16 21:53:35',2,1),(27,3,'El columpio','Una escena elegante y juguetona donde una mujer se columpia en un jardín mientras un hombre la observa desde abajo. Destaca por su estilo decorativo, colores suaves y temática romántica del siglo XVIII.','Jean-Honoré Fragonard','2026-03-18 11:08:54',2,2),(28,3,'El juramento de los Horacios','Representa a tres hermanos romanos jurando defender su patria, simbolizando el deber, el sacrificio y el honor por encima de los sentimientos personales.','Jacques-Louis David','2026-03-22 10:02:12',3,1);
+INSERT INTO `objeto` VALUES (1,3,'La Mona Lisa','Retrato renacentista de Lisa Gherardini.','Leonardo da Vinci','2026-02-21 15:52:59',1,1),(2,4,'La noche estrellada','Paisaje nocturno expresivo con cielo turbulento y estrellas brillantes.','Vincent van Gogh','2026-02-21 15:52:59',2,1),(3,3,'Guernica','Obra que representa el horror del bombardeo de Guernica durante la guerra civil española.','Pablo Picasso','2026-02-21 15:52:59',3,1),(4,4,'La última cena','Representación del momento en que Jesús anuncia la traición de uno de sus apóstoles.','Leonardo da Vinci','2026-02-21 15:52:59',2,1),(5,3,'El nacimiento de Venus','Escena mitológica que muestra a Venus emergiendo del mar.','Sandro Botticelli','2026-02-21 15:52:59',1,1),(6,4,'Los girasoles','Serie de naturalezas muertas con vibrantes girasoles en jarrón.','Vincent van Gogh','2026-02-21 15:52:59',3,1),(7,3,'El grito','Figura angustiada bajo un cielo rojo que simboliza ansiedad y desesperación.','Edvard Munch','2026-02-21 15:52:59',1,1),(8,4,'La persistencia de la memoria','Relojes derretidos en un paisaje surreal que representan el paso del tiempo.','Salvador Dalí','2026-02-21 15:52:59',1,1),(9,3,'Las dos Fridas','Autorretrato doble que refleja la identidad y el dolor emocional de la artista.','Frida Kahlo','2026-02-21 15:52:59',1,1),(10,4,'Las meninas','Compleja escena cortesana con la infanta Margarita y su séquito.','Diego Velázquez','2026-02-21 15:52:59',1,1),(11,3,'La libertad guiando al pueblo','Alegoría de la revolución francesa con figura femenina liderando al pueblo.','Eugène Delacroix','2026-02-21 15:52:59',3,1),(12,4,'Impresión, sol naciente','Paisaje portuario que dio origen al movimiento impresionista.','Claude Monet','2026-02-21 15:52:59',1,1),(13,3,'La gran ola de Kanagawa','Escena marítima japonesa con una enorme ola amenazante.','Katsushika Hokusai','2026-02-21 15:52:59',3,1),(14,4,'El beso','Obra simbólica que representa el amor envuelto en dorados decorativos.','Gustav Klimt','2026-02-21 15:52:59',1,1),(15,3,'La rendición de Breda','Escena histórica que muestra la entrega de llaves tras una batalla.','Diego Velázquez','2026-02-21 15:52:59',1,1),(16,4,'La joven de la perla','Retrato femenino conocido por su mirada y pendiente de perla.','Johannes Vermeer','2026-02-21 15:52:59',1,1),(17,3,'El jardín de las delicias','Compleja pintura con escenas simbólicas sobre el paraíso y el pecado.','Hieronymus Bosch','2026-02-21 15:52:59',2,1),(18,4,'Napoleón cruzando los Alpes','Representación heroica de Napoleón liderando su ejército.','Jacques-Louis David','2026-02-21 15:52:59',1,1),(19,3,'El caminante sobre el mar de nubes','Representación heroica de Napoleón liderando su ejército.','Caspar David Friedrich','2026-02-21 15:52:59',1,1),(20,4,'La creación de Adán','Escena bíblica que muestra el momento en que Dios da vida a Adán.','Michelangelo Buonarroti','2026-02-21 15:52:59',2,1),(21,3,'El hijo del hombre','La pintura muestra a un hombre con traje y corbata cuyo rostro está parcialmente oculto por una manzana flotante, simbolizando el misterio y la dualidad entre lo visible y lo oculto.','René Magritte','2026-03-16 01:13:32',1,1),(22,3,'La escuela de Atenas','Fresco renacentista que representa a los grandes filósofos de la Antigua Grecia como Platón y Aristóteles reunidos en un mismo espacio.','Raffaello Sanzio da Urbino','2026-03-16 13:30:55',2,1),(23,3,'El entierro del Conde de Orgaz','Pintura renacentista española realizada en 1586. Representa el entierro del noble Gonzalo Ruiz de Toledo, conocido como el Conde de Orgaz,','El Greco','2026-03-16 14:02:36',3,1),(24,3,'El regreso del hijo pródigo','Obra maestra del Barroco neerlandés (c.1668–1669) que representa la parábola bíblica del hijo pródigo, con un uso dramático de luz y emoción.','Rembrandt Harmenszoon van Rijn','2026-03-16 14:48:29',2,1),(25,3,'La Carte de l Enfer','Ilustración inspirada en el infierno descrito en La Divina Comedia de Dante Alighieri, que muestra los distintos círculos del infierno y la jerarquía de los pecados.','Sandro Botticelli','2026-03-16 15:55:58',1,1),(26,3,'Hospital Henry Ford','Es una pintura al óleo sobre metal de 1932 de la artista mexicana Frida Kahlo sobre su experiencia de dar a luz a un feto masculino muerto el 4 de julio en el Hospital Henry Ford en Detroit, Michigan, Estados Unidos, cuando tenía aproximadamente 3 meses de embarazo.','Frida Kahlo','2026-03-16 21:53:35',2,1),(27,3,'El columpio','Una escena elegante y juguetona donde una mujer se columpia en un jardín mientras un hombre la observa desde abajo. Destaca por su estilo decorativo, colores suaves y temática romántica del siglo XVIII.','Jean-Honoré Fragonard','2026-03-18 11:08:54',2,2),(28,3,'El juramento de los Horacios','Representa a tres hermanos romanos jurando defender su patria, simbolizando el deber, el sacrificio y el honor por encima de los sentimientos personales.','Jacques-Louis David','2026-03-22 10:02:12',3,1),(29,3,'Salvator Mundi','Representa a Cristo como salvador sosteniendo un orbe de cristal en la edad media','Leonardo Da Vinci','2026-03-23 03:20:21',2,1);
 /*!40000 ALTER TABLE `objeto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -248,7 +248,7 @@ CREATE TABLE `objetocategoria` (
 
 LOCK TABLES `objetocategoria` WRITE;
 /*!40000 ALTER TABLE `objetocategoria` DISABLE KEYS */;
-INSERT INTO `objetocategoria` VALUES (1,1),(1,4),(1,28),(2,8),(2,21),(2,28),(3,17),(3,18),(3,24),(3,28),(4,4),(4,13),(4,14),(4,28),(5,5),(5,15),(5,28),(6,10),(6,11),(6,28),(7,4),(7,23),(7,27),(7,28),(8,21),(8,25),(8,28),(9,2),(9,23),(9,29),(10,3),(10,16),(10,28),(11,16),(11,17),(11,22),(11,28),(12,6),(12,7),(12,28),(13,9),(13,26),(13,30),(14,21),(14,22),(14,28),(15,16),(15,18),(15,28),(16,1),(16,4),(16,28),(17,21),(17,26),(17,28),(18,4),(18,16),(18,28),(19,4),(19,6),(19,28),(20,4),(20,13),(20,14),(20,28),(21,1),(21,21),(21,25),(22,4),(22,20),(22,28),(23,13),(23,24),(23,28),(24,14),(24,24),(24,28),(25,13),(25,25),(25,28),(26,2),(26,5),(26,21),(27,4),(27,11),(27,26),(28,16),(28,22),(28,24);
+INSERT INTO `objetocategoria` VALUES (1,1),(1,4),(1,28),(2,8),(2,21),(2,28),(3,17),(3,18),(3,24),(3,28),(4,4),(4,13),(4,14),(4,28),(5,5),(5,15),(5,28),(6,10),(6,11),(6,28),(7,4),(7,23),(7,27),(7,28),(8,21),(8,25),(8,28),(9,2),(9,23),(9,29),(10,3),(10,16),(10,28),(11,16),(11,17),(11,22),(11,28),(12,6),(12,7),(12,28),(13,9),(13,26),(13,30),(14,21),(14,22),(14,28),(15,16),(15,18),(15,28),(16,1),(16,4),(16,28),(17,21),(17,26),(17,28),(18,4),(18,16),(18,28),(19,4),(19,6),(19,28),(20,4),(20,13),(20,14),(20,28),(21,1),(21,21),(21,25),(22,4),(22,20),(22,28),(23,13),(23,24),(23,28),(24,14),(24,24),(24,28),(25,13),(25,25),(25,28),(26,2),(26,5),(26,21),(27,4),(27,11),(27,26),(28,16),(28,22),(28,24),(29,1),(29,4),(29,13),(29,28);
 /*!40000 ALTER TABLE `objetocategoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -264,11 +264,15 @@ CREATE TABLE `pago` (
   `idSubasta` int(11) NOT NULL,
   `FechaPago` datetime NOT NULL,
   `idEstadoPago` int(11) NOT NULL,
+  `MontoFinal` int(11) NOT NULL,
+  `idUsuario` int(11) NOT NULL,
   PRIMARY KEY (`idPago`),
   KEY `fk_pago_subasta_idx` (`idSubasta`),
   KEY `fk_pago_estadopago_idx` (`idEstadoPago`),
+  KEY `fk_pago_usuario_idx` (`idUsuario`),
   CONSTRAINT `fk_pago_estadopago` FOREIGN KEY (`idEstadoPago`) REFERENCES `estadopago` (`idEstadoPago`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_pago_subasta` FOREIGN KEY (`idSubasta`) REFERENCES `subasta` (`idSubasta`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_pago_subasta` FOREIGN KEY (`idSubasta`) REFERENCES `subasta` (`idSubasta`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_pago_usuario` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -278,7 +282,7 @@ CREATE TABLE `pago` (
 
 LOCK TABLES `pago` WRITE;
 /*!40000 ALTER TABLE `pago` DISABLE KEYS */;
-INSERT INTO `pago` VALUES (1,3,'2026-03-01 13:00:00',2),(2,6,'2026-03-02 13:00:00',1),(3,13,'2026-03-09 08:00:00',3),(4,18,'2026-04-06 08:00:00',4);
+INSERT INTO `pago` VALUES (1,3,'2026-03-01 13:00:00',2,8320000,5),(2,6,'2026-03-02 13:00:00',1,1560000,6),(3,13,'2026-03-09 08:00:00',3,4200000,5),(4,18,'2026-04-06 08:00:00',4,3744000,6);
 /*!40000 ALTER TABLE `pago` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -300,7 +304,7 @@ CREATE TABLE `puja` (
   KEY `fk_puja_usuario_idx` (`idUsuario`),
   CONSTRAINT `fk_puja_subasta` FOREIGN KEY (`idSubasta`) REFERENCES `subasta` (`idSubasta`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_puja_usuario` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -309,7 +313,7 @@ CREATE TABLE `puja` (
 
 LOCK TABLES `puja` WRITE;
 /*!40000 ALTER TABLE `puja` DISABLE KEYS */;
-INSERT INTO `puja` VALUES (1,3,6,8080000.00,'2026-03-01 12:40:00'),(2,3,5,8160000.00,'2026-03-01 12:50:00'),(3,3,6,8240000.00,'2026-03-01 12:55:00'),(4,3,5,8320000.00,'2026-03-01 12:59:00'),(5,6,5,1515000.00,'2026-03-02 12:20:00'),(6,6,6,1530000.00,'2026-03-02 12:35:00'),(7,6,5,1545000.00,'2026-03-02 12:50:00'),(8,6,6,1560000.00,'2026-03-02 12:58:00'),(9,13,6,4040000.00,'2026-03-09 07:30:00'),(10,13,5,4080000.00,'2026-03-09 07:40:00'),(11,13,6,4120000.00,'2026-03-09 07:50:00'),(12,13,5,4200000.00,'2026-03-09 07:59:00'),(13,18,5,3636000.00,'2026-04-06 07:30:00'),(14,18,6,3672000.00,'2026-04-06 07:40:00'),(15,18,5,3708000.00,'2026-04-06 07:50:00'),(16,18,6,3744000.00,'2026-04-06 07:59:00');
+INSERT INTO `puja` VALUES (1,3,6,8080000.00,'2026-03-01 12:40:00'),(2,3,5,8160000.00,'2026-03-01 12:50:00'),(3,3,6,8240000.00,'2026-03-01 12:55:00'),(4,3,5,8320000.00,'2026-03-01 12:59:00'),(5,6,5,1515000.00,'2026-03-02 12:20:00'),(6,6,6,1530000.00,'2026-03-02 12:35:00'),(7,6,5,1545000.00,'2026-03-02 12:50:00'),(8,6,6,1560000.00,'2026-03-02 12:58:00'),(9,13,6,4040000.00,'2026-03-09 07:30:00'),(10,13,5,4080000.00,'2026-03-09 07:40:00'),(11,13,6,4120000.00,'2026-03-09 07:50:00'),(12,13,5,4200000.00,'2026-03-09 07:59:00'),(13,18,5,3636000.00,'2026-04-06 07:30:00'),(14,18,6,3672000.00,'2026-04-06 07:40:00'),(15,18,5,3708000.00,'2026-04-06 07:50:00'),(16,18,6,3744000.00,'2026-04-06 07:59:00'),(17,1,6,5500000.00,'2026-04-18 23:22:25');
 /*!40000 ALTER TABLE `puja` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -387,7 +391,7 @@ CREATE TABLE `subasta` (
   KEY `fk_subasta_objeto_idx` (`idObjeto`),
   CONSTRAINT `fk_subasta_estadosubasta` FOREIGN KEY (`idEstadoSubasta`) REFERENCES `estadosubasta` (`idEstadoSubasta`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_subasta_objeto` FOREIGN KEY (`idObjeto`) REFERENCES `objeto` (`idObjeto`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -396,7 +400,7 @@ CREATE TABLE `subasta` (
 
 LOCK TABLES `subasta` WRITE;
 /*!40000 ALTER TABLE `subasta` DISABLE KEYS */;
-INSERT INTO `subasta` VALUES (1,1,5000000.00,50000.00,'2026-03-01 08:00:00','2026-03-01 09:00:00',3),(2,2,3000000.00,30000.00,'2026-03-01 10:00:00','2026-03-01 11:00:00',2),(3,3,8000000.00,80000.00,'2026-03-01 12:00:00','2026-03-01 13:00:00',4),(4,4,6000000.00,60000.00,'2026-03-01 14:00:00','2026-03-01 15:00:00',1),(5,5,2500000.00,25000.00,'2026-03-01 16:00:00','2026-03-01 17:00:00',3),(6,6,1500000.00,15000.00,'2026-03-02 08:00:00','2026-03-02 13:00:00',4),(7,7,2000000.00,20000.00,'2026-03-02 14:00:00','2026-03-02 19:00:00',3),(8,8,3500000.00,35000.00,'2026-03-02 20:00:00','2026-03-03 01:00:00',2),(9,9,1800000.00,18000.00,'2026-03-03 02:00:00','2026-03-03 07:00:00',1),(10,10,4500000.00,45000.00,'2026-03-03 08:00:00','2026-03-03 13:00:00',3),(11,11,3200000.00,32000.00,'2026-03-04 08:00:00','2026-03-05 08:00:00',3),(12,12,2100000.00,21000.00,'2026-03-06 08:00:00','2026-03-07 08:00:00',2),(13,13,4000000.00,40000.00,'2026-03-08 08:00:00','2026-03-09 08:00:00',4),(14,14,2700000.00,27000.00,'2026-03-10 08:00:00','2026-03-11 08:00:00',1),(15,15,3800000.00,38000.00,'2026-03-12 08:00:00','2026-03-13 08:00:00',3),(16,16,2900000.00,29000.00,'2026-03-14 08:00:00','2026-03-21 08:00:00',2),(17,17,4100000.00,41000.00,'2026-03-22 08:00:00','2026-03-29 08:00:00',3),(18,18,3600000.00,36000.00,'2026-03-30 08:00:00','2026-04-06 08:00:00',4),(19,19,2300000.00,23000.00,'2026-04-07 08:00:00','2026-04-14 08:00:00',1),(20,20,7000000.00,70000.00,'2026-04-15 08:00:00','2026-04-22 08:00:00',3),(21,21,150000.00,5000.00,'2026-03-24 20:00:00','2026-03-25 01:00:00',2),(22,26,4000000.00,50000.00,'2026-03-26 10:00:00','2026-03-27 08:00:00',2);
+INSERT INTO `subasta` VALUES (1,1,5000000.00,50000.00,'2026-03-01 08:00:00','2026-03-01 09:00:00',3),(2,2,3000000.00,30000.00,'2026-03-01 10:00:00','2026-03-01 11:00:00',2),(3,3,8000000.00,80000.00,'2026-03-01 12:00:00','2026-03-01 13:00:00',4),(4,4,6000000.00,60000.00,'2026-03-01 14:00:00','2026-03-01 15:00:00',1),(5,5,2500000.00,25000.00,'2026-03-01 16:00:00','2026-03-01 17:00:00',3),(6,6,1500000.00,15000.00,'2026-03-02 08:00:00','2026-03-02 13:00:00',4),(7,7,2000000.00,20000.00,'2026-03-02 14:00:00','2026-03-02 19:00:00',3),(8,8,3500000.00,35000.00,'2026-03-02 20:00:00','2026-03-03 01:00:00',2),(9,9,1800000.00,18000.00,'2026-03-03 02:00:00','2026-03-03 07:00:00',1),(10,10,4500000.00,45000.00,'2026-03-03 08:00:00','2026-03-03 13:00:00',3),(11,11,3200000.00,32000.00,'2026-03-04 08:00:00','2026-03-05 08:00:00',3),(12,12,2100000.00,21000.00,'2026-03-06 08:00:00','2026-03-07 08:00:00',2),(13,13,4000000.00,40000.00,'2026-03-08 08:00:00','2026-03-09 08:00:00',4),(14,14,2700000.00,27000.00,'2026-03-10 08:00:00','2026-03-11 08:00:00',1),(15,15,3800000.00,38000.00,'2026-03-12 08:00:00','2026-03-13 08:00:00',3),(16,16,2900000.00,29000.00,'2026-03-14 08:00:00','2026-03-21 08:00:00',2),(17,17,4100000.00,41000.00,'2026-03-22 08:00:00','2026-03-29 08:00:00',3),(18,18,3600000.00,36000.00,'2026-03-30 08:00:00','2026-04-06 08:00:00',4),(19,19,2300000.00,23000.00,'2026-04-07 08:00:00','2026-04-14 08:00:00',1),(20,20,7000000.00,70000.00,'2026-04-15 08:00:00','2026-04-22 08:00:00',3),(21,21,150000.00,5000.00,'2026-03-24 20:00:00','2026-03-25 01:00:00',1),(22,26,4000000.00,50000.00,'2026-03-26 10:00:00','2026-03-27 08:00:00',2),(23,24,7100000.00,71000.00,'2026-03-22 16:00:00','2026-03-29 22:00:00',1),(24,29,91000000.00,91000.00,'2026-03-22 08:25:00','2026-03-29 07:23:00',1);
 /*!40000 ALTER TABLE `subasta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -413,7 +417,7 @@ CREATE TABLE `usuario` (
   `Apellido1` varchar(45) NOT NULL,
   `Apellido2` varchar(45) NOT NULL,
   `Correo` varchar(45) NOT NULL,
-  `Contrasenna` varchar(45) NOT NULL,
+  `Contrasenna` varchar(255) NOT NULL,
   `idRol` int(11) NOT NULL,
   `FechaRegistro` datetime NOT NULL,
   `idEstadoUsuario` int(11) NOT NULL,
@@ -431,7 +435,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'Dereck','Jiménez','Rodríguez','dereckalonsoj.r@gmail.com','admin123',1,'2026-02-18 13:04:50',1),(2,'Abraham','Alvarez','Soto','aaas06072005@gmail.com','admin123',1,'2026-02-18 13:04:50',2),(3,'Jose María','Cubillo','Gutierrez','gutierrezjosem@gmail.com','vendedor123',2,'2026-02-18 13:04:50',1),(4,'María Angelica','Solis','Sibaja','nosequeponer11@gmail.com','vendedor123',2,'2026-02-18 13:04:50',2),(5,'Cristel','Meléndez','Jiménez','cristelm.j@gmail.com','comprador123',3,'2026-02-18 13:04:50',1),(6,'Axel','Orozco','Guzman','axelo.g@gmail.com','comprador123',3,'2026-02-18 13:04:50',2);
+INSERT INTO `usuario` VALUES (1,'Alonso','Jiménez','Rodríguez','alonsoj.r@gmail.com','$2y$10$DrLU9WEXecLn0bAufY1naOsexQivrrkZI/z8ZMhL9/D5cjTuNZpOa',1,'2026-02-18 13:04:50',2),(2,'Abraham','Alvarez','Soto','aaas06072005@gmail.com','$2y$10$DrLU9WEXecLn0bAufY1naOsexQivrrkZI/z8ZMhL9/D5cjTuNZpOa',1,'2026-02-18 13:04:50',2),(3,'Jose María','Cubillo','Gutierrez','gutierrezjosem@gmail.com','vendedor123',2,'2026-02-18 13:04:50',1),(4,'María Angelica','Solis','Sibaja','nosequeponer11@gmail.com','vendedor123',2,'2026-02-18 13:04:50',2),(5,'Cristel','Meléndez','Jiménez','cristelm.j@gmail.com','$2y$10$ciPYIHqMekEvnjHCQbNmHuinW.yPUQu16jDMj3xfQXfIymR8J5Vh.',3,'2026-02-18 13:04:50',1),(6,'Axel','Orozco','Guzman','axelo.g@gmail.com','$2y$10$ciPYIHqMekEvnjHCQbNmHuinW.yPUQu16jDMj3xfQXfIymR8J5Vh.',3,'2026-02-18 13:04:50',2);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -444,4 +448,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-03-23  1:31:14
+-- Dump completed on 2026-04-19  0:56:04

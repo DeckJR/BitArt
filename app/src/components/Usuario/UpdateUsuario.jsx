@@ -37,7 +37,7 @@ export function UpdateUsuario() {
 
   /*** Esquema de validación Yup ***/
   const usuarioSchema = yup.object({
-    Nombre: yup.string().required('El nombre es requerido').min(3,'El nombre debe tener 3 caracteres'),
+        Nombre: yup.string().required('El nombre es requerido').min(3,'El nombre debe tener 3 caracteres'),
         Apellido1: yup.string().required('El primer apellido es requerido').min(4,'El primer apellido debe tener mínimo 4 caracteres'),
         Apellido2: yup.string().required('El segundo apellido es requerido').min(4,'El segundo apellido debe tener mínimo 4 caracteres'),
         Correo: yup.string().required('El correo es requerido').min(10,'El correo debe de tener minimo 10 caracteres').matches(/@/, 'El correo debe contener @').email('Debe ingresar un correo válido'),

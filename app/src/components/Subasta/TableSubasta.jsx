@@ -23,7 +23,6 @@ import SubastaService from "@/services/SubastaService";
 import PujaService from "@/services/PujaService";
 import { useNavigate } from 'react-router-dom';
 import toast from "react-hot-toast";
-import { date } from "zod";
 
 // Headers de la tabla
 const subastaColumns = [
@@ -154,7 +153,7 @@ export default function TableUsuario() {
                                                     disabled={ Number(subasta.idEstadoSubasta) == 1 || Number(subasta.idEstadoSubasta) == 3 ||  Number(subasta.idEstadoSubasta) == 4 }
                                                     onClick={async () => {
                                                         try {
-                                                            const nuevoIdEstadoSubasta = subasta.idEstadoSubasta == 2 && subasta.FechaHoraInicio > date.now() && subasta.FechaHoraFinal ? 3 : 2;
+                                                            const nuevoIdEstadoSubasta = subasta.idEstadoSubasta == 2 && subasta.FechaHoraInicio > Date.now() && subasta.FechaHoraFinal ? 3 : 2;
 
                                                             const subastaActualizar = {
                                                             idSubasta: subasta.idSubasta,

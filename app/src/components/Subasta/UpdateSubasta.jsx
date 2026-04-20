@@ -65,6 +65,7 @@ export function UpdateSubasta() {
         fechaInicioHora: "",
         fechaFinFecha: "",
         fechaFinHora: "",
+        idEstadoSubasta: ""
         },
         resolver: yupResolver(SubastaSchema),
     });
@@ -93,13 +94,13 @@ export function UpdateSubasta() {
             reset({
             idSubasta: subasta.idSubasta,
             idObjeto: Number(subasta.idObjeto),
-            // 🔹 Conversión segura a número
             precioInicial: Number(subasta.PrecioInicial),
             incrementoMinimo: Number(subasta.Incremento),
             fechaInicioFecha: fechaInicio[0] || "",
             fechaInicioHora: fechaInicio[1]?.substring(0, 5) || "",
             fechaFinFecha: fechaFin[0] || "",
             fechaFinHora: fechaFin[1]?.substring(0, 5) || "",
+            idEstadoSubasta: subasta.idEstadoSubasta 
             });
 
         } catch (err) {
@@ -130,6 +131,7 @@ export function UpdateSubasta() {
             dataForm.fechaInicioFecha + " " + dataForm.fechaInicioHora + ":00",
             FechaHoraFinal:
             dataForm.fechaFinFecha + " " + dataForm.fechaFinHora + ":00",
+            idEstadoSubasta: dataForm.idEstadoSubasta,
             idUsuarioVendedor: usuarioLogin,
         };
 

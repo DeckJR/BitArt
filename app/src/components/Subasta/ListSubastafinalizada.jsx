@@ -29,7 +29,7 @@ export function ListSubastafinalizada() {
             }
         };
         fetchData()
-    }, );
+    }, []);
 
 
     if (loading) return <LoadingGrid type="grid" />;

@@ -309,11 +309,11 @@ const SubastaSchema = yup.object({
     control={control}
     render={({ field }) => <Input {...field} type="time" />}
   />
-
-  </div>
- {errors.fechaFinHora && (
+{errors.fechaFinHora && (
     <p className="text-sm text-red-500">{errors.fechaFinHora.message}</p>
-  )}</div>
+  )}
+  </div>
+ </div>
 
         {/* Nombre del propietario */}
         <div>
