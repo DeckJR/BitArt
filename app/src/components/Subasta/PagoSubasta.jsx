@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import * as Yup from 'yup';
+
 import SubastaService from '../../services/SubastaService';
 import ResultadoSubastaService from '../../services/ResultadoSubastaService';
 import PagoService from '../../services/PagoService';
+
 import { ErrorAlert } from "../ui/custom/ErrorAlert";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/hooks/useUser";
+
 import {
     ArrowLeft,
     Banknote,
@@ -14,10 +18,29 @@ import {
     Loader2,
     AlertCircle
 } from "lucide-react";
+
 import { LoadingGrid } from '../ui/custom/LoadingGrid';
 import { EmptyState } from '../ui/custom/EmptyState';
 
 const COMISION = 0.05;
+
+/* =========================
+   Yup validation schemas
+   ========================= */
+const tarjetaSchema = Yup.object({
+    numeroTarjeta: Yup.string()
+        .required('Número de tarjeta requerido')
+        .matches(/^\d{16}$/, 'La tarjeta debe tener 16 dígitos'),
+    cvv: Yup.string()
+        .required('CVV requerido')
+        .matches(/^\d{3,4}$/, 'CVV inválido'),
+});
+
+const sinpeSchema = Yup.object({
+    sinpeNumero: Yup.string()
+        .required('Número SINPE requerido')
+        .matches(/^\d{8,20}$/, 'Número SINPE inválido'),
+});
 
 export function PagoSubasta() {
     const navigate = useNavigate();
@@ -81,29 +104,37 @@ export function PagoSubasta() {
         fetchAll();
     }, [id]);
 
+
     const handlePagar = async () => {
         setPagoError(null);
 
-        if (!metodoPago) {
-            setPagoError('Debe seleccionar un método de pago.');
-            return;
-        }
-
-        if (metodoPago === 'tarjeta' && (!numeroTarjeta || !cvv)) {
-            setPagoError('Complete los datos de la tarjeta.');
-            return;
-        }
-
-        if (metodoPago === 'sinpe' && !sinpeNumero) {
-            setPagoError('Debe ingresar el número SINPE.');
-            return;
-        }
-
-        const montoFinal = parseFloat(resultado.MontoFinal);
-        const totalPagar = montoFinal + (montoFinal * COMISION);
-
         try {
+            if (!metodoPago) {
+                throw new Error('Debe seleccionar un método de pago.');
+            }
+
+            if (metodoPago === 'tarjeta') {
+                await tarjetaSchema.validate(
+                    {
+                        numeroTarjeta: numeroTarjeta.replace(/\s/g, ''),
+                        cvv,
+                    },
+                    { abortEarly: true }
+                );
+            }
+
+            if (metodoPago === 'sinpe') {
+                await sinpeSchema.validate(
+                    { sinpeNumero },
+                    { abortEarly: true }
+                );
+            }
+
+            const montoFinal = parseFloat(resultado.MontoFinal);
+            const totalPagar = montoFinal + montoFinal * COMISION;
+
             setPagoLoading(true);
+
             await PagoService.createPago({
                 idSubasta: subasta.idSubasta,
                 idUsuario: user.idUsuario,
@@ -111,9 +142,11 @@ export function PagoSubasta() {
                 idEstadoPago: 2,
                 FechaPago: new Date().toISOString().slice(0, 19).replace('T', ' ')
             });
+
             setPagoExito(true);
-        } catch {
-            setPagoError('Error al registrar el pago.');
+
+        } catch (err) {
+            setPagoError(err.message);
         } finally {
             setPagoLoading(false);
         }
@@ -124,7 +157,7 @@ export function PagoSubasta() {
     if (!subasta || !resultado) return <EmptyState message="No se encontró información de la subasta." />;
 
     const montoFinal = parseFloat(resultado.MontoFinal);
-    const totalPagar = montoFinal + (montoFinal * COMISION);
+    const totalPagar = montoFinal + montoFinal * COMISION;
 
     if (pagoExistente) {
         return (
@@ -154,7 +187,6 @@ export function PagoSubasta() {
     return (
         <div className="max-w-lg mx-auto py-12 px-4 space-y-6">
 
-            {/* HEADER */}
             <div className="text-center space-y-2">
                 <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary/10 mx-auto">
                     <Banknote className="w-7 h-7 text-primary" />
@@ -165,7 +197,6 @@ export function PagoSubasta() {
                 </p>
             </div>
 
-            {/* RESUMEN */}
             <Card>
                 <CardContent className="p-5 space-y-3">
                     <div className="flex justify-between text-sm">
@@ -185,14 +216,13 @@ export function PagoSubasta() {
                 </CardContent>
             </Card>
 
-            {/* MÉTODO DE PAGO */}
             <Card>
                 <CardContent className="p-5 space-y-4">
                     <p className="text-sm font-medium text-center">Método de pago</p>
                     <div className="grid grid-cols-2 gap-3">
                         <button
                             onClick={() => setMetodoPago('tarjeta')}
-                            className={`border rounded-lg p-4 text-sm font-medium transition ${
+                            className={`border rounded-lg p-4 text-sm font-medium ${
                                 metodoPago === 'tarjeta'
                                     ? 'border-primary bg-primary/5 text-primary'
                                     : 'border-border text-muted-foreground'
@@ -202,7 +232,7 @@ export function PagoSubasta() {
                         </button>
                         <button
                             onClick={() => setMetodoPago('sinpe')}
-                            className={`border rounded-lg p-4 text-sm font-medium transition ${
+                            className={`border rounded-lg p-4 text-sm font-medium ${
                                 metodoPago === 'sinpe'
                                     ? 'border-primary bg-primary/5 text-primary'
                                     : 'border-border text-muted-foreground'
@@ -214,7 +244,6 @@ export function PagoSubasta() {
                 </CardContent>
             </Card>
 
-            {/* TARJETA */}
             {metodoPago === 'tarjeta' && (
                 <Card>
                     <CardContent className="p-5 space-y-4">
@@ -236,7 +265,6 @@ export function PagoSubasta() {
                 </Card>
             )}
 
-            {/* SINPE */}
             {metodoPago === 'sinpe' && (
                 <Card>
                     <CardContent className="p-5 space-y-4">

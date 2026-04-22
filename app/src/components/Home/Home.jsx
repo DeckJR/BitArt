@@ -31,7 +31,7 @@ export function Home() {
             Ver Pinturas
           </a> 
           <a
-            href="/user/login"
+            href="/usuario/login"
             className="px-6 py-3 bg-secondary text-white rounded-lg font-semibold shadow-lg hover:bg-secondary/90 transition"
           >
             Iniciar Sesión

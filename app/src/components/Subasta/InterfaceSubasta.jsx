@@ -30,10 +30,14 @@ export function InterfaceSubasta() {
     const [pujaExito, setPujaExito] = useState(false);
     const [pujasSuperada, setPujasSuperada] = useState(false);
 
-    // ✅ La "caja" que siempre tiene el valor actual de subasta
+    
     const subastaRef = useRef(null);
+    const userRef= useRef(null);
 
-    // ✅ Cada vez que subasta cambia, actualizamos la caja
+    useEffect(() => {
+        userRef.current = subasta;
+    }, [user]);
+
     useEffect(() => {
         subastaRef.current = subasta;
     }, [subasta]);
@@ -86,7 +90,7 @@ export function InterfaceSubasta() {
                 const existe = prev.some(p => String(p.idPuja) === String(data.idPuja));
                 if (existe) return prev;
 
-                const usuarioActualId = String(user?.idUsuario);
+                const usuarioActualId = String(userRef.current?.idUsuario);
                 const quienPujoId = String(data.idUsuario);
                 const usuarioTeniaPuja = prev.some(p => String(p.idUsuario) === usuarioActualId);
 
