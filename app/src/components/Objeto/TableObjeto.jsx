@@ -22,7 +22,7 @@ import { LoadingGrid } from "../ui/custom/LoadingGrid";
 import { ErrorAlert } from "../ui/custom/ErrorAlert";
 import { EmptyState } from "../ui/custom/EmptyState";
 import { useNavigate } from 'react-router-dom';
-//import { useUser } from "@/hooks/useUser";
+import { useUser } from "@/hooks/useUser";
 
 // Headers de la tabla
 const objetoColumns = [
@@ -31,7 +31,7 @@ const objetoColumns = [
     { key: "name", label: "Nombre" },
     { key: "Condition", label: "Condición" },
     { key: "state", label: "Estado" },
-    { key: "actions", label: "Acciones" },   // <-- agrega esta columna para las acciones
+    { key: "actions", label: "Acciones" },  
 ];
 
 export default function TableObjeto() {
@@ -41,6 +41,14 @@ export default function TableObjeto() {
     const [objeto, setObjeto] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
+    const { user } = useUser();
+
+    const objetosFiltrados =
+     user?.rol === "Administrador"
+    ? objeto
+    : objeto.filter(o => o.idUsuario == user?.idUsuario);
+
+
     useEffect(() => {
         const fetchData = async () => {
         try {
@@ -106,8 +114,7 @@ export default function TableObjeto() {
                         </TableRow>
                     </TableHeader>
                             <TableBody>                          
-                            {objeto?.map((objeto) => (
-                            <TableRow key={objeto.idObjeto}>
+                                {objetosFiltrados?.map((objeto) => (                                <TableRow key={objeto.idObjeto}>
                                 <TableCell className="font-">
                                 {objeto.imagen ? (
                                     <img

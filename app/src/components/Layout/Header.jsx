@@ -25,11 +25,12 @@ import {
 } from "@/components/ui/menubar";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { useUser } from "@/hooks/useUser";
-
+import { useNavigate } from "react-router-dom";
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, isAuthenticated, clearUser, authorize } = useUser();
   const userEmail = user?.Correo || "Invitado";
+  const navigate = useNavigate();
 
   // MISMO FORMATO que MoviesApp
   const navItems = [
@@ -37,7 +38,7 @@ export default function Header() {
       title: "Subastas Activas",
       href: "subasta/Activa",
       icon: <List className="h-4 w-4" />,
-      show: true, 
+      show: authorize(["Administrador" , "Comprador"]), // solo admin y comprador
     },
     {
       title: "Subastas Finalizadas",
@@ -82,6 +83,12 @@ export default function Header() {
       show: !isAuthenticated,
     },
     {
+      title: "Perfil",
+      href: `/usuario/detalle/${user?.idUsuario}`,
+      icon: <User className="h-4 w-4" />,
+      show: isAuthenticated,
+   },
+    {
       title: "Logout",
       href: "#",
       icon: <LogOut className="h-4 w-4" />,
@@ -92,10 +99,15 @@ export default function Header() {
 
   // Función reutilizable para clicks (igual que MoviesApp)
   const handleItemClick = (e, item) => {
-    e.preventDefault();
-    if (item.action) item.action();
-    setMobileOpen(false);
-  };
+  e.preventDefault();
+
+  if (item.action) item.action();
+
+  setMobileOpen(false);
+
+  // 🔹 REDIRECCIÓN AL HOME
+  navigate("/");
+};
 
   return (
     <header className="w-full fixed top-0 left-0 z-50 backdrop-blur-xl bg-gradient-to-r from-primary/80 via-primary/60 to-primary/80 border-b border-white/10 shadow-lg">

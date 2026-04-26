@@ -18,13 +18,13 @@ import { Save, ArrowLeft } from "lucide-react";
 import SubastaService from "@/services/SubastaService";
 import ObjetoService from "@/services/ObjetoService";
 import UsuarioService from "@/services/UsuarioService";
-
+import { useUser } from "@/hooks/useUser";
 // componentes reutilizables
 import { CustomSelect } from "../ui/custom/custom-select";
 
 export function CreateSubasta() {
   const navigate = useNavigate();
-  const usuarioLogin = 3; // usuario vendedor simulado
+  const { user } = useUser();
 
   const [dataUsuario, setDataUsuario] = useState(null);
   const [dataObjetos, setDataObjetos] = useState([]);
@@ -105,8 +105,8 @@ const SubastaSchema = yup.object({
  useEffect(() => {
   const fetchData = async () => {
     try {
-      const usuarioRes = await UsuarioService.getUsuarioById(usuarioLogin);
-      const objetosRes = await ObjetoService.getObjetoByUsuario(usuarioLogin);
+      const usuarioRes = await UsuarioService.getUsuarioById(user?.idUsuario);
+      const objetosRes = await ObjetoService.getObjetoByUsuario(user?.idUsuario);
 
       const objetos = objetosRes.data.data || [];
 
