@@ -23,10 +23,11 @@ import CondicionService from "@/services/CondicionService";
 import { CustomMultiSelect } from "../ui/custom/custom-multiple-select"; // select multi con chips
 import { CustomSelect } from "../ui/custom/custom-select";
 import UsuarioService from "@/services/UsuarioService";
+import { useUser } from "@/hooks/useUser";
 
 export function CreateObjeto() {
   const navigate = useNavigate();
-  const usuarioLogin = 3;
+  const { user } = useUser();
   
   /*** Estados para selects y preview de imagen ***/
   const [dataUsuario, setDataUsuario] = useState(null);
@@ -81,7 +82,8 @@ export function CreateObjeto() {
   useEffect(()=>{
     const fechData=async()=>{
       try {
-        const usuarioRes = await UsuarioService.getUsuarioById(usuarioLogin)//usuario;
+        
+        const usuarioRes = await UsuarioService.getUsuarioById(user?.idUsuario);
         const categoriasRes= await CategoriaService.getAllCategoria();
         const condicionRes = await CondicionService.getAllCondicion();
         //Lista de actores
@@ -110,7 +112,7 @@ export function CreateObjeto() {
     }
 
     try {
-      dataForm.idUsuario = usuarioLogin;
+      dataForm.idUsuario = user?.idUsuario;
       console.log(dataForm)
       if (ObjetoSchema.isValid()) { 
         //Verificar datos del formulario 

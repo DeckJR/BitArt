@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'; // ✅ useRef agregado
+import { useEffect, useState, useRef } from 'react'; 
 import { useNavigate, useParams } from 'react-router-dom';
 import SubastaService from '../../services/SubastaService';
 import PujaService from '../../services/PujaService';
@@ -35,7 +35,7 @@ export function InterfaceSubasta() {
     const userRef= useRef(null);
 
     useEffect(() => {
-        userRef.current = subasta;
+        userRef.current = user;
     }, [user]);
 
     useEffect(() => {
@@ -104,7 +104,7 @@ export function InterfaceSubasta() {
         }
     );
 
-    // ✅ Ably escucha cierre de subasta — ahora usa subastaRef para ver el valor actual
+    // cierre de subasta
     useAblyChannel(
         id ? `subasta-${id}` : null,
         'subasta-cerrada',
@@ -138,9 +138,16 @@ export function InterfaceSubasta() {
     const getInitials = (nombre) =>
         nombre?.split(' ').map(n => n[0]).slice(0, 2).join('') ?? '?';
 
+    const esLider =pujas.length > 0 && String(pujas[0].idUsuario) === String(user?.idUsuario);
+
     const handlePujar = async () => {
         setPujaError(null);
         setPujaExito(false);
+
+        if (esLider) {
+            setPujaError('Ya tienes la puja más alta.');
+            return;
+        }
 
         if (!monto || isNaN(monto) || Number(monto) <= 0) {
             setPujaError('Ingresá un monto válido.');
@@ -153,6 +160,7 @@ export function InterfaceSubasta() {
         const incremento = parseFloat(subasta?.data?.Incremento ?? 0);
         const minimo = pujaLiderMonto + incremento;
 
+        
         if (Number(monto) < minimo) {
             setPujaError(`El monto mínimo es ${formatCRC(minimo)}`);
             return;
@@ -422,7 +430,8 @@ export function InterfaceSubasta() {
 
                         <Button
                             onClick={handlePujar}
-                            disabled={pujaLoading || !estaActiva}
+                            disabled={pujaLoading || !estaActiva || esLider }
+
                             className="w-full"
                         >
                             {pujaLoading ? 'Registrando...' : 'Realizar puja'}

@@ -125,4 +125,32 @@ class subasta
             
         }
     }
+    public function reporteSubastaByEstado()
+    {
+        try {
+            $response = new Response();
+            $subasta = new SubastaModel();
+            $result = $subasta->reporteSubastaByEstado();
+            //Dar respuesta
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            $response->toJSON($result);
+            handleException($e);
+            
+        }
+    }
+    public function reporteSubastaByVendedor()
+    {
+        try {
+            $response = new Response();
+            $subasta = new SubastaModel();
+            $result = $subasta->reporteSubastaByVendedor();
+            //Dar respuesta
+            $response->toJSON($result);
+        } catch (Exception $e) {
+            $response->toJSON($result);
+            handleException($e);
+            
+        }
+    }
 }

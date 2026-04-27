@@ -26,5 +26,11 @@ class SubastaService {
     updateSubasta(Subasta) {
     return axios.put(BASE_URL, Subasta);
     }
+    reporteSubastaByEstado() {
+    return axios.get(BASE_URL+ '/' + 'reporteSubastaByEstado');
+    }
+    reporteSubastaByVendedor() {
+    return axios.get(BASE_URL+ '/' + 'reporteSubastaByVendedor');
+    }
 }
 export default new SubastaService();

@@ -17,6 +17,7 @@ import { Save, ArrowLeft } from "lucide-react";
 // servicios
 import SubastaService from "@/services/SubastaService";
 import UsuarioService from "@/services/UsuarioService";
+import { useUser } from "@/hooks/useUser";
 
 // componentes
 
@@ -24,7 +25,7 @@ export function UpdateSubasta() {
 
     const navigate = useNavigate();
     const { id } = useParams();
-    const usuarioLogin = 3;
+    const { user } = useUser();
 
     const [dataUsuario, setDataUsuario] = useState(null);
     const [dataObjeto, setDataObjeto] = useState(null);
@@ -76,10 +77,9 @@ export function UpdateSubasta() {
 
         const fetchData = async () => {
         try {
-
+            
+            const usuarioRes = await UsuarioService.getUsuarioById(user?.idUsuario);
             const subastaRes = await SubastaService.getSubastaById(id);
-            const usuarioRes = await UsuarioService.getUsuarioById(usuarioLogin);
-
             if (!mounted) return;
 
             const subasta = subastaRes.data.data;
@@ -132,7 +132,7 @@ export function UpdateSubasta() {
             FechaHoraFinal:
             dataForm.fechaFinFecha + " " + dataForm.fechaFinHora + ":00",
             idEstadoSubasta: dataForm.idEstadoSubasta,
-            idUsuarioVendedor: usuarioLogin,
+            idUsuarioVendedor: user.idUsuario,
         };
 
         const response = await SubastaService.updateSubasta(payload);

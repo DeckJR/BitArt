@@ -34,8 +34,8 @@ export default function TablePuja() {
             const result = response.data;
             //console.log(result.data)
             if (result.success) {
-                setPuja(result.data || []);
-                console.log(puja)
+                setPuja(Array.isArray(result.data) ? result.data : []);
+                console.log(result.data);
             } else {
                 setError(result.message || "Error desconocido");
             }

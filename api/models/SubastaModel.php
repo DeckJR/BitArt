@@ -244,4 +244,28 @@ class SubastaModel
             );
         }
     }
+
+    public function reporteSubastaByEstado()
+    {
+        $vSql = "SELECT estSub.descripcion AS estado, COUNT(sub.idSubasta) AS total
+            FROM subasta sub
+            JOIN estadosubasta estSub ON sub.idEstadoSubasta = estSub.idEstadoSubasta
+            GROUP BY estSub.idEstadoSubasta, estSub.descripcion
+            ORDER BY estSub.idEstadoSubasta desc";
+        $vResultado = $this->enlace->ExecuteSQL($vSql);
+        return $vResultado;
+    }
+
+    public function reporteSubastaByVendedor()
+    {
+        $vSql = "SELECT CONCAT(user.Nombre, ' ', user.Apellido1, ' ', user.Apellido2) AS vendedor,
+        COUNT(sub.idSubasta) AS total
+        FROM subasta sub
+        JOIN objeto obj ON sub.idObjeto = obj.idObjeto
+        JOIN usuario user ON obj.idUsuario = user.idUsuario
+        GROUP BY obj.idUsuario, user.Nombre, user.Apellido1, user.Apellido2
+        ORDER BY total DESC";
+        $vResultado = $this->enlace->ExecuteSQL($vSql);
+        return $vResultado;
+    }
 }

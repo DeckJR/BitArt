@@ -39,20 +39,11 @@ class puja
             }
 
             $response->toJSON([
-                "success" => true,
-                "status"  => 200,
-                "message" => empty($result) ? "Sin pujas aún" : "Solicitud exitosa",
-                "data"    => $result
+                "data" => $result ?? []
             ]);
-
         } catch (Exception $e) {
             $response = new Response();
-            $response->toJSON([
-                "success" => false,
-                "status"  => 500,
-                "message" => "Error interno",
-                "data"    => []
-            ]);
+            $response->toJSON([]);
         }
     }
 

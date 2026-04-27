@@ -27,6 +27,8 @@ import Register from './components/Usuario/Register'
 import { InterfaceSubasta } from './components/Subasta/InterfaceSubasta'
 import { DetailResultadoSubasta } from './components/Subasta/DetailResultadoSubasta'
 import { PagoSubasta } from './components/Subasta/PagoSubasta'
+import { ReportSubastaByEstado} from './components/Subasta/ReportSubastaByEstado'
+import { ReportSubastaByVendedor} from './components/Subasta/ReportSubastaByVendedor'
 const rutas = createBrowserRouter([
   {
     element: <Layout/>,
@@ -59,6 +61,8 @@ const rutas = createBrowserRouter([
       {path:"subasta/interface/:id", element: <InterfaceSubasta/>},
       {path:"subasta/resultado/:id", element: <DetailResultadoSubasta/>},
       {path:"subasta/pago/:id", element: <PagoSubasta/>},
+      {path:"subasta/report1/", element: <ReportSubastaByEstado/>},
+      {path:"subasta/report2/", element: <ReportSubastaByVendedor/>},
     ]
   }
 ])

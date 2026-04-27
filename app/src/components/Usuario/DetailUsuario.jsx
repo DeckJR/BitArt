@@ -138,7 +138,7 @@ export function DetailUsuario() {
                     {/* 🔹 BOTONES NUEVOS */}
                     <div className="mt-6 flex flex-wrap gap-2">
 
-                       
+                    
 
                         {/* ACTUALIZAR PERFIL (solo su propio perfil) */}
                         {(esAdmin || esVendedor || esComprador) &&
@@ -149,33 +149,6 @@ export function DetailUsuario() {
                                 Actualizar Perfil
                             </Button>
                         )}
-                        {/* VENDEDOR */}
-                        {esVendedor && (
-                            <Button
-                                onClick={() => navigate(`/reporte/vendedor/${loggedUser.idUsuario}`)}
-                            >
-                                Reporte
-                            </Button>
-                        )}
-
-                        
-                        {(esVendedor || esAdmin) && (
-                            <Button
-                                onClick={() => navigate(`/reporte/subastas`)}
-                            >
-                                Reporte de Subastas
-                            </Button>
-                        )}
-
-                        {/* ADMIN */}
-                        {esAdmin && (
-                            <Button
-                                onClick={() => navigate(`/reporte/vendedores`)}
-                                >
-                                Reporte de Vendedores
-                            </Button>
-                        )}
-
                     </div>
 
                 </div>

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Layers,
@@ -7,15 +6,12 @@ import {
   LogIn,
   UserPlus,
   LogOut,
-  ShoppingCart,
-  Menu,
-  X,
   ChevronDown,
   Wallpaper,
   User,
+  ChartColumn,
 } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import {
   Menubar,
   MenubarMenu,
@@ -23,16 +19,13 @@ import {
   MenubarContent,
   MenubarItem,
 } from "@/components/ui/menubar";
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { useUser } from "@/hooks/useUser";
 import { useNavigate } from "react-router-dom";
 export default function Header() {
-  const [mobileOpen, setMobileOpen] = useState(false);
   const { user, isAuthenticated, clearUser, authorize } = useUser();
   const userEmail = user?.Correo || "Invitado";
   const navigate = useNavigate();
 
-  // MISMO FORMATO que MoviesApp
   const navItems = [
     {
       title: "Subastas Activas",
@@ -65,6 +58,18 @@ export default function Header() {
       title: "Subastas",
       href: "subasta/table",
       icon: <Wrench className="h-4 w-4" />,
+      show: authorize(["Administrador", "Vendedor"]),
+    },
+    {
+      title: "Reporte de Subastas por Estado",
+      href: "subasta/report1",
+      icon: <ChartColumn className="h-4 w-4" />,
+      show: authorize(["Administrador"]),
+    },
+    {
+      title: "Reporte de Subastas por Vendedor",
+      href: "subasta/report2",
+      icon: <ChartColumn className="h-4 w-4" />,
       show: authorize(["Administrador", "Vendedor"]),
     },
   ];
@@ -103,8 +108,7 @@ export default function Header() {
 
   if (item.action) item.action();
 
-  setMobileOpen(false);
-
+  
   // 🔹 REDIRECCIÓN AL HOME
   navigate("/");
 };
@@ -194,88 +198,6 @@ export default function Header() {
               </MenubarContent>
             </MenubarMenu>
           </Menubar>
-        </div>
-
-        {/* Carrito + Mobile */}
-        <div className="flex items-center gap-4">
-          <Link to="/cart" className="relative hover:opacity-80">
-            <ShoppingCart className="h-6 w-6" />
-            <Badge
-              className="absolute -top-2 -right-3 rounded-full px-2 py-0 text-xs font-semibold"
-              variant="secondary"
-            >
-              3
-            </Badge>
-          </Link>
-
-          {/* Mobile Menu - EXACTO como MoviesApp */}
-          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-            <SheetTrigger asChild>
-              <button className="md:hidden inline-flex items-center justify-center p-2 rounded-lg bg-white/10 hover:bg-white/20 transition">
-                {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-              </button>
-            </SheetTrigger>
-            <SheetContent side="left" className="bg-accent/10 transition text-white backdrop-blur-lg w-72">
-              <nav className="mt-8 px-4 space-y-6">
-                <div>
-                  <Link to="/" className="flex items-center gap-2 text-lg font-semibold">
-                    <Wallpaper /> BitArt App
-                  </Link>
-                </div>
-
-                <div>
-                  <h4 className="mb-2 text-lg font-semibold flex items-center gap-2">
-                    <List /> Subastas
-                  </h4>
-                  {navItems
-                    .filter((item) => item.show)
-                    .map((item) => (
-                      <Link
-                        key={item.href}
-                        to={item.href}
-                        onClick={() => setMobileOpen(false)}
-                        className="flex items-center gap-2 py-2 px-3 text-white/90 hover:bg-white/10 rounded-md transition block"
-                      >
-                        {item.icon} {item.title}
-                      </Link>
-                    ))}
-                </div>
-
-                <div>
-                  <h4 className="mb-2 text-lg font-semibold flex items-center gap-2">
-                    <Layers /> Mantenimientos
-                  </h4>
-                  {mantItems
-                    .filter((item) => item.show)
-                    .map((item) => (
-                      <Link
-                        key={item.href}
-                        to={item.href}
-                        onClick={() => setMobileOpen(false)}
-                        className="flex items-center gap-2 py-2 px-3 text-white/90 hover:bg-white/10 rounded-md transition block"
-                      >
-                        {item.icon} {item.title}
-                      </Link>
-                    ))}
-                </div>
-
-                <div>
-                  <h4 className="mb-2 text-lg font-semibold flex items-center gap-2">
-                    <User /> {userEmail}
-                  </h4>
-                  {userItems.filter(item => item.show).map(item => (
-                    <button
-                      key={item.href}
-                      onClick={(e) => handleItemClick(e, item)}
-                      className="flex items-center gap-2 py-2 px-3 w-full text-left text-white/90 hover:bg-white/10 rounded-md transition"
-                    >
-                      {item.icon} {item.title}
-                    </button>
-                  ))}
-                </div>
-              </nav>
-            </SheetContent>
-          </Sheet>
         </div>
       </div>
     </header>
